@@ -1,8 +1,22 @@
 package core.basesyntax.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Smile {
+    @Id
+    @GeneratedValue
     private Long id;
     private String value;
+
+    public Smile() {
+    }
+
+    public Smile(String value) {
+        this.value = value;
+    }
 
     public Long getId() {
         return id;
@@ -18,5 +32,13 @@ public class Smile {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Smile{"
+                + "id=" + id
+                + ", value='" + value + '\''
+                + '}';
     }
 }
