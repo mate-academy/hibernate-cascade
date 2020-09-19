@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;

@@ -76,7 +76,6 @@ public abstract class AbstractTest {
         //properties.put("hibernate.show_sql", Boolean.TRUE.toString());
         //properties.put("hibernate.format_sql", Boolean.TRUE.toString());
         //properties.put("hibernate.use_sql_coments", Boolean.FALSE.toString());
-        properties.put("hibernate.generate_statistics", Boolean.TRUE.toString());
 
         //data source settings
         properties.put("hibernate.connection.datasource", newDataSource());
