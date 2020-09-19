@@ -37,11 +37,11 @@ public abstract class AbstractTest {
         Database database();
     }
 
-    private SessionFactory sf;
+    private SessionFactory factory;
 
     @Before
     public void init() {
-        sf = newSessionFactory();
+        factory = newSessionFactory();
     }
 
 
@@ -102,7 +102,7 @@ public abstract class AbstractTest {
     }
 
     public SessionFactory getSessionFactory() {
-        return sf;
+        return factory;
     }
 
     public static class HsqldbDataSourceProvider implements DataSourceProvider {
