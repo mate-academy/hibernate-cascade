@@ -11,8 +11,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     }
 
     @Override
-    public void create(MessageDetails entity) {
-
+    public MessageDetails create(MessageDetails entity) {
+        return null;
     }
 
     @Override
