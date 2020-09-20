@@ -15,41 +15,17 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            session.persist(entity);
-            transaction.commit();
-            return entity;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Can't insert Content entity", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+        return null;
     }
 
     @Override
     public Comment get(Long id) {
-        return factory.openSession().get(Comment.class, id);
+        return null;
     }
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = factory.openSession()) {
-            CriteriaQuery<Comment> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(Comment.class);
-            criteriaQuery.from(Comment.class);
-            return session.createQuery(criteriaQuery).getResultList();
-        } catch (Exception e) {
-            throw new RuntimeException("Can't get the list of smiles", e);
-        }
+        return null;
     }
 
     @Override
