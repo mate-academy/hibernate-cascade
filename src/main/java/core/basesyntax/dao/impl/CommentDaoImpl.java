@@ -3,10 +3,7 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-import javax.persistence.criteria.CriteriaQuery;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -30,10 +27,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment entity) {
-        Session session = factory.openSession();
-        Transaction transaction = session.beginTransaction(); // Think we we do need it?
-        session.remove(entity);
-        transaction.commit();
-        session.close();
+
     }
 }

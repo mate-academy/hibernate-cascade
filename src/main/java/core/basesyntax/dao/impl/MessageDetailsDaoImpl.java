@@ -16,6 +16,6 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
-        return factory.openSession().get(MessageDetails.class, id);
+        return null;
     }
 }
