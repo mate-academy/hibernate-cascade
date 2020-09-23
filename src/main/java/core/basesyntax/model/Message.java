@@ -2,7 +2,8 @@ package core.basesyntax.model;
 
 public class Message {
     private Long id;
-    private MessageDetails messageDetails;
+    private String content;
+    private List<MessageDetails> messageDetails;
 
     public Long getId() {
         return id;
@@ -12,11 +13,19 @@ public class Message {
         this.id = id;
     }
 
-    public MessageDetails getMessageDetails() {
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public List<MessageDetails> getMessageDetails() {
         return messageDetails;
     }
 
-    public void setMessageDetails(MessageDetails messageDetails) {
+    public void setMessageDetails(List<MessageDetails> messageDetails) {
         this.messageDetails = messageDetails;
     }
 }

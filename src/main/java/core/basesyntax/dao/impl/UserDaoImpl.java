@@ -11,8 +11,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public void create(User entity) {
-
+    public User create(User entity) {
+        return null;
     }
 
     @Override
