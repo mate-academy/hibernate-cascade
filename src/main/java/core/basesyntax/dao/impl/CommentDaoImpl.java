@@ -28,8 +28,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             session.getTransaction().commit();
             return comment;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
             }
             throw new RuntimeException("Can't insert Content entity");
         } finally {
@@ -52,8 +52,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             session.flush();
             return comment;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
             }
             throw new RuntimeException("Can't insert comment entity. ", e);
         } finally {
@@ -89,8 +89,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             log.info("Attempt to remove comment " + comment + " from db");
             session.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
             }
             throw new RuntimeException("Can't delete comment entity. ", e);
         } finally {

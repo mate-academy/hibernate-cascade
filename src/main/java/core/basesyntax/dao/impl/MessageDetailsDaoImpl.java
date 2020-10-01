@@ -20,14 +20,14 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         Session session = null;
         try {
             session = factory.openSession();
-            transaction = session.beginTransaction();
+            session.beginTransaction();
             session.save(messageDetails);
             log.info("Attempt to store messageDetails " + messageDetails + " to db.");
-            transaction.commit();
+            session.getTransaction().commit();
             return messageDetails;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
             }
             throw new RuntimeException("Can't create messageDetails entity. ", e);
         } finally {
@@ -51,8 +51,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             session.flush();
             return messageDetails;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
             }
             throw new RuntimeException("Can't insert user entity. ", e);
         } finally {
