@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,7 +15,7 @@ public abstract class AbstractDao<T> {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(comment);
             transaction.commit();
@@ -34,7 +33,7 @@ public abstract class AbstractDao<T> {
     }
 
     public void remove(T item) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Transaction transaction = session.beginTransaction();
             session.remove(item);
             transaction.commit();

@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
@@ -20,14 +19,14 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         }
     }
 
     @Override
     public List<Message> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Message> query = session.createQuery("from Message", Message.class);
             return query.getResultList();
         }

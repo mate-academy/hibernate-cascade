@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
@@ -20,14 +19,14 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public User get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         }
     }
 
     @Override
     public List<User> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<User> query = session.createQuery("from User", User.class);
             return query.getResultList();
         }
