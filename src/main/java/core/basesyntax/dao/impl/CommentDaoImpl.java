@@ -17,6 +17,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment comment) {
+        log.info("Calling a create() method of CommentDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -40,6 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
+        log.info("Calling a get() method of CommentDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -63,6 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
+        log.info("Calling a getAll() method of CommentDaoImpl class");
         try (Session session = factory.openSession()) {
             CriteriaQuery<Comment> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Comment.class);
@@ -76,6 +79,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment comment) {
+        log.info("Calling a remove() method of CommentDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {

@@ -15,6 +15,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails messageDetails) {
+        log.info("Calling a create() method of MessageDetailsDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -38,6 +39,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
+        log.info("Calling a get() method of MessageDetailsDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {

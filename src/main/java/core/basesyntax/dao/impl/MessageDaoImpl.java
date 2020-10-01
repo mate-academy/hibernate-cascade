@@ -17,6 +17,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message message) {
+        log.info("Calling a create() method of MessageDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -40,6 +41,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
+        log.info("Calling a get() method of MessageDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -63,6 +65,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
+        log.info("Calling a getAll() method of MessageDaoImpl class");
         try (Session session = factory.openSession()) {
             CriteriaQuery<Message> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Message.class);
@@ -76,6 +79,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public void remove(Message message) {
+        log.info("Calling a remove() method of MessageDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {

@@ -18,6 +18,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User user) {
+        log.info("Calling a create() method UserDaoImpl of MessageDetailsDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -46,6 +47,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
+        log.info("Calling a get() method UserDaoImpl of MessageDetailsDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -69,6 +71,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
+        log.info("Calling a getAll() method UserDaoImpl of MessageDetailsDaoImpl class");
         try (Session session = factory.openSession()) {
             CriteriaQuery<User> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(User.class);
@@ -82,6 +85,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void remove(User user) {
+        log.info("Calling a remove() method UserDaoImpl of MessageDetailsDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {

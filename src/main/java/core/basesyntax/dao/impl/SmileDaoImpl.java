@@ -17,6 +17,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile smile) {
+        log.info("Calling a create() method SmileDaoImpl of MessageDetailsDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -43,6 +44,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
+        log.info("Calling a get() method SmileDaoImpl of MessageDetailsDaoImpl class");
         Transaction transaction = null;
         Session session = null;
         try {
@@ -66,6 +68,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public List<Smile> getAll() {
+        log.info("Calling a getAll() method SmileDaoImpl of MessageDetailsDaoImpl class");
         try (Session session = factory.openSession()) {
             CriteriaQuery<Smile> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Smile.class);
