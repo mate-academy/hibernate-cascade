@@ -46,7 +46,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session.beginTransaction();
             User user = (User) session.get(User.class, id);
             log.info("Attempt to retrieve user " + user + " from db.");
-            session.getTransaction().commit();
             return user;
         } catch (Exception e) {
             if (session.getTransaction() != null) {

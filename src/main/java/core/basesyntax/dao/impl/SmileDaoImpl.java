@@ -45,7 +45,6 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             session = factory.openSession();
             session.beginTransaction();
             Smile smile = (Smile) session.get(Smile.class, id);
-            session.getTransaction().commit();
             log.info("Attempt to retrieve smile " + smile + " from db.");
             return smile;
         } catch (Exception e) {

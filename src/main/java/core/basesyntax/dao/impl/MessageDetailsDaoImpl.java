@@ -45,7 +45,6 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             MessageDetails messageDetails =
                     (MessageDetails) session.get(MessageDetails.class, id);
             log.info("Attempt to retrieve messageDetails " + messageDetails + " from db.");
-            session.flush();
             return messageDetails;
         } catch (Exception e) {
             if (session.getTransaction() != null) {

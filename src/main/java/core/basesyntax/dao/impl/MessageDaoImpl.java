@@ -48,7 +48,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             session.beginTransaction();
             Message message = (Message) session.get(Message.class, id);
             log.info("Attempt to retrieve message " + message + " from db.");
-            session.flush();
             return message;
         } catch (Exception e) {
             if (session.getTransaction() != null) {

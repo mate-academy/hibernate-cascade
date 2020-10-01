@@ -46,7 +46,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             session.beginTransaction();
             Comment comment = (Comment) session.get(Comment.class, id);
             log.info("Attempt to retrieve comment " + comment + " from db.");
-            session.flush();
             return comment;
         } catch (Exception e) {
             if (session.getTransaction() != null) {

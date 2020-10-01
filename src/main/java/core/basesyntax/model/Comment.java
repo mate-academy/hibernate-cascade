@@ -23,6 +23,6 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @OneToMany
     private List<Smile> smiles;
 }
