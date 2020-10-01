@@ -50,7 +50,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> getAllUsersQuery = session.createQuery("FROM User", User.class);
             return getAllUsersQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Cant get all comments from the database", e);
+            throw new RuntimeException("Cant get all users", e);
         }
     }
 
