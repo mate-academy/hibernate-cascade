@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
@@ -24,12 +23,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             session.beginTransaction();
-            if (user.getComments() != null) {
-                for (Comment comment : user.getComments()) {
-                    session.save(comment);
-                }
-            }
-            session.save(user);
+            session.persist(user);
             log.info("Attempt to store user " + user + " in db.");
             session.getTransaction().commit();
             return user;
