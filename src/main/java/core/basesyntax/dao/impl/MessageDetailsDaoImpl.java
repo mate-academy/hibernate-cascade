@@ -5,7 +5,6 @@ import core.basesyntax.model.MessageDetails;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 @Log4j
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
@@ -16,7 +15,6 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails create(MessageDetails messageDetails) {
         log.info("Calling a create() method of MessageDetailsDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -40,7 +38,6 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails get(Long id) {
         log.info("Calling a get() method of MessageDetailsDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -54,7 +51,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
-            throw new RuntimeException("Can't insert user entity. ", e);
+            throw new RuntimeException("Can't get user entity. ", e);
         } finally {
             if (session != null) {
                 session.close();

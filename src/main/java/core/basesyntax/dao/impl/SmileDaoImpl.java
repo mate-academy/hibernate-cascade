@@ -7,7 +7,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 @Log4j
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
@@ -18,7 +17,6 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile create(Smile smile) {
         log.info("Calling a create() method of SmileDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -42,7 +40,6 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         log.info("Calling a get() method of SmileDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();

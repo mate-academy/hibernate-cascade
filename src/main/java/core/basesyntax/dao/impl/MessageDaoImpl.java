@@ -42,7 +42,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message get(Long id) {
         log.info("Calling a get() method of MessageDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -55,7 +54,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
-            throw new RuntimeException("Can't insert message entity. ", e);
+            throw new RuntimeException("Can't get message entity. ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -80,7 +79,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public void remove(Message message) {
         log.info("Calling a remove() method of MessageDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();

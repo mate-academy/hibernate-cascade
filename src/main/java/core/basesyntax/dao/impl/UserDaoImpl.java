@@ -7,7 +7,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 @Log4j
 public class UserDaoImpl extends AbstractDao implements UserDao {
@@ -18,7 +17,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User user) {
         log.info("Calling a create() method of UserDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -42,7 +40,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         log.info("Calling a get() method of UserDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -80,7 +77,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void remove(User user) {
         log.info("Calling a remove() method of UserDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();

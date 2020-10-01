@@ -7,7 +7,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 @Log4j
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
@@ -18,7 +17,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment create(Comment comment) {
         log.info("Calling a create() method of CommentDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -31,7 +29,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
-            throw new RuntimeException("Can't insert Content entity");
+            throw new RuntimeException("Can't insert Content entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,7 +40,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         log.info("Calling a get() method of CommentDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -80,7 +77,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment comment) {
         log.info("Calling a remove() method of CommentDaoImpl class");
-        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
