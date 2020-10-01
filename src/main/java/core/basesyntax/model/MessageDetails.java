@@ -11,7 +11,9 @@ public class MessageDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String sender;
+
     private LocalDateTime sentTime;
 
     public Long getId() {
