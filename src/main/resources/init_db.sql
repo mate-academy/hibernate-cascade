@@ -1,0 +1,1 @@
+CREATE SCHEMA `my_social_network` DEFAULT CHARACTER SET utf8 ;
