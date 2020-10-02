@@ -1,5 +1,7 @@
 package core.basesyntax.model;
 
+import java.util.List;
+
 public class Message {
     private Long id;
     private String content;
