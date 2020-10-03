@@ -20,7 +20,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.load(User.class, id);
+            return session.get(User.class, id);
         }
     }
 

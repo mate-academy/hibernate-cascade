@@ -20,7 +20,7 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     @Override
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.load(Message.class, id);
+            return session.get(Message.class, id);
         }
     }
 

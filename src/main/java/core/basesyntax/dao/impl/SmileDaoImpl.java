@@ -20,7 +20,7 @@ public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     @Override
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.load(Smile.class, id);
+            return session.get(Smile.class, id);
         }
     }
 
