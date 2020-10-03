@@ -3,9 +3,7 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -13,27 +11,12 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public User create(User user) {
-        return super.create(user);
-    }
-
-    @Override
     public User get(Long id) {
-        try (Session session = factory.openSession()) {
-            return session.get(User.class, id);
-        }
+        return super.get(id, User.class);
     }
 
     @Override
     public List<User> getAll() {
-        try (Session session = factory.openSession()) {
-            Query<User> query = session.createQuery("from User", User.class);
-            return query.getResultList();
-        }
-    }
-
-    @Override
-    public void remove(User user) {
-        super.remove(user);
+        return super.getAll(User.class);
     }
 }
