@@ -1,17 +1,12 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
-
-import org.hibernate.HibernateException;
+import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import javax.persistence.criteria.CriteriaQuery;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -34,7 +29,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             }
             throw new RuntimeException("Can't insert user", e);
         } finally {
-            if (session != null){
+            if (session != null) {
                 session.close();
             }
         }
@@ -42,7 +37,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get user with id " + id, e);
@@ -51,7 +46,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             CriteriaQuery<User> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(User.class);
             criteriaQuery.from(User.class);
@@ -76,7 +71,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             }
             throw new RuntimeException("Can't remove user", e);
         } finally {
-            if (session != null){
+            if (session != null) {
                 session.close();
             }
         }

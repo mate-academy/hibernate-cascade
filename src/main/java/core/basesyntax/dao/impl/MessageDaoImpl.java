@@ -3,13 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-
-import core.basesyntax.model.User;
+import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import javax.persistence.criteria.CriteriaQuery;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -32,7 +29,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             }
             throw new RuntimeException("Can't insert message", e);
         } finally {
-            if (session != null){
+            if (session != null) {
                 session.close();
             }
         }
@@ -40,7 +37,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get message with id " + id, e);
@@ -49,7 +46,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             CriteriaQuery<Message> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Message.class);
             criteriaQuery.from(Message.class);
@@ -74,7 +71,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             }
             throw new RuntimeException("Can't remove message", e);
         } finally {
-            if (session != null){
+            if (session != null) {
                 session.close();
             }
         }

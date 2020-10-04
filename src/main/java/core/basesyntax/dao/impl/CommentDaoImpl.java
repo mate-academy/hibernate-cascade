@@ -3,13 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-
-import core.basesyntax.model.User;
+import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import javax.persistence.criteria.CriteriaQuery;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -32,7 +29,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             }
             throw new RuntimeException("Can't insert Content entity", e);
         } finally {
-            if (session != null){
+            if (session != null) {
                 session.close();
             }
         }
@@ -40,7 +37,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get comment with id " + id, e);
@@ -49,7 +46,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             CriteriaQuery<Comment> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Comment.class);
             criteriaQuery.from(Comment.class);
@@ -74,7 +71,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             }
             throw new RuntimeException("Can't remove comment", e);
         } finally {
-            if (session != null){
+            if (session != null) {
                 session.close();
             }
         }
