@@ -1,10 +1,15 @@
 package core.basesyntax.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToMany
     private List<MessageDetails> messageDetails;
 
     public Long getId() {

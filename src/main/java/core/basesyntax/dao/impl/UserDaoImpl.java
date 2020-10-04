@@ -25,10 +25,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
             return entity;
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -42,13 +42,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        User user = null;
         try (Session session = factory.openSession()){
-            user = session.get(User.class, id);
-            List<Comment> comments = user.getComments();
-            return user;
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Can't insert user", e);
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get user with id " + id, e);
         }
     }
 
@@ -59,7 +56,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     .createQuery(User.class);
             criteriaQuery.from(User.class);
             return session.createQuery(criteriaQuery).getResultList();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Can't get all users", e);
         }
     }
@@ -73,11 +70,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert user", e);
+            throw new RuntimeException("Can't remove user", e);
         } finally {
             if (session != null){
                 session.close();
