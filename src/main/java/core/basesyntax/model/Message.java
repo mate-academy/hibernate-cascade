@@ -20,6 +20,6 @@ public class Message {
 
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<MessageDetails> messageDetails;
 }

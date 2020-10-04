@@ -20,6 +20,6 @@ public class User {
 
     @Getter
     @Setter
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Comment> comments;
 }

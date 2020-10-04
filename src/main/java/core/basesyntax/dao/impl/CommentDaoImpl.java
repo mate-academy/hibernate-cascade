@@ -28,7 +28,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert comment", e);
+            throw new DataProcessingException("Can't insert Content entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -65,6 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
+//            comment.setId(comment.getId());
             session.remove(comment);
             transaction.commit();
         } catch (Exception e) {
