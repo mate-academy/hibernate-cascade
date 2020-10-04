@@ -59,12 +59,21 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void remove(User user) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(user);
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DataProcessingException("Failed to remove User", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
