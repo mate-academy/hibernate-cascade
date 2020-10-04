@@ -15,15 +15,15 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(message);
             transaction.commit();
-            return entity;
+            return message;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -56,11 +56,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public void remove(Message entity) {
+    public void remove(Message message) {
         Transaction transaction = null;
         try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

@@ -15,15 +15,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(user);
             transaction.commit();
-            return entity;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -56,11 +56,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(User user) {
         Transaction transaction = null;
         try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
