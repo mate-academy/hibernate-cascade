@@ -15,15 +15,15 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(comment);
             transaction.commit();
-            return entity;
+            return comment;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
