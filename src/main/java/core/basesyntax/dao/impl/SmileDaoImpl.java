@@ -1,11 +1,9 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.model.Comment;
+import core.basesyntax.exeptions.DataProcessingException;
 import core.basesyntax.model.Smile;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,20 +15,20 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(smile);
             transaction.commit();
-            return entity;
+            return smile;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Smile entity", e);
+            throw new DataProcessingException("Can't insert smile", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,20 +40,20 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public Smile get(Long id) {
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't insert Comment entity", e);
+            throw new DataProcessingException("Can't insert smile with ID: " + id, e);
         }
     }
 
     @Override
     public List<Smile> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Smile> getAllSmile = session.createQuery("from Smile", Smile.class);
             return getAllSmile.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't show all comments", e);
+            throw new DataProcessingException("Can't show all smiles", e);
         }
     }
 }

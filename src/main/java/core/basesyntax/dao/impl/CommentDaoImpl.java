@@ -1,11 +1,9 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
+import core.basesyntax.exeptions.DataProcessingException;
 import core.basesyntax.model.Comment;
-
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,20 +15,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(comment);
             transaction.commit();
-            return entity;
+            return comment;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Comment entity", e);
+            throw new DataProcessingException("Can't insert comment", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,29 +40,42 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't insert Comment entity", e);
+            throw new DataProcessingException("Can't insert comment with ID: " + id, e);
         }
     }
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Comment> getAllComment = session.createQuery("from Comment", Comment.class);
             return getAllComment.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't show all comments", e);
+            throw new DataProcessingException("Can't show all comments", e);
         }
     }
 
     @Override
-    public void remove(Comment entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.remove(entity);
+    public void remove(Comment comment) {
+
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(comment);
             transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't remove comment with ID: " + comment.getId(), e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
