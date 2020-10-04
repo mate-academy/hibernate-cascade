@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.exeptions.DataProcessingException;
 import core.basesyntax.model.User;
@@ -20,7 +19,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(user);
             transaction.commit();
@@ -39,9 +38,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        Session session = null;
         try {
-            session = factory.openSession();
+            Session session = factory.openSession();
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Can't insert user with ID: " + id, e);

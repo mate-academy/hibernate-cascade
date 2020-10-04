@@ -1,12 +1,12 @@
 package core.basesyntax.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 public class MessageDetails {
