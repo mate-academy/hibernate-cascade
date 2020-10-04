@@ -2,6 +2,7 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.SmileDao;
+import core.basesyntax.dao.exceptions.DataProcessingException;
 import core.basesyntax.model.Smile;
 import java.util.List;
 
@@ -16,33 +17,44 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(smile);
             transaction.commit();
-            return entity;
+            return smile;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Smile entity", e);
+            throw new DataProcessingException("Can't insert Smile entity", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Smile.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Failed to get Smile with id"
+                    + id, e);
+        }
     }
 
     @Override
     public List<Smile> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Smile> getMovies = session.createQuery("from Smile", Smile.class);
-            return getMovies.getResultList();
+            Query<Smile> getSmiles = session.createQuery("from Smile", Smile.class);
+            return getSmiles.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to get all Movies", e);
+            throw new DataProcessingException("Failed to get all Smiles", e);
         }
     }
 }

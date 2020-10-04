@@ -14,5 +14,6 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="core.basesyntax.model.Smile"/>
+        <mapping class="core.basesyntax.model.Comment"/>
     </session-factory>
 </hibernate-configuration>
