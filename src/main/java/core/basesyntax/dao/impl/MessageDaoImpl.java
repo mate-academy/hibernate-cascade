@@ -54,7 +54,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                     = session.createQuery("from Message", Message.class);
             return getAllMessagesQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Cant get list of Messages", e);
+            throw new DataProcessingException("Can't get the list of Messages", e);
         }
     }
 

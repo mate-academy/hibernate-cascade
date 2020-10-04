@@ -49,8 +49,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        try {
-            Session session = factory.openSession();
+        try (Session session = factory.openSession()) {
             Query<User> getAllUserQuery = session.createQuery("from User", User.class);
             return getAllUserQuery.getResultList();
         } catch (Exception e) {
@@ -60,8 +59,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void remove(User user) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(user);
             transaction.commit();
@@ -71,6 +72,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             }
             throw new DataProcessingException("Can't remove user "
                     + user, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
