@@ -1,7 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.dao.exceptions.DataProcessingException;
+import core.basesyntax.exceptions.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;

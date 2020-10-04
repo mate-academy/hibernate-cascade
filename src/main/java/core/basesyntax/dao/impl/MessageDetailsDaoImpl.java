@@ -1,7 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.dao.exceptions.DataProcessingException;
+import core.basesyntax.exceptions.DataProcessingException;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
