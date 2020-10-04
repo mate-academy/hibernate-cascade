@@ -1,11 +1,9 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.dao.exceptions.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,7 +28,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert Comment entity", e);
+            throw new DataProcessingException("Can't insert Content entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +38,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Failed to get Comment with id"
@@ -50,7 +48,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Comment> getComments = session.createQuery("from Comment", Comment.class);
             return getComments.getResultList();
         } catch (Exception e) {
@@ -59,7 +57,14 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public void remove(Comment entity) {
-
+    public void remove(Comment comment) {
+        Transaction transaction = null;
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+            session.remove(comment);
+            transaction.commit();
+        } catch (Exception e) {
+            throw new DataProcessingException("Failed to remove Comment", e);
+        }
     }
 }
