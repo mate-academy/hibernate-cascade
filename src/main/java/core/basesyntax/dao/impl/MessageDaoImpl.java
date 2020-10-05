@@ -53,7 +53,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> getAllMessage = session.createQuery("from Message", Message.class);
             return getAllMessage.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all comments!", e);
+            throw new RuntimeException("Can't get all messages!", e);
         }
     }
 
