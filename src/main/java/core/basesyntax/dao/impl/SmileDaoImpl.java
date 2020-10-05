@@ -28,7 +28,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert smile", e);
+            throw new DataProcessingException("Can't create smile", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Can't insert smile with ID: " + id, e);
+            throw new DataProcessingException("Can't get smile with ID: " + id, e);
         }
     }
 

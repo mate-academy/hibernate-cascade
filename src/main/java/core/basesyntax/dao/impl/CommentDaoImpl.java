@@ -41,7 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Can't insert comment with ID: " + id, e);
+            throw new DataProcessingException("Can't get comment with ID: " + id, e);
         }
     }
 
