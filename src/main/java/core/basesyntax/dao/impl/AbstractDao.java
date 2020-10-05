@@ -24,7 +24,7 @@ public abstract class AbstractDao<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert entity", e);
         } finally {
             if (session != null) {
                 session.close();
