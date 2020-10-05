@@ -6,7 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
+public class MessageDetailsDaoImpl extends AbstractDao<MessageDetails>
+        implements MessageDetailsDao {
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

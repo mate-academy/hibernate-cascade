@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-public class CommentDaoImpl extends AbstractDao implements CommentDao {
+public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
@@ -55,28 +55,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             return getAllCommentsQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to get all comments from the DB.", e);
-        }
-    }
-
-    @Override
-    public void remove(Comment comment) {
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            session.remove(comment);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Failed to delete the comment "
-                    + comment + " from the DB.", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }

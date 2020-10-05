@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-public class SmileDaoImpl extends AbstractDao implements SmileDao {
+public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

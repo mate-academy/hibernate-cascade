@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-public class MessageDaoImpl extends AbstractDao implements MessageDao {
+public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
@@ -56,28 +56,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             return getAllMessagesQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Failed to get all messages from the DB.", e);
-        }
-    }
-
-    @Override
-    public void remove(Message message) {
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            session.remove(message);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Failed to delete the message "
-                    + message + " from the DB.", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }
