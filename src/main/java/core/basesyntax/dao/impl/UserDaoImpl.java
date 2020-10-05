@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.HibernateException;
@@ -46,26 +45,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
-        } catch (HibernateException e) {
-            throw new RuntimeException("Can't get entity", e);
         }
     }
 
     @Override
     public List<User> getAll() {
-        List<User> userList = new ArrayList<>();
         try (Session session = factory.openSession()) {
             Query<User> getAllCommentQuery = session.createQuery("from User ", User.class);
-            userList = getAllCommentQuery.getResultList();
-        } catch (HibernateException e) {
-            throw new RuntimeException("Couldn't get all comments", e);
+            return getAllCommentQuery.getResultList();
         }
-        return userList;
     }
 
     @Override
     public void remove(User entity) {
-        Transaction transaction;
+        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -76,6 +69,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.commit();
             }
         } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("User " + entity.getId() + " not deleted", e);
         } finally {
             if (session != null) {

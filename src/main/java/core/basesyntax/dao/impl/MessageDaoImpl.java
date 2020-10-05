@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.HibernateException;
@@ -46,27 +45,21 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
-        } catch (HibernateException e) {
-            throw new RuntimeException("Can't get message id=" + id, e);
         }
     }
 
     @Override
     public List<Message> getAll() {
-        List<Message> messageList = new ArrayList<>();
         try (Session session = factory.openSession()) {
             Query<Message> getAllMessagesQuery =
                     session.createQuery("from Message ", Message.class);
-            messageList = getAllMessagesQuery.getResultList();
-        } catch (HibernateException e) {
-            throw new RuntimeException("Couldn't get all comments", e);
+            return getAllMessagesQuery.getResultList();
         }
-        return messageList;
     }
 
     @Override
     public void remove(Message entity) {
-        Transaction transaction;
+        Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
@@ -77,6 +70,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.commit();
             }
         } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Message not deleted id=" + entity.getId(), e);
         } finally {
             if (session != null) {

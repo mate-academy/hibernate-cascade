@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
 import lombok.extern.log4j.Log4j;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -43,8 +42,6 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     public MessageDetails get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
-        } catch (HibernateException e) {
-            throw new RuntimeException("Can't get MessageDetails id=" + id, e);
         }
     }
 }
