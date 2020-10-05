@@ -1,6 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
+import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,7 +28,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert user", e);
+            throw new DataProcessingException("Can't insert user", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get user with id " + id, e);
+            throw new DataProcessingException("Can't get user with id " + id, e);
         }
     }
 
@@ -52,7 +53,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             criteriaQuery.from(User.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all users", e);
+            throw new DataProcessingException("Can't get all users", e);
         }
     }
 
@@ -69,7 +70,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove user", e);
+            throw new DataProcessingException("Can't remove user", e);
         } finally {
             if (session != null) {
                 session.close();

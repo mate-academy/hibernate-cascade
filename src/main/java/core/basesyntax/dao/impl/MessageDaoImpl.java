@@ -1,6 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
+import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,7 +28,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert message", e);
+            throw new DataProcessingException("Can't insert message", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +41,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get message with id " + id, e);
+            throw new DataProcessingException("Can't get message with id " + id, e);
         }
     }
 
@@ -52,7 +53,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             criteriaQuery.from(Message.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all messages", e);
+            throw new DataProcessingException("Can't get all messages", e);
         }
     }
 
@@ -69,7 +70,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove message", e);
+            throw new DataProcessingException("Can't remove message", e);
         } finally {
             if (session != null) {
                 session.close();
