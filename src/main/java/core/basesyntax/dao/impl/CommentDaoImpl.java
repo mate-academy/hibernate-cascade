@@ -39,9 +39,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            Comment comment = session.get(Comment.class, id);
-            session.flush();
-            return comment;
+            return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get comment", e);
         }
