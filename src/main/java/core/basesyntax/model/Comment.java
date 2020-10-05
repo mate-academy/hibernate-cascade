@@ -7,8 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -20,11 +18,6 @@ public class Comment {
     private Long id;
     private String content;
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "comment_smile",
-            joinColumns = {@JoinColumn(name = "comment_id")},
-            inverseJoinColumns = {@JoinColumn(name = "smile_id")}
-    )
     private List<Smile> smiles;
 
     public Long getId() {
