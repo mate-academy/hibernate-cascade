@@ -15,10 +15,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public User get(Long id) {
-        User user;
         try (Session session = factory.openSession()) {
-            user = session.get(User.class, id);
-            return user;
+            return session.get(User.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving user. ", e);
         }

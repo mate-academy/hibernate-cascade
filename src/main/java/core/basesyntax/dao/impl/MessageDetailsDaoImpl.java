@@ -14,10 +14,8 @@ public class MessageDetailsDaoImpl extends
 
     @Override
     public MessageDetails get(Long id) {
-        MessageDetails messageDetails;
         try (Session session = factory.openSession()) {
-            messageDetails = session.get(MessageDetails.class, id);
-            return messageDetails;
+            return session.get(MessageDetails.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving message details. ", e);
         }
