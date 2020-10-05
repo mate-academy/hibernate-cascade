@@ -26,7 +26,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new ProcessingDataException("Can't create details with ID " + details.getId(), e);
+            throw new ProcessingDataException("Can't create details message with ID "
+                    + details.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
