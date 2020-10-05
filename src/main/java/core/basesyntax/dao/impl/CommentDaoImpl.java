@@ -12,6 +12,7 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
         super(sessionFactory);
     }
 
+    @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
@@ -20,6 +21,7 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
         }
     }
 
+    @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
             Query<Comment> getAllCommentsQuery = session.createQuery("from Comment", Comment.class);
