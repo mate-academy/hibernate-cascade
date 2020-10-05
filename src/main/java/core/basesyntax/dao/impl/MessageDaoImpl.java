@@ -4,8 +4,6 @@ import core.basesyntax.dao.MessageDao;
 import core.basesyntax.exceptions.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
-
-import core.basesyntax.model.Smile;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
