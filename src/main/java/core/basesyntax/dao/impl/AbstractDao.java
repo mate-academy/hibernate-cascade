@@ -11,6 +11,27 @@ public abstract class AbstractDao<T> {
         this.factory = sessionFactory;
     }
 
+    public T create(T entity) {
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+            return entity;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Failed to insert the entity into the DB", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public void remove(T entity) {
         Transaction transaction = null;
         Session session = null;

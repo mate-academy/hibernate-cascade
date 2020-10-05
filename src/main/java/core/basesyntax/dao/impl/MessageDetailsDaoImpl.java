@@ -13,29 +13,6 @@ public class MessageDetailsDaoImpl extends AbstractDao<MessageDetails>
     }
 
     @Override
-    public MessageDetails create(MessageDetails details) {
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            session.save(details);
-            transaction.commit();
-            return details;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Failed to create the message details "
-                    + details + " to the DB.", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
-
-    @Override
     public MessageDetails get(Long id) {
         try (Session session = factory.openSession()) {
             Transaction transaction = session.beginTransaction();
