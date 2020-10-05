@@ -5,7 +5,6 @@ import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
@@ -16,9 +15,7 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     @Override
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
             Message message = session.get(Message.class, id);
-            transaction.commit();
             return message;
         } catch (Exception e) {
             throw new RuntimeException("Failed to get the message with ID "

@@ -5,7 +5,6 @@ import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
@@ -16,9 +15,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
             User user = session.get(User.class, id);
-            transaction.commit();
             return user;
         } catch (Exception e) {
             throw new RuntimeException("Failed to get the user with ID "

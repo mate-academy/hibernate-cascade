@@ -5,7 +5,6 @@ import core.basesyntax.model.Smile;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
@@ -16,9 +15,7 @@ public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     @Override
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
             Smile smile = session.get(Smile.class, id);
-            transaction.commit();
             return smile;
         } catch (Exception e) {
             throw new RuntimeException("Failed to get the smile with ID "
