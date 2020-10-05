@@ -37,7 +37,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        User user = null;
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
