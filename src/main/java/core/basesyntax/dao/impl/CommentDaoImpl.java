@@ -1,8 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
+import core.basesyntax.exceptions.DataProcessingException;
 import core.basesyntax.model.Comment;
-import exceptions.DataProcessingException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -40,8 +40,7 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     public Comment get(Long id) {
         Comment comment;
         try (Session session = factory.openSession()) {
-            comment = session.get(Comment.class, id);
-            return comment;
+            return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving comment. ", e);
         }

@@ -1,8 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
+import core.basesyntax.exceptions.DataProcessingException;
 import core.basesyntax.model.Smile;
-import exceptions.DataProcessingException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

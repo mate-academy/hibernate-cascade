@@ -1,6 +1,6 @@
 package core.basesyntax.dao.impl;
 
-import exceptions.DataProcessingException;
+import core.basesyntax.exceptions.DataProcessingException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
