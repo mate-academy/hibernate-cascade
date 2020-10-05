@@ -5,28 +5,28 @@ import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.SessionFactory;
 
-public class UserDaoImpl extends AbstractDao implements UserDao {
+public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
     @Override
-    public User create(User entity) {
-        return null;
+    public User create(User user) {
+        return super.create(user);
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        return super.get(id, User.class);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return super.getALl(User.class);
     }
 
     @Override
-    public void remove(User entity) {
-
+    public void remove(User user) {
+        super.remove(user);
     }
 }
