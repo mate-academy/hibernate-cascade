@@ -11,11 +11,6 @@ public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile item) {
-        return super.create(item);
-    }
-
-    @Override
     public Smile get(Long id) {
         return super.get(id, Smile.class);
     }
@@ -23,10 +18,5 @@ public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     @Override
     public List<Smile> getAll() {
         return super.getAll(Smile.class);
-    }
-
-    @Override
-    public void remove(Smile item) {
-        super.remove(item);
     }
 }

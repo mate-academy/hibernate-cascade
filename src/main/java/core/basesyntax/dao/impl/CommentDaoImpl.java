@@ -29,9 +29,4 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     public List<Comment> getAll() {
         return super.getAll(Comment.class);
     }
-
-    @Override
-    public void remove(Comment entity) {
-        super.remove(entity);
-    }
 }

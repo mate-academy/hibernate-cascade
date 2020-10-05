@@ -11,11 +11,6 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     }
 
     @Override
-    public Message create(Message item) {
-        return super.create(item);
-    }
-
-    @Override
     public Message get(Long id) {
         return super.get(id, Message.class);
     }
@@ -23,11 +18,6 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     @Override
     public List<Message> getAll() {
         return super.getAll(Message.class);
-    }
-
-    @Override
-    public void remove(Message item) {
-        super.remove(item);
     }
 
 }

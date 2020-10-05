@@ -11,11 +11,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public User create(User item) {
-        return super.create(item);
-    }
-
-    @Override
     public User get(Long id) {
         return super.get(id, User.class);
     }
@@ -23,10 +18,5 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
     public List<User> getAll() {
         return super.getAll(User.class);
-    }
-
-    @Override
-    public void remove(User item) {
-        super.remove(item);
     }
 }
