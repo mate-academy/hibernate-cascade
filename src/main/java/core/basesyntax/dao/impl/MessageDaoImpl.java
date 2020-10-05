@@ -26,7 +26,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert Message entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -60,9 +60,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             Message message = session.find(Message.class, entity.getId());
-            if (message != null) {
-                session.delete(message);
-            }
+            session.remove(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

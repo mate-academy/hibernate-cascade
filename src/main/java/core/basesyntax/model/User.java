@@ -39,7 +39,6 @@ public class User {
         this.username = username;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     public List<Comment> getComments() {
         return comments;
     }
