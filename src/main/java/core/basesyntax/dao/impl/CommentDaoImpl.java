@@ -60,7 +60,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment comment) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.delete(comment);
             transaction.commit();
@@ -69,6 +71,10 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't remove Comment entity", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
