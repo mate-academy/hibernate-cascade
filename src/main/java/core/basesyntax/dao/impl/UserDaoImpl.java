@@ -43,10 +43,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         try {
             session = factory.openSession();
-            session.beginTransaction();
-            User user = (User) session.get(User.class, id);
-            log.info("Attempt to retrieve user " + user + " from db.");
-            return user;
+            return session.get(User.class, id);
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();

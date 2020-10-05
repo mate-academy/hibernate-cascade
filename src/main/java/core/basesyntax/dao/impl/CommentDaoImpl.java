@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 @Log4j
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
@@ -43,10 +44,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Session session = null;
         try {
             session = factory.openSession();
-            session.beginTransaction();
-            Comment comment = (Comment) session.get(Comment.class, id);
-            log.info("Attempt to retrieve comment " + comment + " from db.");
-            return comment;
+            return session.get(Comment.class, id);
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
@@ -77,12 +75,13 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public void remove(Comment comment) {
         log.info("Calling a remove() method of CommentDaoImpl class");
         Session session = null;
+        Transaction transaction;
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             session.remove(comment);
             log.info("Attempt to remove comment " + comment + " from db");
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
