@@ -5,23 +5,28 @@ import core.basesyntax.model.Smile;
 import java.util.List;
 import org.hibernate.SessionFactory;
 
-public class SmileDaoImpl extends AbstractDao implements SmileDao {
+public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
     @Override
-    public Smile create(Smile entity) {
-        return null;
+    public Smile create(Smile item) {
+        return super.create(item);
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        return super.get(id, Smile.class);
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        return super.getAll(Smile.class);
+    }
+
+    @Override
+    public void remove(Smile item) {
+        super.remove(item);
     }
 }
