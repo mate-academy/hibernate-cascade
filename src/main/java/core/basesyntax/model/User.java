@@ -20,7 +20,7 @@ public class User {
     private Long id;
     private String username;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Comment> comments;
 
     public Long getId() {

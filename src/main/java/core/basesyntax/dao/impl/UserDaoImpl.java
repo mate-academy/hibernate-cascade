@@ -42,8 +42,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("can't find user with id = "
-                    + id, e);
+            throw new DataProcessingException("can't find user with id = " + id, e);
         }
     }
 
@@ -70,8 +69,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove user "
-                    + user, e);
+            throw new DataProcessingException("Can't remove user " + user, e);
         } finally {
             if (session != null) {
                 session.close();

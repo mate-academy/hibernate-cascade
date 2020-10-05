@@ -41,8 +41,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Smile  with id "
-                    + id + " can't be found", e);
+            throw new DataProcessingException("Smile  with id " + id + " can't be found", e);
         }
     }
 
