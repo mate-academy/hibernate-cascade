@@ -12,20 +12,20 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     }
 
     @Override
-    public MessageDetails create(MessageDetails entity) {
+    public MessageDetails create(MessageDetails messageDetails) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(messageDetails);
             transaction.commit();
-            return entity;
+            return messageDetails;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't insert entity", e);
+            throw new RuntimeException("Couldn't insert messageDetails", e);
         } finally {
             if (session != null) {
                 session.close();
