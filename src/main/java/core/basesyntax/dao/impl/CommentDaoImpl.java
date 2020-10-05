@@ -13,15 +13,6 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
-        try {
-            return super.create(entity);
-        } catch (Exception e) {
-            throw new RuntimeException("Can't insert Content entity", e);
-        }
-    }
-
-    @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
