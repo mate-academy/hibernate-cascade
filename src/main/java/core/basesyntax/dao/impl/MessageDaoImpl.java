@@ -17,7 +17,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = this.factory.openSession();
             transaction = session.beginTransaction();
             session.save(message);
             transaction.commit();
@@ -37,7 +37,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message get(Long id) {
         Transaction transaction = null;
-        try (Session session = super.factory.openSession()) {
+        try (Session session = this.factory.openSession()) {
             transaction = session.beginTransaction();
             Message message = session.get(Message.class, id);
             transaction.commit();
@@ -52,7 +52,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        try (Session session = super.factory.openSession()) {
+        try (Session session = this.factory.openSession()) {
             return session.createQuery("FROM Message", Message.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Can't get message from DB", e);
@@ -64,7 +64,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = this.factory.openSession();
             transaction = session.beginTransaction();
             session.remove(message);
             transaction.commit();
