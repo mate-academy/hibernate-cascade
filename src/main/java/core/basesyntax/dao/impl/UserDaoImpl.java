@@ -15,7 +15,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User user) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(user);
             transaction.commit();
@@ -25,6 +27,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't create user: " + user, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -32,8 +38,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
-        } catch (Exception e) {
-            throw new RuntimeException("Can't find user by id: " + id, e);
         }
     }
 
@@ -41,15 +45,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
             return session.createQuery("from User", User.class).getResultList();
-        } catch (Exception e) {
-            throw new RuntimeException("Can't get all users", e);
         }
     }
 
     @Override
     public void remove(User user) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(user);
             transaction.commit();
@@ -58,6 +62,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove user: " + user, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
