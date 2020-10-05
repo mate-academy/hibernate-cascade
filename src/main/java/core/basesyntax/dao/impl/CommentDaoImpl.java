@@ -3,10 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -47,10 +47,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaQuery<Comment> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(Comment.class);
-            criteriaQuery.from(Comment.class);
-            return session.createQuery(criteriaQuery).getResultList();
+            Query<Comment> query = session.createQuery("from Comment", Comment.class);
+            return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving all comments: ", e);
         }

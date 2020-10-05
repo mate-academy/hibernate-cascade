@@ -3,10 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -47,10 +47,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaQuery<Message> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(Message.class);
-            criteriaQuery.from(Message.class);
-            return session.createQuery(criteriaQuery).getResultList();
+            Query<Message> query = session.createQuery("from Message", Message.class);
+            return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving all messages: ", e);
         }

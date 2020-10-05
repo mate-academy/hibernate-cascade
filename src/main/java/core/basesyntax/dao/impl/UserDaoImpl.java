@@ -3,10 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -47,10 +47,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaQuery<User> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(User.class);
-            criteriaQuery.from(User.class);
-            return session.createQuery(criteriaQuery).getResultList();
+            Query<User> query = session.createQuery("from User", User.class);
+            return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving all users: ", e);
         }

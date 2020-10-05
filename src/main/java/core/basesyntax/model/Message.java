@@ -14,7 +14,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL)
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
