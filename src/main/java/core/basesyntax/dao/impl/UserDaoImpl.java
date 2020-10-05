@@ -17,7 +17,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = this.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
@@ -37,7 +37,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         Transaction transaction = null;
-        try (Session session = this.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             User user = session.get(User.class, id);
             transaction.commit();
@@ -52,7 +52,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        try (Session session = this.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.createQuery("FROM User", User.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Can't get users from DB", e);
@@ -64,7 +64,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = this.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(user);
             transaction.commit();

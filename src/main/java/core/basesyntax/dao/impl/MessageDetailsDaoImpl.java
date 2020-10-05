@@ -16,7 +16,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         Transaction transaction = null;
         Session session = null;
         try {
-            session = this.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(messageDetails);
             transaction.commit();
@@ -36,7 +36,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails get(Long id) {
         Transaction transaction = null;
-        try (Session session = this.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             MessageDetails messageDetails = session.get(MessageDetails.class, id);
             transaction.commit();

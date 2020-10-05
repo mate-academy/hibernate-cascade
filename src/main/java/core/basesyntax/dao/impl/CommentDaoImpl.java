@@ -17,7 +17,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = this.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(comment);
             transaction.commit();
@@ -37,7 +37,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         Transaction transaction = null;
-        try (Session session = this.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             Comment comment = session.get(Comment.class, id);
             transaction.commit();
@@ -52,7 +52,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = this.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.createQuery("FROM Comment", Comment.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Can't get comments from DB", e);
@@ -64,7 +64,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = this.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(comment);
             transaction.commit();
