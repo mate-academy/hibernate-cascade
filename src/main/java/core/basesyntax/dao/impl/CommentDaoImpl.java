@@ -19,12 +19,13 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment create(Comment comment) {
         log.info("Calling a create() method of CommentDaoImpl class");
         Session session = null;
+        Transaction transaction;
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             session.save(comment);
             log.info("Attempt to save comment " + comment + " in db.");
-            session.getTransaction().commit();
+            transaction.commit();
             return comment;
         } catch (Exception e) {
             if (session.getTransaction() != null) {
@@ -41,8 +42,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         log.info("Calling a get() method of CommentDaoImpl class");
-        Session session = factory.openSession();
-        return session.get(Comment.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        }
     }
 
     @Override
@@ -63,7 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public void remove(Comment comment) {
         log.info("Calling a remove() method of CommentDaoImpl class");
         Session session = null;
-        Transaction transaction;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
@@ -71,8 +73,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             log.info("Attempt to remove comment " + comment + " from db");
             transaction.commit();
         } catch (Exception e) {
-            if (session.getTransaction() != null) {
-                session.getTransaction().rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
             throw new RuntimeException("Can't delete comment entity. ", e);
         } finally {

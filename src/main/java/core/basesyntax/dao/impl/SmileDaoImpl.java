@@ -1,12 +1,14 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
+import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
 import lombok.extern.log4j.Log4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 @Log4j
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
@@ -18,16 +20,17 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public Smile create(Smile smile) {
         log.info("Calling a create() method of SmileDaoImpl class");
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             session.save(smile);
             log.info("Attempt to store smile " + smile + " in db.");
-            session.getTransaction().commit();
+            transaction.commit();
             return smile;
         } catch (Exception e) {
-            if (session.getTransaction() != null) {
-                session.getTransaction().rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
             throw new RuntimeException("Can't create smile entity. ", e);
         } finally {
@@ -40,8 +43,9 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         log.info("Calling a get() method of SmileDaoImpl class");
-        Session session = factory.openSession();
-        return session.get(Smile.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Smile.class, id);
+        }
     }
 
     @Override
