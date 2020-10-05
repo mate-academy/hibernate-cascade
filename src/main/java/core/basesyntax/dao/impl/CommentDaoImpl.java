@@ -15,12 +15,15 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment create(Comment entity) {
         Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
         try {
-            Transaction transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't insert Content entity", e);
         } finally {
             if (session != null) {
@@ -45,10 +48,23 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment entity) {
-        Session session = factory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.remove(entity);
-        transaction.commit();
-        session.close();
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't remove comment with ID: "
+                    + entity.getId(), e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

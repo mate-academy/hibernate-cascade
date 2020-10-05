@@ -35,15 +35,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             User user = session.get(User.class, id);
-            System.out.println(user.getComments());
+            user.getComments().toString();
             return user;
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get user entity", e);
         }
     }
 
     @Override
     public List<User> getAll() {
         return factory.openSession()
-                .createQuery("FROM User", User.class).getResultList();
+                .createQuery("from User", User.class).getResultList();
     }
 
     @Override
