@@ -39,11 +39,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         User user = null;
         try (Session session = factory.openSession()) {
-            user = (User) session.get(User.class, id);
+            return session.get(User.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get user", e);
         }
-        return user;
     }
 
     @Override

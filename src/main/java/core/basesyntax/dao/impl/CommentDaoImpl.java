@@ -39,11 +39,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         Comment comment = null;
         try (Session session = factory.openSession()) {
-            comment = (Comment) session.get(Comment.class, id);
+            return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get comment", e);
         }
-        return comment;
+
     }
 
     @Override
