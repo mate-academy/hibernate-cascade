@@ -27,7 +27,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert message entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,23 +37,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            Message message = session.get(Message.class, id);
-            transaction.commit();
-            return message;
+        try (Session session = factory.openSession()) {
+            return session.get(Message.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Can't get message ", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            throw new RuntimeException("Can't get message", e);
         }
     }
 

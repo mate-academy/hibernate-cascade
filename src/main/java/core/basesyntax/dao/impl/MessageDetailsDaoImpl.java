@@ -25,7 +25,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert message details entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -35,23 +35,10 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            MessageDetails messageDetails = session.get(MessageDetails.class, id);
-            transaction.commit();
-            return messageDetails;
+        try (Session session = factory.openSession()) {
+            return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Can't get message details ", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            throw new RuntimeException("Can't get message details", e);
         }
     }
 }
