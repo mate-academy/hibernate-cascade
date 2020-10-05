@@ -40,11 +40,11 @@ public abstract class AbstractDao<T> {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (Exception exception) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Failed to remove the entity", e);
+            throw new RuntimeException("Failed to remove the entity", exception);
         } finally {
             if (session != null) {
                 session.close();
