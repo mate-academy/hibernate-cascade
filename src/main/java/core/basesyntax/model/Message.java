@@ -25,6 +25,6 @@ public class Message {
     private Long id;
     private String content;
 
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<MessageDetails> messageDetails;
 }

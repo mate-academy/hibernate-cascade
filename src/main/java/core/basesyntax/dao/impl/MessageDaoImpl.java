@@ -60,7 +60,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public void remove(Message entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
@@ -69,6 +71,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Message not deleted id=" + entity.getId(), e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         log.debug("Message " + entity.toString() + " has been removed");
     }
