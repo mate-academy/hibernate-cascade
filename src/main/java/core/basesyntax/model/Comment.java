@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(of = {"content", "smiles   "})
+@ToString(of = {"content", "smiles"})
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

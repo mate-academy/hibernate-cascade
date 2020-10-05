@@ -40,20 +40,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         log.info("Calling a get() method of UserDaoImpl class");
-        Session session = null;
-        try {
-            session = factory.openSession();
-            return session.get(User.class, id);
-        } catch (Exception e) {
-            if (session.getTransaction() != null) {
-                session.getTransaction().rollback();
-            }
-            throw new RuntimeException("Can't insert user entity. ", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+        Session session = factory.openSession();
+        return session.get(User.class, id);
     }
 
     @Override

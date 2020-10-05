@@ -42,23 +42,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message get(Long id) {
         log.info("Calling a get() method of MessageDaoImpl class");
-        Session session = null;
-        try {
-            session = factory.openSession();
-            session.beginTransaction();
-            Message message = (Message) session.get(Message.class, id);
-            log.info("Attempt to retrieve message " + message + " from db.");
-            return message;
-        } catch (Exception e) {
-            if (session.getTransaction() != null) {
-                session.getTransaction().rollback();
-            }
-            throw new RuntimeException("Can't get message entity. ", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+        Session session = factory.openSession();
+        return session.get(Message.class, id);
     }
 
     @Override
