@@ -16,7 +16,9 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile create(Smile smile) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(smile);
             transaction.commit();
@@ -26,6 +28,10 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't create smile " + smile.getId(), e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
