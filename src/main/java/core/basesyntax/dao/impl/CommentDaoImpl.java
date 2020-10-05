@@ -38,9 +38,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Can't insert comment with ID: " + id, e);
@@ -59,7 +57,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment comment) {
-
         Transaction transaction = null;
         Session session = null;
         try {

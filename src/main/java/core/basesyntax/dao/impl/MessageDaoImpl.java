@@ -38,9 +38,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Can't insert message with ID: " + id, e);
