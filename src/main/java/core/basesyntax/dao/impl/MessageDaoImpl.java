@@ -36,16 +36,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Transaction transaction = null;
         try (Session session = factory.openSession()) {
-            transaction = session.beginTransaction();
-            Message message = session.get(Message.class, id);
-            transaction.commit();
-            return message;
+            return session.get(Message.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Can't get message with id " + id, e);
         }
     }
