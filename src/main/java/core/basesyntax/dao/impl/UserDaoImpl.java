@@ -19,9 +19,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User entity) {
         Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -32,10 +30,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't insert Content entity", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         log.debug("Entity " + entity.toString() + " created");
         return entity;
@@ -51,32 +45,23 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            Query<User> getAllCommentQuery = session.createQuery("from User ", User.class);
-            return getAllCommentQuery.getResultList();
+            Query<User> getAllUsersQuery = session.createQuery("from User ", User.class);
+            return getAllUsersQuery.getResultList();
         }
     }
 
     @Override
     public void remove(User entity) {
         Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            User user = session.find(User.class, entity.getId());
-            if (user != null) {
-                session.remove(user);
-                transaction.commit();
-            }
+            session.remove(entity);
+            transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("User " + entity.getId() + " not deleted", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         log.debug("User " + entity.toString() + " has been removed");
     }

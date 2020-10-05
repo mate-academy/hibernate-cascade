@@ -31,7 +31,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                         + " has been rollbacked.", e);
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity");
+            throw new RuntimeException("Can't insert Content entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -59,22 +59,15 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment entity) {
         Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            Comment comment = session.find(Comment.class, entity.getId());
-            session.remove(comment);
+            session.remove(entity);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove comment id=" + entity.getId(), e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         log.debug("Entity " + entity.toString() + " has been removed");
     }

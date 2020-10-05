@@ -31,7 +31,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                         + " has been rollbacked.", e);
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert Message entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -60,24 +60,15 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public void remove(Message entity) {
         Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            Message message = session.find(Message.class, entity.getId());
-            if (message != null) {
-                session.remove(message);
-                transaction.commit();
-            }
+            session.remove(entity);
+            transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Message not deleted id=" + entity.getId(), e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         log.debug("Message " + entity.toString() + " has been removed");
     }

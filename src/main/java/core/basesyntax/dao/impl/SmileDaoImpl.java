@@ -18,9 +18,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile create(Smile entity) {
         Transaction transaction = null;
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -30,11 +28,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                         + " has been rollbacked.", e);
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            throw new RuntimeException("Can't insert Smile entity", e);
         }
         log.debug("Entity " + entity.toString() + " created");
         return entity;
