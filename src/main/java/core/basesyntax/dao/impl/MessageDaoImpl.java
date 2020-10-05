@@ -14,20 +14,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(message);
             transaction.commit();
-            return entity;
+            return message;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create message");
+            throw new RuntimeException("Can't create message", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,35 +40,34 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get message");
+            throw new RuntimeException("Can't get message", e);
         }
     }
 
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Message> fromUser = session.createQuery("from Message ", Message.class);
-            return fromUser.getResultList();
+            Query<Message> query = session.createQuery("from Message ", Message.class);
+            return query.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all message");
+            throw new RuntimeException("Can't get all message", e);
         }
     }
 
     @Override
-    public void remove(Message entity) {
+    public void remove(Message message) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            Message message = session.get(Message.class, entity.getId());
             session.remove(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove message");
+            throw new RuntimeException("Can't remove message", e);
         } finally {
             if (session != null) {
                 session.close();
