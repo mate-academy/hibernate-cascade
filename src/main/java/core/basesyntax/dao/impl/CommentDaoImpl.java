@@ -39,10 +39,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-            Query<Comment> query = session.createQuery(
-                    "FROM Comment WHERE id = :comment_id", Comment.class);
-            query.setParameter("comment_id", id);
-            return query.getSingleResult();
+            return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Cant get comment with id: " + id, e);
         }
