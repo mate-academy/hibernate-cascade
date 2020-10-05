@@ -59,8 +59,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            User userToDelete = session.find(User.class, user.getId());
-            session.remove(userToDelete);
+            session.remove(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
