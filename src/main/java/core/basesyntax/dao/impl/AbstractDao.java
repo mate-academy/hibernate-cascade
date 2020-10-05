@@ -25,7 +25,8 @@ public abstract class AbstractDao<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert Content entity", e);
+            throw new DataProcessingException("Can't insert "
+                    + entity.getClass().getSimpleName() + " entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -45,7 +46,8 @@ public abstract class AbstractDao<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert Content entity", e);
+            throw new DataProcessingException("Can't remove "
+                    + entity.getClass().getSimpleName() + " entity", e);
         } finally {
             if (session != null) {
                 session.close();

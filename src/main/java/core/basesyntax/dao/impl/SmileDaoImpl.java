@@ -13,11 +13,6 @@ public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile smile) {
-        return super.create(smile);
-    }
-
-    @Override
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);

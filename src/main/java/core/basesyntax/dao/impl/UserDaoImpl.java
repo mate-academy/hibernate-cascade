@@ -13,11 +13,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public User create(User user) {
-        return super.create(user);
-    }
-
-    @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
@@ -30,10 +25,5 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
             Query<User> getAllMoviesQuery = session.createQuery("from User", User.class);
             return getAllMoviesQuery.getResultList();
         }
-    }
-
-    @Override
-    public void remove(User user) {
-        super.remove(user);
     }
 }

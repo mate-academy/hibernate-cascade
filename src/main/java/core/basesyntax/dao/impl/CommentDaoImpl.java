@@ -13,7 +13,11 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     }
 
     public Comment create(Comment comment) {
-        return super.create(comment);
+        try {
+            return super.create(comment);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't insert Content entity", e);
+        }
     }
 
     @Override
@@ -29,9 +33,5 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
             Query<Comment> getAllMoviesQuery = session.createQuery("from Comment", Comment.class);
             return getAllMoviesQuery.getResultList();
         }
-    }
-
-    public void remove(Comment comment) {
-        super.remove(comment);
     }
 }

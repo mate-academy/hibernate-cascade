@@ -13,11 +13,6 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     }
 
     @Override
-    public Message create(Message message) {
-        return super.create(message);
-    }
-
-    @Override
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
@@ -30,10 +25,5 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
             Query<Message> getAllMoviesQuery = session.createQuery("from Message", Message.class);
             return getAllMoviesQuery.getResultList();
         }
-    }
-
-    @Override
-    public void remove(Message message) {
-        super.remove(message);
     }
 }
