@@ -38,10 +38,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            Smile smile = session.get(Smile.class, id);
-            transaction.commit();
-            return smile;
+            return session.get(Smile.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get smile by id!", e);
         }

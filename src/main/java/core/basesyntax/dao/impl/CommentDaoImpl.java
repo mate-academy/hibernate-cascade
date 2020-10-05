@@ -38,10 +38,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            Comment comment = session.get(Comment.class, id);
-            transaction.commit();
-            return comment;
+            return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get comment by id!", e);
         }
@@ -59,12 +56,22 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment comment) {
-        try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
             session.remove(comment);
             transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't delete comment!", e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't delete comment", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
