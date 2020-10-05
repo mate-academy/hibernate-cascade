@@ -37,17 +37,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             Message message = session.get(Message.class, id);
             return message;
         } catch (Exception e) {
             throw new RuntimeException("Message has not been selected/n", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
@@ -64,12 +58,16 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public void remove(Message message) {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            Transaction transaction = session.beginTransaction();
+            transaction = session.beginTransaction();
             session.remove(message);
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Message has not been deleted/n", e);
         } finally {
             if (session != null) {
