@@ -6,7 +6,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
@@ -21,7 +20,6 @@ public class User {
     private String username;
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(CascadeType.SAVE_UPDATE)
-    @JoinColumn(name = "user_id")
     private List<Comment> comments;
 
     public Long getId() {

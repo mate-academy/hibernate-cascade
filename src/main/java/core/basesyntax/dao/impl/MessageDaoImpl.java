@@ -14,20 +14,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(message);
             transaction.commit();
-            return entity;
+            return message;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert Content message", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,27 +37,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Transaction transaction = null;
-        try (Session session = super.factory.openSession()) {
-            transaction = session.beginTransaction();
-            Message message = session.get(Message.class, id);
-            transaction.commit();
-            return message;
+        try (Session session = factory.openSession()) {
+            return session.get(Message.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Can't get entity from DB", e);
+            throw new RuntimeException("Can't get message from DB", e);
         }
     }
 
     @Override
     public List<Message> getAll() {
-        try (Session session = super.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Message> messageQuery = session.createQuery("from Message", Message.class);
             return messageQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get entities from DB", e);
+            throw new RuntimeException("Can't get messages from DB", e);
         }
     }
 
@@ -66,7 +59,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
@@ -74,7 +67,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove entity", e);
+            throw new RuntimeException("Can't remove message", e);
         } finally {
             if (session != null) {
                 session.close();

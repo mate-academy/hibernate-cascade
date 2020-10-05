@@ -14,20 +14,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(user);
             transaction.commit();
-            return entity;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert user", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,27 +37,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        Transaction transaction = null;
-        try (Session session = super.factory.openSession()) {
-            transaction = session.beginTransaction();
-            User user = session.get(User.class, id);
-            transaction.commit();
-            return user;
+        try (Session session = factory.openSession()) {
+            return session.get(User.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Can't get entity from DB", e);
+            throw new RuntimeException("Can't get user from DB", e);
         }
     }
 
     @Override
     public List<User> getAll() {
-        try (Session session = super.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             Query<User> userQuery = session.createQuery("from User", User.class);
             return userQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get entities from DB", e);
+            throw new RuntimeException("Can't get users from DB", e);
         }
     }
 
@@ -66,7 +59,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
@@ -74,7 +67,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove entity", e);
+            throw new RuntimeException("Can't remove user", e);
         } finally {
             if (session != null) {
                 session.close();

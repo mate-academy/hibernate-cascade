@@ -14,20 +14,20 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(smile);
             transaction.commit();
-            return entity;
+            return smile;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert smile", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,27 +37,20 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
-        Transaction transaction = null;
-        try (Session session = super.factory.openSession()) {
-            transaction = session.beginTransaction();
-            Smile smile = session.get(Smile.class, id);
-            transaction.commit();
-            return smile;
+        try (Session session = factory.openSession()) {
+            return session.get(Smile.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Can't get entity from DB", e);
+            throw new RuntimeException("Can't get smile from DB", e);
         }
     }
 
     @Override
     public List<Smile> getAll() {
-        try (Session session = super.factory.openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Smile> smileQuery = session.createQuery("from Smile", Smile.class);
             return smileQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get entities from DB", e);
+            throw new RuntimeException("Can't get smiles from DB", e);
         }
     }
 }

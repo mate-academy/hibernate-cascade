@@ -12,20 +12,20 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     }
 
     @Override
-    public MessageDetails create(MessageDetails entity) {
+    public MessageDetails create(MessageDetails messageDetails) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = super.factory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(messageDetails);
             transaction.commit();
-            return entity;
+            return messageDetails;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Content entity", e);
+            throw new RuntimeException("Can't insert message details", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -35,17 +35,10 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
-        Transaction transaction = null;
-        try (Session session = super.factory.openSession()) {
-            transaction = session.beginTransaction();
-            MessageDetails messageDetails = session.get(MessageDetails.class, id);
-            transaction.commit();
-            return messageDetails;
+        try (Session session = factory.openSession()) {
+            return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new RuntimeException("Can't get entity from DB", e);
+            throw new RuntimeException("Can't get message details from DB", e);
         }
     }
 }
