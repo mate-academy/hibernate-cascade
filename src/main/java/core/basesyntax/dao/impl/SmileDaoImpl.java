@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
