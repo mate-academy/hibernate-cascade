@@ -28,7 +28,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert user entity", e);
+            throw new DataProcessingException("Can't create user entity", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -48,8 +48,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            Query<User> getAllUser = session.createQuery("from User", User.class);
-            return getAllUser.getResultList();
+            Query<User> getAllUsers = session.createQuery("from User", User.class);
+            return getAllUsers.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't show all users", e);
         }
