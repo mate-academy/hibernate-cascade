@@ -36,7 +36,6 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails get(Long id) {
         try (Session session = factory.openSession()) {
-            session.beginTransaction();
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get message details", e);
