@@ -14,6 +14,16 @@ Comments left by this user should NOT be removed.
 Add correct cascades. When you are creating a new user you should use also create comments (e.g. save each new comment in the DB)
 
 1. There are two classes: Message and MessageDetails. One message can have many message details.
-Implement the `remove(Message message)` method. MessageDetails also should be removed along with parent Message entity.
+Implement the `remove(Message message)` method. MessageDetails also should created and removed along with parent 
+Message entity.
 
 1. Implement all DAO interfaces (except GenericDao)
+
+Checklist: 
+* For entity saving use persist() method;
+* In all of your dao classes you have `sessionFactory` object(which is passed via constructor). 
+You should use it so the tests can past, but you can use HibernateUtil.getSessionFactory() 
+temporary while testing your solution e.g in main method ;
+* Don't change the properties in hibernate.cfg.xml for connection to database. You can do that only temporary 
+for testing with your own schema;
+* You need to open transaction not only when creating entities but when removing too;

@@ -114,7 +114,7 @@ public class CommentDaoImplTest extends AbstractTest {
         try {
             commentDao.create(awesomeComment);
         } catch (RuntimeException e) {
-            Assert.assertEquals("Can't insert Content entity", e.getMessage());
+            Assert.assertEquals("Can't insert Comment entity", e.getMessage());
             return;
         }
         Assert.fail("You should not create a smiles when saving a comment. " +
