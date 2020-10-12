@@ -18,12 +18,3 @@ Implement the `remove(Message message)` method. MessageDetails also should creat
 Message entity.
 
 1. Implement all DAO interfaces (except GenericDao)
-
-Checklist: 
-* For entity saving use [persist()](https://bit.ly/3lgYE1R) method;
-* In all of your dao classes you have `sessionFactory` object(which is passed via constructor). 
-You should use it so the tests can past. Use HibernateUtil.getSessionFactory() 
-ONLY if you want to run your solution in the main method;
-* Don't change the properties in hibernate.cfg.xml for connection to database. You can do that only temporary 
-for testing with your own schema;
-* You need to open transaction not only when creating entities but when removing too;
