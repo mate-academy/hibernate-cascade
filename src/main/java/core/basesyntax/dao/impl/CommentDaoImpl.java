@@ -15,20 +15,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(comment);
             transaction.commit();
-            return entity;
+            return comment;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant insert entity in db" + entity, e);
+            throw new DataProcessingException("Cant insert entity in db" + comment, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,7 +39,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.getTransaction();
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Can't get comment with such id = " + id, e);
@@ -57,19 +56,19 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public void remove(Comment entity) {
+    public void remove(Comment comment) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove entity " + entity, e);
+            throw new DataProcessingException("Can't remove entity " + comment, e);
         } finally {
             if (session != null) {
                 session.close();

@@ -15,20 +15,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(message);
             transaction.commit();
-            return entity;
+            return message;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant insert entity in db" + entity, e);
+            throw new DataProcessingException("Cant insert entity in db" + message, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,7 +39,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.getTransaction();
             return session.get(Message.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Can't get message with such id = " + id, e);
@@ -57,19 +56,19 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public void remove(Message entity) {
+    public void remove(Message message) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove entity " + entity, e);
+            throw new DataProcessingException("Can't remove entity " + message, e);
         } finally {
             if (session != null) {
                 session.close();
