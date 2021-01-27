@@ -53,12 +53,29 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> allUsers = session.createQuery("from Message", Message.class);
             return allUsers.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Errored while retrieving all data from DV+B");
+            throw new RuntimeException("Errored while retrieving all data from DB");
         }
     }
 
     @Override
     public void remove(Message entity) {
-
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Errored while deleting data "
+                                       + entity +" from DB");
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

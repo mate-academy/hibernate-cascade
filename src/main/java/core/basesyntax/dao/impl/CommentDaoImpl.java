@@ -53,12 +53,29 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> allUsers = session.createQuery("from Comment", Comment.class);
             return allUsers.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Errored while retrieving all data from DV+B");
+            throw new RuntimeException("Errored while retrieving all data from DB");
         }
     }
 
     @Override
     public void remove(Comment entity) {
-
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Errored while deleting data "
+                                       + entity +" from DB");
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
