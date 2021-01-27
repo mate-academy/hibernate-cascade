@@ -39,7 +39,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Could not get message with id " + id, e);
+            throw new RuntimeException("Could not get message details with id " + id, e);
         }
     }
 }
