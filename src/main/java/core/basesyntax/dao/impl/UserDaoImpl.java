@@ -37,7 +37,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new DataProcessingException("Cannot get user by id " + id, e);
@@ -46,7 +46,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             return session.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Cannot get any user", e);
@@ -57,7 +57,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public void remove(User entity) {
         Session session = null;
         Transaction transaction = null;
-        try  {
+        try {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
