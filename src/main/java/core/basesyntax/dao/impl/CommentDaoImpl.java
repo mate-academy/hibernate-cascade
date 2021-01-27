@@ -2,11 +2,13 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
+import core.basesyntax.model.Message;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -47,7 +49,12 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            Query<Comment> allUsers = session.createQuery("from Comment", Comment.class);
+            return allUsers.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Errored while retrieving all data from DV+B");
+        }
     }
 
     @Override
