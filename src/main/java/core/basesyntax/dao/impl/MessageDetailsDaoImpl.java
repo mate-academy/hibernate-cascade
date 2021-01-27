@@ -25,7 +25,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add movie entity " + entity, e);
+            throw new RuntimeException("Can't add message details entity " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,7 +38,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Can't get message with id = " + id, e);
+            throw new RuntimeException("Can't get message details with id = " + id, e);
         }
     }
 }

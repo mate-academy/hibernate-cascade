@@ -27,7 +27,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add movie entity " + entity, e);
+            throw new RuntimeException("Can't add user entity " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +40,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Can't get message with id = " + id, e);
+            throw new RuntimeException("Can't get user with id = " + id, e);
         }
     }
 
@@ -67,7 +67,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add movie entity " + entity, e);
+            throw new RuntimeException("Can't add user entity " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

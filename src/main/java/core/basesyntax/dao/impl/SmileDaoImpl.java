@@ -27,7 +27,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add movie entity " + entity, e);
+            throw new RuntimeException("Can't add smile entity " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +40,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Can't get message with id = " + id, e);
+            throw new RuntimeException("Can't get smile with id = " + id, e);
         }
     }
 
