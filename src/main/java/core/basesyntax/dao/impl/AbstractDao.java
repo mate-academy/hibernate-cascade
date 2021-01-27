@@ -8,12 +8,12 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
-    private final Class aClass;
     protected final SessionFactory factory;
-
+    private final Class clazz;
+    
     protected AbstractDao(SessionFactory sessionFactory) {
         this.factory = sessionFactory;
-        aClass = initClass();
+        clazz = initClass();
     }
     
     private Class initClass() {
@@ -52,7 +52,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     @Override
     public T get(Long id) {
         try (Session session = factory.openSession()) {
-            return (T) session.get(aClass, id);
+            return (T) session.get(clazz, id);
         } catch (Exception e) {
             throw new RuntimeException("Errored while retrieving data by id "
                                        + id + " from DB", e);
@@ -62,7 +62,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     @Override
     public List<T> getAll() {
         try (Session session = factory.openSession()) {
-            Query<T> allUsers = session.createQuery("from " + aClass.getSimpleName(), aClass);
+            Query<T> allUsers = session.createQuery("from " + clazz.getSimpleName(), clazz);
             return allUsers.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Errored while retrieving all data from DB");
