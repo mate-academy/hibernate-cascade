@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
-    private Class<T> aClass;
+    private final Class aClass;
     protected final SessionFactory factory;
 
     protected AbstractDao(SessionFactory sessionFactory) {
@@ -16,8 +16,15 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
         aClass = initClass();
     }
     
-    private Class<T> initClass() {
-        return;
+    private Class initClass() {
+        try {
+            String classPath = this.getClass().getGenericSuperclass().getTypeName();
+            int from = classPath.indexOf('<') + 1;
+            int to = classPath.indexOf('>');
+            return Class.forName(classPath.substring(from, to));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Errored while initialization " + this.getClass());
+        }
     }
     
     @Override
@@ -45,7 +52,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     @Override
     public T get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(aClass, id);
+            return (T) session.get(aClass, id);
         } catch (Exception e) {
             throw new RuntimeException("Errored while retrieving data by id "
                                        + id + " from DB", e);
@@ -55,7 +62,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     @Override
     public List<T> getAll() {
         try (Session session = factory.openSession()) {
-            Query<T> allUsers = session.createQuery("from User", aClass);
+            Query<T> allUsers = session.createQuery("from " + aClass.getSimpleName(), aClass);
             return allUsers.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Errored while retrieving all data from DB");
