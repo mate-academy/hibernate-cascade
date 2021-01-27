@@ -1,8 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.AbstractTest;
-import core.basesyntax.dao.MessageDao;
-import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.Message;
 import core.basesyntax.model.MessageDetails;
 import java.util.List;
@@ -11,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MessageDaoImplTest extends AbstractTest {
-    private MessageDao messageDao;
+    private AbstractDao<Message> messageDao;
 
     @Before
     public void setUp() {
@@ -176,7 +174,7 @@ public class MessageDaoImplTest extends AbstractTest {
         Assert.assertEquals("Bob", actual.getMessageDetails().get(0).getSender());
 
         // Verify message details was also created
-        MessageDetailsDao messageDetailsDao = new MessageDetailsDaoImpl(getSessionFactory());
+        AbstractDao<MessageDetails> messageDetailsDao = new MessageDetailsDaoImpl(getSessionFactory());
         MessageDetails messageDetailsGetFromDB = messageDetailsDao.get(1L);
         Assert.assertNotNull(messageDetailsGetFromDB);
         Assert.assertNotNull(messageDetailsGetFromDB.getId());

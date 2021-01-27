@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.AbstractTest;
-import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ import org.junit.Test;
 public class MessageDetailsDaoImplTest extends AbstractTest {
     private static final LocalDateTime DEFAULT_TIME
             = LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 25));
-    private MessageDetailsDao messageDetailsDao;
+    private AbstractDao<MessageDetails> messageDetailsDao;
 
     @Before
     public void setUp() {
