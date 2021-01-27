@@ -51,7 +51,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> getAllSmileQuery = session.createQuery("FROM Smile", Smile.class);
             return getAllSmileQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all Messages", e);
+            throw new RuntimeException("Can't get all Smiles", e);
         }
     }
 }
