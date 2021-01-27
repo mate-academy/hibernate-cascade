@@ -9,19 +9,19 @@ import org.hibernate.query.Query;
 
 public abstract class AbstractDao<T> implements GenericDao<T> {
     protected final SessionFactory factory;
-    private final Class clazz;
+    private final Class<T> clazz;
     
     protected AbstractDao(SessionFactory sessionFactory) {
         this.factory = sessionFactory;
         clazz = initClass();
     }
     
-    private Class initClass() {
+    private Class<T> initClass() {
         try {
             String classPath = this.getClass().getGenericSuperclass().getTypeName();
             int from = classPath.indexOf('<') + 1;
             int to = classPath.indexOf('>');
-            return Class.forName(classPath.substring(from, to));
+            return (Class<T>) Class.forName(classPath.substring(from, to));
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Errored while initialization " + this.getClass());
         }
@@ -52,7 +52,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     @Override
     public T get(Long id) {
         try (Session session = factory.openSession()) {
-            return (T) session.get(clazz, id);
+            return session.get(clazz, id);
         } catch (Exception e) {
             throw new RuntimeException("Errored while retrieving data by id "
                                        + id + " from DB", e);
