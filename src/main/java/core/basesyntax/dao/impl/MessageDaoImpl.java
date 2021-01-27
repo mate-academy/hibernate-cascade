@@ -2,8 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-import core.basesyntax.model.Smile;
-import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -72,7 +70,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Errored while deleting data "
-                                       + entity +" from DB");
+                                       + entity + " from DB");
         } finally {
             if (session != null) {
                 session.close();

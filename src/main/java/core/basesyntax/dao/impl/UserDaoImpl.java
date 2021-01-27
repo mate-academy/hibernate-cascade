@@ -68,7 +68,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Errored while deleting data " + entity +" from DB");
+            throw new RuntimeException("Errored while deleting data "
+                                       + entity + " from DB");
         } finally {
             if (session != null) {
                 session.close();
