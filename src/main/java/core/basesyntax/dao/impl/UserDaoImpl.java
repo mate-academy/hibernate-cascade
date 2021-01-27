@@ -23,7 +23,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction.commit();
             return entity;
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Errored while adding " + entity + " to DB", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
