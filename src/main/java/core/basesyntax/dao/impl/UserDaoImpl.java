@@ -28,7 +28,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant insert entity in db" + user, e);
+            throw new DataProcessingException("Cant insert user in db" + user, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -68,7 +68,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove entity " + user, e);
+            throw new DataProcessingException("Can't remove user " + user, e);
         } finally {
             if (session != null) {
                 session.close();

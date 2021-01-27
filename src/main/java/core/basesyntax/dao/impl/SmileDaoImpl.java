@@ -28,7 +28,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant insert entity in db" + smile, e);
+            throw new DataProcessingException("Cant insert smile in db" + smile, e);
         } finally {
             if (session != null) {
                 session.close();
