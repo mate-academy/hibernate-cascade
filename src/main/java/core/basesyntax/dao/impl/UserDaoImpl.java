@@ -15,20 +15,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(user);
             transaction.commit();
-            return entity;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Could not save user " + entity + " item. ", e);
+            throw new DataProcessException("Could not save user " + user + " item. ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessException("Could not get a list of users. ", e);
+            throw new DataProcessException("Could not get a user by id " + id + ". ", e);
         }
     }
 
@@ -51,24 +51,24 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> getAllCommentsQuery = session.createQuery("from User", User.class);
             return getAllCommentsQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessException("Could not get a list of comments. ", e);
+            throw new DataProcessException("Could not get a list of users. ", e);
         }
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Could not remove a user " + entity + ". ", e);
+            throw new DataProcessException("Could not remove a user " + user + " from DB. ", e);
         } finally {
             if (session != null) {
                 session.close();

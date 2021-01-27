@@ -15,20 +15,20 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(smile);
             transaction.commit();
-            return entity;
+            return smile;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Could not save smile " + entity + " item. ", e);
+            throw new DataProcessException("Could not save smile " + smile + " item. ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new DataProcessException("Could not get a list of users. ", e);
+            throw new DataProcessException("Could not get a smile by id " + id + ". ", e);
         }
     }
 
@@ -51,7 +51,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> getAllCommentsQuery = session.createQuery("from Smile ", Smile.class);
             return getAllCommentsQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessException("Could not get a list of comments. ", e);
+            throw new DataProcessException("Could not get a list of smiles. ", e);
         }
     }
 }

@@ -13,21 +13,21 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     }
 
     @Override
-    public MessageDetails create(MessageDetails entity) {
+    public MessageDetails create(MessageDetails messageDetails) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(messageDetails);
             transaction.commit();
-            return entity;
+            return messageDetails;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Could not save message detail "
-                    + entity + " item. ", e);
+            throw new DataProcessException("Could not save message details "
+                    + messageDetails + " item. ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +40,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new DataProcessException("Could not get a list of users. ", e);
+            throw new DataProcessException("Could not get a list of message details. ", e);
         }
     }
 }
