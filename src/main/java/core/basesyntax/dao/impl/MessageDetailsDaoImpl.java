@@ -25,8 +25,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Message Details " +
-                    entity, e);
+            throw new RuntimeException("Can't insert Message Details "
+                    + entity, e);
         } finally {
             if (session != null) {
                 session.close();
