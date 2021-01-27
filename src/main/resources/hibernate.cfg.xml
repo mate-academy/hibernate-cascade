@@ -10,11 +10,6 @@
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.username">ma_admin</property>
         <property name="connection.password">1234</property>
-<!--        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>-->
-<!--        <property name="connection.url">jdbc:postgresql://localhost/db</property>-->
-<!--        <property name="connection.driver_class">org.postgresql.Driver</property>-->
-<!--        <property name="connection.username">postgres</property>-->
-<!--        <property name="connection.password">25832</property>-->
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
 
