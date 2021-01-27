@@ -2,6 +2,7 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
+import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,7 +37,12 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Errored while retrieving data by id "
+                                       + id + " from DB", e);
+        }
     }
 
     @Override
