@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Error select message by id " + id, e);
+            throw new DataProcessingException("Error select user by id " + id, e);
         }
     }
 
