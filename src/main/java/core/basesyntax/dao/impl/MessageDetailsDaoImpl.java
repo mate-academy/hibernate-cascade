@@ -13,20 +13,20 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     }
 
     @Override
-    public MessageDetails create(MessageDetails entity) {
+    public MessageDetails create(MessageDetails messageDetails) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(messageDetails);
             transaction.commit();
-            return entity;
+            return messageDetails;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert messageDetails " + entity, e);
+            throw new DataProcessingException("Can't insert messageDetails " + messageDetails, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,7 +39,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Error select message by id " + id, e);
+            throw new DataProcessingException("Can't select message by id " + id, e);
         }
     }
 }
