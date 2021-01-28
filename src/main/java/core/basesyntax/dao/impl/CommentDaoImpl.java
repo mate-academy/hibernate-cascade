@@ -41,7 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessException("Can`t get comment: ", e);
+            throw new DataProcessException("Can`t get comment by id: " + id, e);
         }
     }
 
@@ -51,7 +51,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> getAllCommentsQuery = session.createQuery("from Comment", Comment.class);
             return getAllCommentsQuery.list();
         } catch (Exception e) {
-            throw new DataProcessException("Can`t get all comments: ", e);
+            throw new DataProcessException("Can`t get all comments", e);
         }
     }
 
