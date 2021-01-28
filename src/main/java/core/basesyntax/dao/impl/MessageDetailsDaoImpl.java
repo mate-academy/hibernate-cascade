@@ -25,7 +25,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can not create MessageDetails: " + entity.toString());
+            throw new RuntimeException("Can not create MessageDetails: " + entity);
         } finally {
             if (session != null) {
                 session.close();
