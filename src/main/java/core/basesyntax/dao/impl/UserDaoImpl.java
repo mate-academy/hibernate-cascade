@@ -26,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Could not save user with id " + user.getId(), e);
+            throw new RuntimeException("Could not save user " + user, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -65,7 +65,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Could not remove user with id " + user.getId(), e);
+            throw new RuntimeException("Could not remove user " + user, e);
         } finally {
             if (session != null) {
                 session.close();

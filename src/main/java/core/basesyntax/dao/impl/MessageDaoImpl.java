@@ -26,7 +26,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Have not saved message with id " + message.getId(), e);
+            throw new RuntimeException("Have not saved message " + message, e);
         } finally {
             if (session != null) {
                 session.close();
