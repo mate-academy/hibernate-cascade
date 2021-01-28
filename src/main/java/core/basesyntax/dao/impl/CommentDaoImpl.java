@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -14,20 +15,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(comment);
             transaction.commit();
-            return entity;
+            return comment;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert entity " + entity, e);
+            throw new RuntimeException("Can't insert comment " + comment, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,30 +41,38 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get by id " + id, e);
+            throw new RuntimeException("Can't get by comment id " + id, e);
         }
     }
 
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaQuery<Comment> criteriaQuery = session.getCriteriaBuilder()
-                    .createQuery(Comment.class);
-            criteriaQuery.from(Comment.class);
-            return session.createQuery(criteriaQuery).getResultList();
+            Query<Comment> allComments = session.createQuery("from comment", Comment.class);
+            return allComments.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all", e);
         }
     }
 
     @Override
-    public void remove(Comment entity) {
-        try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.remove(entity);
+    public void remove(Comment comment) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(comment);
             transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't delete " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't delete " + comment, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
