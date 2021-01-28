@@ -17,12 +17,12 @@ public class SmileDaoImpl extends AbstractDao<Smile> implements SmileDao {
     
     @Override
     public Smile get(Long id) {
-        return null;
+        return super.get(Smile.class, id);
     }
     
     @Override
     public List<Smile> getAll() {
-        return null;
+        return super.getAll(Smile.class);
     }
     
     @Override
