@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.dao.GenericDao;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,25 +8,11 @@ import org.hibernate.query.Query;
 
 public abstract class AbstractDao<T> {
     protected final SessionFactory factory;
-    private final Class<T> clazz;
     
     protected AbstractDao(SessionFactory sessionFactory) {
         this.factory = sessionFactory;
-        clazz = initClass();
     }
     
-    private Class<T> initClass() {
-        try {
-            String classPath = this.getClass().getGenericSuperclass().getTypeName();
-            int from = classPath.indexOf('<') + 1;
-            int to = classPath.indexOf('>');
-            return (Class<T>) Class.forName(classPath.substring(from, to));
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Errored while initialization " + this.getClass());
-        }
-    }
-    
-    @Override
     public T create(T entity) {
         Transaction transaction = null;
         Session session = null;
@@ -49,7 +34,6 @@ public abstract class AbstractDao<T> {
         }
     }
     
-    @Override
     public T get(Class<T> clazz, Long id) {
         try (Session session = factory.openSession()) {
             return session.get(clazz, id);
@@ -59,7 +43,6 @@ public abstract class AbstractDao<T> {
         }
     }
     
-    @Override
     public List<T> getAll(Class<T> clazz) {
         try (Session session = factory.openSession()) {
             Query<T> allUsers = session.createQuery("from " + clazz.getSimpleName(), clazz);
@@ -69,7 +52,6 @@ public abstract class AbstractDao<T> {
         }
     }
     
-    @Override
     public void remove(T entity) {
         Transaction transaction = null;
         Session session = null;
