@@ -14,7 +14,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany
     private List<Smile> smiles;
 
     public Long getId() {
