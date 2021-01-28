@@ -50,7 +50,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     }
     
     @Override
-    public T get(Long id) {
+    public T get(Class<T> clazz, Long id) {
         try (Session session = factory.openSession()) {
             return session.get(clazz, id);
         } catch (Exception e) {
