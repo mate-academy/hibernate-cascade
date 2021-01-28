@@ -1,6 +1,6 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.model.User;
+import core.basesyntax.dao.SmileDao;
 import java.util.List;
 
 import core.basesyntax.AbstractTest;
@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SmileDaoImplTest extends AbstractTest {
-    private AbstractDao<Smile> smileDao;
+    private SmileDao smileDao;
 
     @Before
     public void setUp() {

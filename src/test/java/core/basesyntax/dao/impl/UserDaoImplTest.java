@@ -1,6 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.AbstractTest;
+import core.basesyntax.dao.CommentDao;
+import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import core.basesyntax.model.User;
@@ -10,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class UserDaoImplTest extends AbstractTest {
-    private AbstractDao<User> userDao;
+    private UserDao userDao;
 
     @Before
     public void setup() {
@@ -160,7 +162,7 @@ public class UserDaoImplTest extends AbstractTest {
 
     @Test
     public void remove_WithComments_Ok() {
-        AbstractDao<Comment> commentDao = new CommentDaoImpl(getSessionFactory());
+        CommentDao commentDao = new CommentDaoImpl(getSessionFactory());
 
         // verify no comments in the DB
         List<Comment> initialCommentsInDB = commentDao.getAll();

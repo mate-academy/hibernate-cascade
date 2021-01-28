@@ -1,6 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.AbstractTest;
+import core.basesyntax.dao.CommentDao;
+import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import java.util.List;
@@ -9,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CommentDaoImplTest extends AbstractTest {
-    private AbstractDao<Comment> commentDao;
+    private CommentDao commentDao;
 
     @Before
     public void before() {
@@ -120,7 +122,7 @@ public class CommentDaoImplTest extends AbstractTest {
 
     @Test
     public void addComment_WithExistedSmiles_Ok() {
-        AbstractDao<Smile> smileDao = new SmileDaoImpl(getSessionFactory());
+        SmileDao smileDao = new SmileDaoImpl(getSessionFactory());
 
         // Create smiles and store in DB
         Smile funnySmile = new Smile("funny");
@@ -153,7 +155,7 @@ public class CommentDaoImplTest extends AbstractTest {
 
     @Test
     public void removeComment_NoSmile_Ok() {
-        AbstractDao<Smile> smileDao = new SmileDaoImpl(getSessionFactory());
+        SmileDao smileDao = new SmileDaoImpl(getSessionFactory());
 
         // Create smiles and store in DB
         Smile funnySmile = new Smile("funny");
