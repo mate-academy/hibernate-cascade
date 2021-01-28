@@ -15,20 +15,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(user);
             transaction.commit();
-            return entity;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert User entity" + entity, e);
+            throw new DataProcessingException("Can't insert User entity" + user, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -48,27 +48,27 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            Query<User> getAllMoviesQuery = session.createQuery("from User", User.class);
-            return getAllMoviesQuery.getResultList();
+            Query<User> getAllUsersQuery = session.createQuery("from User", User.class);
+            return getAllUsersQuery.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get all users from db", e);
         }
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(User user) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove User entity" + entity, e);
+            throw new RuntimeException("Can't remove User entity" + user, e);
         } finally {
             if (session != null) {
                 session.close();
