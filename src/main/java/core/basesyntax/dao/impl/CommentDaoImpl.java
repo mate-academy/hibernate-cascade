@@ -18,7 +18,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = factory.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -46,7 +46,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = factory.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Comment> getAllSmile = session.createQuery("from Comment", Comment.class);
             return getAllSmile.getResultList();
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = factory.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();

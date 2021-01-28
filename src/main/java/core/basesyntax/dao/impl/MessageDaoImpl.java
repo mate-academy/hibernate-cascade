@@ -46,7 +46,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        try (Session session = factory.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Message> getAllMessage = session.createQuery("from Message", Message.class);
             return getAllMessage.getResultList();
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = factory.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
