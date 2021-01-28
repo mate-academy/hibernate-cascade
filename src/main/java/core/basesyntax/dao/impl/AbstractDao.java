@@ -60,7 +60,7 @@ public abstract class AbstractDao<T> implements GenericDao<T> {
     }
     
     @Override
-    public List<T> getAll() {
+    public List<T> getAll(Class<T> clazz) {
         try (Session session = factory.openSession()) {
             Query<T> allUsers = session.createQuery("from " + clazz.getSimpleName(), clazz);
             return allUsers.getResultList();
