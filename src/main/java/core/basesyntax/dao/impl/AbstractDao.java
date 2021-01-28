@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-public abstract class AbstractDao<T> implements GenericDao<T> {
+public abstract class AbstractDao<T> {
     protected final SessionFactory factory;
     private final Class<T> clazz;
     
