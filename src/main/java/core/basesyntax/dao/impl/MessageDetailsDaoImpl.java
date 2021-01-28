@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
@@ -17,7 +16,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
@@ -26,7 +25,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Movie entity " + entity, e);
+            throw new RuntimeException("Can't insert message details " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -36,6 +35,10 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
-        return null;
+        try {
+            return factory.openSession().get(MessageDetails.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get details with " + id, e);
+        }
     }
 }
