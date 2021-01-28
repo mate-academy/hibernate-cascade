@@ -20,7 +20,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             Query<Comment> getQuery = session.createQuery("from Comment",
-                    Comment.class);// where id: id"
+                    Comment.class);
             return getQuery.getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Can't get comment by id " + id, e);
