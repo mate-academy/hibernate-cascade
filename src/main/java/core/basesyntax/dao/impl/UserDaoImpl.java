@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Smile;
 import core.basesyntax.model.User;
 import java.util.List;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

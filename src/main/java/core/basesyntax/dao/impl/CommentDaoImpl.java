@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
