@@ -6,13 +6,17 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
-        <property name="connection.url">jdbc:mysql://localhost/cinema?serverTimezone=UTC</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/cascade_db?serverTimezone=UTC</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.username">ma_admin</property>
-        <property name="connection.password">1234</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">4588853</property>
         <property name="show_sql">true</property>
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create-drop</property>
 
-
+        <mapping class="core.basesyntax.model.Smile"/>
+        <mapping class="core.basesyntax.model.Comment"/>
+        <mapping class="core.basesyntax.model.User"/>
+        <mapping class="core.basesyntax.model.Message"/>
+        <mapping class="core.basesyntax.model.MessageDetails"/>
     </session-factory>
 </hibernate-configuration>
