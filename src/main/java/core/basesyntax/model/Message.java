@@ -46,4 +46,11 @@ public class Message {
     public void setMessageDetails(List<MessageDetails> messageDetails) {
         this.messageDetails = messageDetails;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" + "id=" + id
+                + ", content='" + content + '\''
+                + ", messageDetails=" + messageDetails + '}';
+    }
 }
