@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;
@@ -10,7 +9,7 @@ import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
-    protected CommentDaoImpl(SessionFactory sessionFactory) {
+    public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
@@ -28,7 +27,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant save the comment " + entity, e);
+            throw new RuntimeException("Cant save the comment " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +40,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Cant get comment by id " + id, e);
+            throw new RuntimeException("Cant get comment by id " + id, e);
         }
     }
 
@@ -50,7 +49,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("select a from Comment a", Comment.class).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Cannot get all comments  ", e);
+            throw new RuntimeException("Cannot get all comments  ", e);
         }
     }
 

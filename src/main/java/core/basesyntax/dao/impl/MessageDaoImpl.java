@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant save the message " + entity, e);
+            throw new RuntimeException("Cant save the message " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +39,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Cant get message by id " + id, e);
+            throw new RuntimeException("Cant get message by id " + id, e);
         }
     }
 
@@ -49,7 +48,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("select a from Message a", Message.class).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Cannot get all messages  ", e);
+            throw new RuntimeException("Cannot get all messages  ", e);
         }
     }
 
@@ -60,13 +59,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant remove the message " + entity, e);
+            throw new RuntimeException("Cant remove the message " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
