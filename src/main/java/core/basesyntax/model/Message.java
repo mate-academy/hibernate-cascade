@@ -1,8 +1,16 @@
 package core.basesyntax.model;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@TableGenerator(name = "messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
