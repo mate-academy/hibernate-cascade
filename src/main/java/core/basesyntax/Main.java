@@ -46,7 +46,6 @@ public class Main {
         Comment comment2 = new Comment();
         comment2.setContent("I'm sad!");
         comment2.setSmiles(List.of(smile3));
-        commentDao.create(comment2);
 
         MessageDetailsDao detailsDao = new MessageDetailsDaoImpl(sessionFactory);
         MessageDetails details1 = new MessageDetails();
@@ -57,18 +56,18 @@ public class Main {
         MessageDetails details2 = new MessageDetails();
         details2.setSender("Veronica");
         details2.setSentTime(LocalDateTime.now());
-        detailsDao.create(details2);
 
         MessageDao messageDao = new MessageDaoImpl(sessionFactory);
         Message message = new Message();
-        message.setContent("My friends!");
-        message.setMessageDetails(List.of(details1, details2));
+        message.setContent("My friend!");
+
+        message.setMessageDetails(List.of(details2));
         messageDao.create(message);
 
         UserDao userDao = new UserDaoImpl(sessionFactory);
         User user = new User();
         user.setUsername("Dima");
-        user.setComments(List.of(comment1, comment2));
+        user.setComments(List.of(comment2));
         userDao.create(user);
 
         System.out.println(userDao.getAll());
