@@ -10,11 +10,7 @@ public class HibernateUtil {
     }
 
     private static SessionFactory initSessionFactory() {
-        try {
-            return new Configuration().configure().buildSessionFactory();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return new Configuration().configure().buildSessionFactory();
     }
 
     public static SessionFactory getSessionFactory() {
