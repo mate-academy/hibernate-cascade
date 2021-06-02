@@ -19,7 +19,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
             return entity;
         } catch (Exception exception) {
@@ -46,7 +46,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("SELECT a FROM Smile a", Smile.class).getResultList();
+            return session.createQuery("FROM Smile", Smile.class).getResultList();
         } catch (Exception exception) {
             throw new RuntimeException("Can't get smiles table from DB", exception);
         }

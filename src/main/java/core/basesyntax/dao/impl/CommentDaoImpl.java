@@ -19,7 +19,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
             return entity;
         } catch (Exception exception) {
@@ -46,7 +46,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("SELECT a FROM Comment a", Comment.class).getResultList();
+            return session.createQuery("FROM Comment", Comment.class).getResultList();
         } catch (Exception exception) {
             throw new RuntimeException("Can't get comments table from DB", exception);
         }
