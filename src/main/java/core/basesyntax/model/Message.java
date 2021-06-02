@@ -18,7 +18,7 @@ public class Message {
     private Long id;
     private String content;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
