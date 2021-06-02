@@ -15,7 +15,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment create(Comment entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
@@ -24,18 +26,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t save Comment " + entity);
+            throw new RuntimeException("Can`t save Comment " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-            Comment comment = null;
-            comment = session.get(Comment.class, id);
-            return comment;
+            return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get Comment by id " + id);
+            throw new RuntimeException("Can`t get Comment by id " + id, e);
         }
     }
 
@@ -44,7 +48,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("FROM Comment", Comment.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get all Comments from DB");
+            throw new RuntimeException("Can`t get all Comments from DB", e);
         }
     }
 
@@ -59,7 +63,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t remove Comment from DB " + entity);
+            throw new RuntimeException("Can`t remove Comment from DB " + entity, e);
         }
     }
 }

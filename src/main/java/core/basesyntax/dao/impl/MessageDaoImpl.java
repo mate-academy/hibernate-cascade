@@ -15,7 +15,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message create(Message entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -24,18 +26,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t save Message " + entity);
+            throw new RuntimeException("Can`t save Message " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
-            Message message = null;
-            message = session.get(Message.class, id);
-            return message;
+            return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get Message by id " + id);
+            throw new RuntimeException("Can`t get Message by id " + id, e);
         }
     }
 
@@ -44,7 +48,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("FROM Message", Message.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get all Messages from DB");
+            throw new RuntimeException("Can`t get all Messages from DB", e);
         }
     }
 
@@ -59,7 +63,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t remove Messages from DB " + entity);
+            throw new RuntimeException("Can`t remove Messages from DB " + entity, e);
         }
     }
 }

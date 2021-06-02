@@ -15,7 +15,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -24,18 +26,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t save User " + entity);
+            throw new RuntimeException("Can`t save User " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            User user = null;
-            user = session.get(User.class, id);
-            return user;
+            return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get User by id " + id);
+            throw new RuntimeException("Can`t get User by id " + id, e);
         }
     }
 
@@ -44,7 +48,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("FROM User", User.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get all Users from DB");
+            throw new RuntimeException("Can`t get all Users from DB", e);
         }
     }
 
@@ -59,7 +63,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t remove User from DB " + entity);
+            throw new RuntimeException("Can`t remove User from DB " + entity, e);
         }
     }
 }

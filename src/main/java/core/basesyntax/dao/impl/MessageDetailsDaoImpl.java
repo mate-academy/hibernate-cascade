@@ -14,7 +14,9 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails create(MessageDetails entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
@@ -23,18 +25,20 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t save Message Details " + entity);
+            throw new RuntimeException("Can`t save Message Details " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public MessageDetails get(Long id) {
         try (Session session = factory.openSession()) {
-            MessageDetails messageDetails = null;
-            messageDetails = session.get(MessageDetails.class, id);
-            return messageDetails;
+            return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get Message Details by id " + id);
+            throw new RuntimeException("Can`t get Message Details by id " + id, e);
         }
     }
 }
