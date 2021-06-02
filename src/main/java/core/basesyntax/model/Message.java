@@ -25,7 +25,7 @@ public class Message {
     @JoinTable(name = "messages_message_details",
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name = "message_details_id"))
-    @Cascade(value = {CascadeType.PERSIST, CascadeType.DELETE})
+    @Cascade(value = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
