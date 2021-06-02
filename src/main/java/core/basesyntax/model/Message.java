@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Message {
@@ -15,7 +16,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
