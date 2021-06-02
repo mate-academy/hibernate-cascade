@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.lib.exception.DataProcessingException;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +25,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't create message details in DB " + entity, e);
+            throw new RuntimeException("Can't create message details in DB " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,7 +38,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get message details "
+            throw new RuntimeException("Can't get message details "
                     + "from DB where id " + id, e);
         }
     }
