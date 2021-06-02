@@ -12,6 +12,7 @@
         <property name="connection.password">9488194881</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
+
         <mapping class="core.basesyntax.model.Comment"/>
         <mapping class="core.basesyntax.model.Smile"/>
         <mapping class="core.basesyntax.model.Message"/>
