@@ -41,4 +41,13 @@ public class User {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", username='" + username + '\''
+                + ", comments=" + comments
+                + '}';
+    }
 }
