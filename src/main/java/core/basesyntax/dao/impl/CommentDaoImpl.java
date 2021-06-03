@@ -30,7 +30,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             throw new RuntimeException("Can't create this comment: "
                     + comment, e);
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 

@@ -30,7 +30,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             throw new RuntimeException("Can't create message: "
                     + message, e);
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 

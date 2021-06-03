@@ -30,7 +30,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             throw new RuntimeException("Can't create user: "
                     + user, e);
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 

@@ -30,7 +30,9 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             throw new RuntimeException("Can't create smile: "
                     + smile, e);
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
