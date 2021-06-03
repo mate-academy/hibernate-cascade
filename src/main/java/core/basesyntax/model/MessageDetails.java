@@ -16,9 +16,6 @@ public class MessageDetails {
     private String sender;
     private LocalDateTime sentTime;
 
-    public MessageDetails() {
-    }
-
     public Long getId() {
         return id;
     }

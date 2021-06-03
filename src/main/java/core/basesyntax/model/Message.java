@@ -21,9 +21,6 @@ public class Message {
     @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MessageDetails> messageDetails;
 
-    public Message() {
-    }
-
     public Long getId() {
         return id;
     }

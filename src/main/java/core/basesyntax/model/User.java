@@ -22,9 +22,6 @@ public class User {
     @Cascade(CascadeType.SAVE_UPDATE)
     private List<Comment> comments;
 
-    public User() {
-    }
-
     public Long getId() {
         return id;
     }
