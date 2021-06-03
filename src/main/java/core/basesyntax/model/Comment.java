@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
