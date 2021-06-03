@@ -21,7 +21,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
-
             return entity;
         } catch (Exception e) {
             if (transaction != null) {
