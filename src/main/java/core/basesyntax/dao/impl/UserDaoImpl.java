@@ -14,20 +14,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(user);
             transaction.commit();
-            return entity;
+            return user;
         } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create user: " + entity, e);
+            throw new RuntimeException("Can't create user: " + user, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -50,6 +50,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> getAllCommentQuery = session
                     .createQuery("select c from users c", User.class);
             return getAllCommentQuery.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all users:", e);
         }
     }
 

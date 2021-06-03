@@ -14,20 +14,20 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(smile);
             transaction.commit();
-            return entity;
+            return smile;
         } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create smile: " + entity, e);
+            throw new RuntimeException("Can't create smile: " + smile, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -50,6 +50,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> getAllCommentQuery = session
                     .createQuery("select c from smiles c", Smile.class);
             return getAllCommentQuery.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all smiles: ", e);
         }
     }
 }

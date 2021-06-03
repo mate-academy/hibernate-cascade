@@ -14,20 +14,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(message);
             transaction.commit();
-            return entity;
+            return message;
         } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create message: " + entity, e);
+            throw new RuntimeException("Can't create message: " + message, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -50,6 +50,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> getAllCommentQuery = session
                     .createQuery("select c from messages c", Message.class);
             return getAllCommentQuery.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all message: ", e);
         }
     }
 
