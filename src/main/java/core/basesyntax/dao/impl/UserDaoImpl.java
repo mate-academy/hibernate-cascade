@@ -2,8 +2,12 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -11,22 +15,66 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
-        return null;
+    public User create(User user) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+            return user;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Couldn't create an user: " + user, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Couldn't get user by id: " + id, e);
+        }
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        List<User> users = new ArrayList<>();
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("FROM User", User.class);
+            users.addAll(query.getResultList());
+        } catch (Exception e) {
+            throw new RuntimeException("Couldn't get all users", e);
+        }
+        return users;
     }
 
     @Override
-    public void remove(User entity) {
-
+    public void remove(User user) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(user);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Couldn't remove an user: " + user, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
