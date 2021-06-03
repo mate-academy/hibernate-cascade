@@ -16,7 +16,6 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Smile> smiles;
 
