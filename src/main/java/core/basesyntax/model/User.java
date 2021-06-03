@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "users")
@@ -18,7 +19,7 @@ public class User {
     private Long id;
     private String username;
     @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(value = org.hibernate.annotations.CascadeType.PERSIST)
+    @Cascade(value = CascadeType.PERSIST)
     private List<Comment> comments;
 
     public Long getId() {
