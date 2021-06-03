@@ -20,7 +20,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.save(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -48,7 +48,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
             Query<Smile> getAllSmilesQuery = session
-                    .createQuery("select s from smiles s", Smile.class);
+                    .createQuery("from smiles s", Smile.class);
             return getAllSmilesQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't find all smile's with id: ", e);
