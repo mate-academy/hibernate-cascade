@@ -16,7 +16,6 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MessageDetails> messageDetails;
