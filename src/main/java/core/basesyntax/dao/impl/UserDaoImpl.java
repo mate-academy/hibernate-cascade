@@ -19,7 +19,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(user);
+            session.persist(user);
             transaction.commit();
             return user;
         } catch (Exception e) {

@@ -19,7 +19,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(comment);
+            session.persist(comment);
             transaction.commit();
             return comment;
         } catch (Exception e) {
