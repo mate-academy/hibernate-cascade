@@ -20,7 +20,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_comments",
             joinColumns = @JoinColumn(name = "user_id"),

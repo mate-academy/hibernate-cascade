@@ -20,7 +20,6 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "messages_message_details",
             joinColumns = @JoinColumn(name = "message_id"),
