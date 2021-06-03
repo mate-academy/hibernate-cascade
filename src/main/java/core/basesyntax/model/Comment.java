@@ -2,6 +2,7 @@ package core.basesyntax.model;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ public class Comment {
     private Long id;
     private String content;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Smile> smiles;
 
     public Long getId() {
