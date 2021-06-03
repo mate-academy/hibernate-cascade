@@ -1,8 +1,17 @@
 package core.basesyntax.model;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "details")
 public class MessageDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
@@ -21,6 +30,15 @@ public class MessageDetails {
 
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageDetails{"
+                + " id=" + id
+                + ", sender='" + sender + '\''
+                + ", sentTime=" + sentTime
+                + '}';
     }
 
     public LocalDateTime getSentTime() {
