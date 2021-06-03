@@ -1,6 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
+import core.basesyntax.model.Message;
 import core.basesyntax.model.Smile;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
@@ -38,7 +39,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
-            return Optional.ofNullable(session.get(Smile.class, id)).get();
+            return session.get(Smile.class, id);
         } catch (Exception e) {
             throw new RuntimeException("There is no smile with id " + id, e);
         }

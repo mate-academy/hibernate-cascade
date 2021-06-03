@@ -1,6 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
+import core.basesyntax.model.Message;
 import core.basesyntax.model.User;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            return Optional.ofNullable(session.get(User.class, id)).get();
+            return session.get(User.class, id);
         } catch (Exception e) {
             throw new RuntimeException("There is no user with id " + id, e);
         }

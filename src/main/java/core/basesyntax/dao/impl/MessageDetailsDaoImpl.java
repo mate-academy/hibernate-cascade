@@ -1,6 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
+import core.basesyntax.model.Message;
 import core.basesyntax.model.MessageDetails;
 import java.util.Optional;
 import org.hibernate.Session;
@@ -19,7 +20,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
@@ -37,7 +38,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails get(Long id) {
         try (Session session = factory.openSession()) {
-            return Optional.ofNullable(session.get(MessageDetails.class, id)).orElse(null);
+            return session.get(MessageDetails.class, id);
         } catch (Exception e) {
             throw new RuntimeException("There is no message details with id " + id, e);
         }
