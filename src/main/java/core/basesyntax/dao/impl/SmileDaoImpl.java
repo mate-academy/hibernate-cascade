@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -47,8 +46,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Smile> getAllQuery = session.createQuery("from Smile", Smile.class);
-            return getAllQuery.getResultList();
+            return session.createQuery("from Smile", Smile.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all smiles from DB", e);
         }
