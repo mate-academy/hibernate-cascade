@@ -13,21 +13,21 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(user);
             transaction.commit();
-            return entity;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("An error occurred while "
-                    + "processing query to add new user = " + entity, e);
+                    + "processing query to add new user = " + user, e);
         } finally {
             session.close();
         }
@@ -56,20 +56,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("An error occurred while "
-                    + "processing query to remove user = " + entity, e);
+                    + "processing query to remove user = " + user, e);
         } finally {
             if (session != null) {
                 session.close();
