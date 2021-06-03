@@ -51,7 +51,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                     .createQuery("select s from smiles s", Smile.class);
             return getAllSmilesQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't find smile's with id: ", e);
+            throw new RuntimeException("Can't find all smile's with id: ", e);
         }
     }
 }

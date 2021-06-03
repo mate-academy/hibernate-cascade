@@ -51,7 +51,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     .createQuery("select u from users u", User.class);
             return getAllUsersQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't find user's with id: ", e);
+            throw new RuntimeException("Can't find all user's with id: ", e);
         }
     }
 

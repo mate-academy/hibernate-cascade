@@ -51,7 +51,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                     .createQuery("select c from comments c", Comment.class);
             return getAllCommentsQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't find comment's with id: ", e);
+            throw new RuntimeException("Can't find all comment's with id: ", e);
         }
     }
 

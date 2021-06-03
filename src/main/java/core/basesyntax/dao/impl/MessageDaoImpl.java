@@ -51,7 +51,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                     .createQuery("select m from messages m", Message.class);
             return getAllMessagesQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't find message's with id: ", e);
+            throw new RuntimeException("Can't find all message's with id: ", e);
         }
     }
 
