@@ -2,9 +2,7 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -47,14 +45,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        List<Comment> comments = new ArrayList<>();
         try (Session session = factory.openSession()) {
-            Query query = session.createQuery("FROM Comment", Comment.class);
-            comments.addAll(query.getResultList());
+            return session.createQuery("FROM Comment ", Comment.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all comments", e);
         }
-        return comments;
     }
 
     @Override
