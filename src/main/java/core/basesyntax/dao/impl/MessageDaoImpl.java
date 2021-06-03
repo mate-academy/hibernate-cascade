@@ -66,7 +66,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(message);
+            session.delete(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
