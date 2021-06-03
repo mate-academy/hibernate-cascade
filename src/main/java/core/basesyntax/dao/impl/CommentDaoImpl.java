@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.lib.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,9 +26,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
-
             }
-            throw new DataProcessingException("Can't add comment "
+            throw new RuntimeException("Can't add comment "
                     + entity.getContent() + " to DB", e);
         } finally {
             if (session != null) {
@@ -43,7 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get comment by id "
+            throw new RuntimeException("Can't get comment by id "
                     + id + " from Db", e);
         }
     }
@@ -54,7 +52,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> getAllCommentsQuery = session.createQuery("FROM Comment", Comment.class);
             return getAllCommentsQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all comments from Db");
+            throw new RuntimeException("Can't get all comments from Db");
         }
     }
 
@@ -70,9 +68,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
-
             }
-            throw new DataProcessingException("Can't remove comment "
+            throw new RuntimeException("Can't remove comment "
                         + entity.getContent() + " from DB", e);
         } finally {
             if (session != null) {

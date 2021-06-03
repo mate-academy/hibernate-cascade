@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.lib.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,9 +26,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
-
             }
-            throw new DataProcessingException("Can't add user "
+            throw new RuntimeException("Can't add user "
                     + entity.getUsername() + " to DB", e);
         } finally {
             if (session != null) {
@@ -43,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get user by id "
+            throw new RuntimeException("Can't get user by id "
                     + id + " from Db", e);
         }
     }
@@ -54,7 +52,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> getAllUsersQuery = session.createQuery("FROM User", User.class);
             return getAllUsersQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all users from Db");
+            throw new RuntimeException("Can't get all users from Db");
         }
     }
 
@@ -70,9 +68,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
-
             }
-            throw new DataProcessingException("Can't remove user "
+            throw new RuntimeException("Can't remove user "
                     + entity.getUsername() + " from DB", e);
         } finally {
             if (session != null) {
