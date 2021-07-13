@@ -47,11 +47,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public List<Comment> getAll() {
         List<Comment> list;
         try (Session session = factory.openSession()) {
-            Query<Comment> q = session.createQuery("from Comment");
-            list = q.list();
-
+            Query<Comment> getAllQuery = session.createQuery("from Comment");
+            return getAllQuery.list();
         }
-        return list;
     }
 
     @Override
