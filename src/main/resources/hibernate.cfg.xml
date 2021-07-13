@@ -12,7 +12,10 @@
         <property name="connection.password">1234</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
-
-
+        <mapping class ="core.basesyntax.model.MessageDetails"/>
+        <mapping class ="core.basesyntax.model.Message"/>
+        <mapping class ="core.basesyntax.model.Smile"/>
+        <mapping class ="core.basesyntax.model.User"/>
+        <mapping class ="core.basesyntax.model.Comment"/>
     </session-factory>
 </hibernate-configuration>
