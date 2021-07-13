@@ -13,43 +13,40 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Session session = null;
         Transaction transaction = null;
 
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(smile);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't save a Smile entity with ID:" + entity.getId()
+            throw new RuntimeException("Can't save a Smile entity:" + smile.toString()
                     + "\t Exception: ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return smile;
     }
 
     @Override
     public Smile get(Long id) {
-        Session session = factory.openSession();
-        Smile entity = session.get(Smile.class, id);
-        session.close();
-        return entity;
+        try (Session session = factory.openSession()) {
+            return session.get(Smile.class, id);
+        }
     }
 
     @Override
     public List<Smile> getAll() {
-        Session session = factory.openSession();
-        List<Smile> entityList =
-                session.createQuery("SELECT a FROM Smile a", Smile.class).getResultList();
-        session.close();
-        return entityList;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("FROM Smile", Smile.class).getResultList();
+        }
     }
 }
