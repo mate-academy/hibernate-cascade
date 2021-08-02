@@ -19,7 +19,7 @@ public class User {
     private Long id;
     private String username;
     @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(value = CascadeType.SAVE_UPDATE)
+    @Cascade(value = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Comment> comments;
 
     public Long getId() {
