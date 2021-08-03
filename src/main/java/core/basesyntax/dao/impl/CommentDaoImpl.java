@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant add comment to DB : " + entity, e);
+            throw new RuntimeException("Cant add comment to DB : " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +39,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Cant get comment with id : " + id, e);
+            throw new RuntimeException("Cant get comment with id : " + id, e);
         }
     }
 
@@ -49,7 +48,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("FROM Comment", Comment.class).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Cant get all comments from DB ", e);
+            throw new RuntimeException("Cant get all comments from DB ", e);
         }
     }
 
@@ -66,7 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cant remove comment from DB " + entity, e);
+            throw new RuntimeException("Cant remove comment from DB " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
