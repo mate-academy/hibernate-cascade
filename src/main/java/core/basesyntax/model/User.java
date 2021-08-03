@@ -20,9 +20,6 @@ public class User {
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
-    public User() {
-    }
-
     public Long getId() {
         return id;
     }

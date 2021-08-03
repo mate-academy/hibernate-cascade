@@ -8,16 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "msgDetails")
+@Table(name = "message_details")
 public class MessageDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
-
-    public MessageDetails() {
-    }
 
     public Long getId() {
         return id;
