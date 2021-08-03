@@ -14,6 +14,10 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="format_sql">true</property>
 
-
+        <mapping class="core.basesyntax.model.Comment"/>
+        <mapping class="core.basesyntax.model.Message"/>
+        <mapping class="core.basesyntax.model.MessageDetails"/>
+        <mapping class="core.basesyntax.model.User"/>
+        <mapping class="core.basesyntax.model.Smile"/>
     </session-factory>
 </hibernate-configuration>
