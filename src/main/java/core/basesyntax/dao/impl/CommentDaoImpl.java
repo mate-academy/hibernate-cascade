@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -27,7 +26,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add comment to DB: " + entity, e);
+            throw new RuntimeException("Can't create comment: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -47,8 +46,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Comment> query = session.createQuery("FROM Comment", Comment.class);
-            return query.getResultList();
+            return session.createQuery("FROM Comment", Comment.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all comments: " + e);
         }
