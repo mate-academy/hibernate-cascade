@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -40,15 +39,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("User with id = " + id + " doesn't exist", e);
+            throw new RuntimeException("User with id = " + id + " does not exist", e);
         }
     }
 
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            Query<User> query = session.createQuery("SELECT a FROM User a", User.class);
-            return query.getResultList();
+            return session.createQuery("FROM User", User.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all users", e);
         }
@@ -61,13 +59,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.delete(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove user " + entity, e);
+            throw new RuntimeException("Can't delete user " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

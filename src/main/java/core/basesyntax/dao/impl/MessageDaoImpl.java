@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -47,10 +46,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Message> query = session.createQuery("SELECT a FROM Message a", Message.class);
-            return query.getResultList();
+            return session.createQuery("FROM Message", Message.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all message", e);
+            throw new RuntimeException("Can't get all messages", e);
         }
     }
 
