@@ -46,8 +46,9 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{"
-                + "id=" + id + ", content='"
-                + content + '\'' + ", smiles="
-                + smiles + '}';
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", smiles=" + smiles
+                + '}';
     }
 }
