@@ -40,7 +40,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("User with id = " + id + "doesn't exist", e);
+            throw new RuntimeException("User with id = " + id + " doesn't exist", e);
         }
     }
 
