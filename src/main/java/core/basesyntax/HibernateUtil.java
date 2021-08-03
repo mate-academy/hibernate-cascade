@@ -13,7 +13,7 @@ public class HibernateUtil {
         try {
             return new Configuration().configure().buildSessionFactory();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Couldn't establish connection with DB", e);
         }
     }
 
