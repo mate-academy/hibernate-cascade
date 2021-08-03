@@ -39,7 +39,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Smile with id = " + id + " does not exits", e);
+            throw new RuntimeException("Smile with id = " + id + " does not exist", e);
         }
     }
 
