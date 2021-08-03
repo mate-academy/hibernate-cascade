@@ -20,7 +20,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
     @Override
     protected Class<?>[] entities() {
-        return new Class[] {
+        return new Class[]{
                 Message.class,
                 MessageDetails.class
         };
