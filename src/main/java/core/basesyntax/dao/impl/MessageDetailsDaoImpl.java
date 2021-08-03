@@ -25,7 +25,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create message details :" + entity, e);
+            throw new RuntimeException("Can't create message details : " + entity, e);
         }
     }
 
@@ -34,7 +34,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("can't get message details, id :" + id, e);
+            throw new RuntimeException("can't get message details, id : " + id, e);
         }
     }
 }

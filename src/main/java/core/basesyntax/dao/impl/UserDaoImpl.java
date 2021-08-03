@@ -22,12 +22,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session.save(entity);
             transaction.commit();
             return entity;
-
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create user :" + entity, e);
+            throw new RuntimeException("Can't create user : " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +39,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("can't get user id :" + id, e);
+            throw new RuntimeException("can't get user id : " + id, e);
         }
     }
 
@@ -66,7 +65,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove user :" + entity, e);
+            throw new RuntimeException("Can't remove user : " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
