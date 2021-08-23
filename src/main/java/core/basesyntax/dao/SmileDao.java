@@ -9,4 +9,6 @@ public interface SmileDao {
     Smile get(Long id);
 
     List<Smile> getAll();
+
+    void remove(Smile smile);
 }
