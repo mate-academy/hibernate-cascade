@@ -19,9 +19,6 @@ public class Comment {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Smile> smiles;
 
-    public Comment() {
-    }
-
     public Long getId() {
         return id;
     }

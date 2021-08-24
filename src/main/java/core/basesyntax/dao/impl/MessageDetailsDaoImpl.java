@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
@@ -47,7 +48,9 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     public List<MessageDetails> getAll() {
         try (Session session = factory.openSession()) {
             String hql = "FROM MessageDetails";
-            return session.createQuery(hql).list();
+            Query<MessageDetails> getAllMessageDetailsQuery
+                    = session.createQuery(hql, MessageDetails.class);
+            return getAllMessageDetailsQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all message details from DB", e);
         }

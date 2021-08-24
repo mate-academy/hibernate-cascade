@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -47,7 +48,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
             String hql = "FROM Message";
-            return session.createQuery(hql).list();
+            Query<Message> getAllMessagesQuery = session.createQuery(hql, Message.class);
+            return getAllMessagesQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all massages from DB", e);
         }

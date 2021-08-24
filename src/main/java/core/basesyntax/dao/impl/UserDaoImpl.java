@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -47,7 +48,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
             String hql = "FROM User";
-            return session.createQuery(hql).list();
+            Query<User> getAllUsersQuery = session.createQuery(hql, User.class);
+            return getAllUsersQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all users from DB", e);
         }
