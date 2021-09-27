@@ -25,7 +25,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create user id: " + entity.getId() + " in DB", e);
+            throw new RuntimeException("Can't create user " + entity + " in DB", e);
         } finally {
             if (session != null) {
                 session.close();
