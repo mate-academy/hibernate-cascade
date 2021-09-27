@@ -1,15 +1,19 @@
 package core.basesyntax.model;
 
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
+@Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "comments_smiles",
+        joinColumns = @JoinColumn(name = "comments_id"),
+        inverseJoinColumns = @JoinColumn(name = "smiles_id"))
     private List<Smile> smiles;
 
     public Long getId() {
