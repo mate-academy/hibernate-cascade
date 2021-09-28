@@ -20,9 +20,6 @@ public class User {
     private Long id;
     private String username;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "users_comments",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "comments_id"))
     private List<Comment> comments;
 
     public Long getId() {

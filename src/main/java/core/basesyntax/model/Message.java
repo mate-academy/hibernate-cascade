@@ -19,10 +19,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "masseges_massage_details",
-            joinColumns = @JoinColumn(name = "message_id"),
-            inverseJoinColumns = @JoinColumn(name = "massage_details_id"))
+    @OneToMany(cascade = CascadeType.ALL)
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
