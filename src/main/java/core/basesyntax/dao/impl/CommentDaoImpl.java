@@ -63,7 +63,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 transaction.rollback();
             }
             throw new RuntimeException("The problem appeared during "
-                    + "transaction of removing comment - " + comment + " from DB", e);
+                    + "transaction of removing from DB comment with id = "
+                    + comment.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
