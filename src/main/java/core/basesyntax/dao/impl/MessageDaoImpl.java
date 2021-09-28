@@ -25,7 +25,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t save massage to DB with id " + entity.getId());
+            throw new RuntimeException("Can`t save massage to DB: " + entity);
         } finally {
             if (session != null) {
                 session.close();
@@ -61,7 +61,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t remove message with id " + entity.getId(), e);
+            throw new RuntimeException("Can`t remove message: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

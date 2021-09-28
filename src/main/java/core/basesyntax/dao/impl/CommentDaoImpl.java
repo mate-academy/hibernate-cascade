@@ -25,7 +25,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t save comment to DB with id " + entity.getId());
+            throw new RuntimeException("Can`t save comment to DB " + entity);
         } finally {
             if (session != null) {
                 session.close();
@@ -61,8 +61,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t remove comment with id "
-                    + entity.getId(), e);
+            throw new RuntimeException("Can`t remove comment: "
+                    + entity, e);
         } finally {
             if (session != null) {
                 session.close();
