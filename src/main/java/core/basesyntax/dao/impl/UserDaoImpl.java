@@ -26,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("The problem appeared during "
-                    + "transaction of creating user - " + user + " to DB.", e);
+                    + "transaction of adding user - " + user + " to DB.", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -63,7 +63,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("The problem appeared during "
-                    + "transaction of removing user - " + user + " from DB", e);
+                    + "transaction of removing from DB user with id = "
+                    + user.getId(), e);
         } finally {
             if (session != null) {
                 session.close();

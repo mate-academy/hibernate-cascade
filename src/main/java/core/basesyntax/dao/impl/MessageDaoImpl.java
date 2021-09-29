@@ -26,7 +26,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.rollback();
             }
             throw new RuntimeException("The problem appeared during "
-                    + "transaction of creating message - " + message + " to DB.", e);
+                    + "transaction of adding message - " + message + " to DB.", e);
         } finally {
             if (session != null) {
                 session.close();
