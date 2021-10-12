@@ -20,8 +20,8 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String content;
 
+    private String content;
     @Cascade({PERSIST, SAVE_UPDATE, REMOVE})
     @OneToMany(fetch = FetchType.EAGER)
     private List<MessageDetails> messageDetails;
@@ -48,5 +48,14 @@ public class Message {
 
     public void setMessageDetails(List<MessageDetails> messageDetails) {
         this.messageDetails = messageDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", messageDetails=" + messageDetails
+                + '}';
     }
 }

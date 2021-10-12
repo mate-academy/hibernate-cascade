@@ -9,14 +9,13 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
-    private Session session;
-
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
     @Override
     public Comment create(Comment entity) {
+        Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
@@ -47,10 +46,10 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        String hql = "FROM Comment";
+        String allComments = "FROM Comment";
         try (Session session = factory.openSession()) {
-            Query query = session.createQuery(hql);
-            List<Comment> commentsList = query.list();
+            Query allCommentsQuery = session.createQuery(allComments);
+            List<Comment> commentsList = allCommentsQuery.list();
             return commentsList;
         } catch (Exception e) {
             throw new RuntimeException("Can't get all the comments", e);
@@ -60,6 +59,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment entity) {
         Transaction transaction = null;
+        Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();

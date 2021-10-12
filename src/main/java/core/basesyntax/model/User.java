@@ -19,6 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade({PERSIST, SAVE_UPDATE})
@@ -46,5 +47,14 @@ public class User {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", username='" + username + '\''
+                + ", comments=" + comments
+                + '}';
     }
 }
