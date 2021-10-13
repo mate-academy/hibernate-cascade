@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +25,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create message: " + entity, e);
+            throw new RuntimeException("Can't create message in DB: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,24 +36,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Message message;
         try (Session session = factory.openSession()) {
-            message = session.get(Message.class, id);
+            return session.get(Message.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get message in DB by id: " + id, e);
         }
-        return message;
     }
 
     @Override
     public List<Message> getAll() {
-        List<Message> messages = new ArrayList<>();
-        String getAllMessagesRequest = "FROM Message";
         try (Session session = factory.openSession()) {
-            List resultList = session.createQuery(getAllMessagesRequest).list();
-            for (Object comment : resultList) {
-                messages.add((Message) comment);
-            }
+            return session.createQuery("FROM Message", Message.class).list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all messages from DB ", e);
         }
-        return messages;
     }
 
     @Override
@@ -70,7 +65,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't delete message: " + entity, e);
+            throw new RuntimeException("Can't delete message from DB: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

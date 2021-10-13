@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +25,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create user: " + entity, e);
+            throw new RuntimeException("Can't create user in DB: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,24 +36,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        User user;
         try (Session session = factory.openSession()) {
-            user = session.get(User.class, id);
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get user from DB by id: ", e);
         }
-        return user;
     }
 
     @Override
     public List<User> getAll() {
-        List<User> users = new ArrayList<>();
-        String getAllUsersRequest = "FROM User";
         try (Session session = factory.openSession()) {
-            List resultList = session.createQuery(getAllUsersRequest).list();
-            for (Object comment : resultList) {
-                users.add((User) comment);
-            }
+            return session.createQuery("FROM User", User.class).list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all users from DB ", e);
         }
-        return users;
     }
 
     @Override
@@ -70,7 +65,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't delete user: " + entity, e);
+            throw new RuntimeException("Can't delete user from DB: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

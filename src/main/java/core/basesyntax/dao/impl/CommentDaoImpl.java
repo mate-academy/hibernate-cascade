@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +25,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create comment: " + entity, e);
+            throw new RuntimeException("Can't create comment in DB: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,24 +36,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        Comment comment;
         try (Session session = factory.openSession()) {
-            comment = session.get(Comment.class, id);
+            return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get comment from DB by id: " + id, e);
         }
-        return comment;
     }
 
     @Override
     public List<Comment> getAll() {
-        List<Comment> comments = new ArrayList<>();
-        String getAllCommentsRequest = "FROM Comment";
         try (Session session = factory.openSession()) {
-            List resultList = session.createQuery(getAllCommentsRequest).list();
-            for (Object comment : resultList) {
-                comments.add((Comment) comment);
-            }
+            return session.createQuery("FROM Comment", Comment.class).list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all comments from DB ", e);
         }
-        return comments;
     }
 
     @Override
@@ -70,7 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't delete comment: " + entity, e);
+            throw new RuntimeException("Can't delete comment from DB: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
