@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,6 +21,9 @@ public class Message {
     private String content;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.EAGER)
+    @JoinTable(name = "messages_messages_details",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_details_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
@@ -43,5 +48,14 @@ public class Message {
 
     public void setMessageDetails(List<MessageDetails> messageDetails) {
         this.messageDetails = messageDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", messageDetails=" + messageDetails
+                + '}';
     }
 }
