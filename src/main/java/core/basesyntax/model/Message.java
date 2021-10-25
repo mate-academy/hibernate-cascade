@@ -7,7 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 @Entity(name = "messages")
 public class Message {
@@ -15,8 +17,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.EAGER)
+    @JoinTable(name = "message_message_details",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_details_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
