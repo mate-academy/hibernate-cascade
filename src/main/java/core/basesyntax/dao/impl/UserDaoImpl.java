@@ -33,7 +33,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             String hql = "SELECT DISTINCT u FROM User u "
-                + "LEFT JOIN FETCH u.comments WHERE u.id = :id";
+                    + "LEFT JOIN FETCH u.comments WHERE u.id = :id";
             Query query = session.createQuery(hql, User.class);
             query.setParameter("id", id);
             return (User) query.getSingleResult();
@@ -46,7 +46,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
             String hql = "SELECT DISTINCT u FROM User u "
-                + "LEFT JOIN FETCH u.comments";
+                    + "LEFT JOIN FETCH u.comments";
             Query query = session.createQuery(hql, User.class);
             return query.getResultList();
         } catch (Exception e) {
