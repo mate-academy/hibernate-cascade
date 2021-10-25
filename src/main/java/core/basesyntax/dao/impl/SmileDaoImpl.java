@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
