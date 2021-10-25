@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -14,26 +13,26 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't create comment "
-            + entity + " in DB. ", e);
+            + comment + " in DB. ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return comment;
     }
 
     @Override
@@ -50,28 +49,27 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
             String selectAllCommentsHql = "FROM Comment";
-            Query<Comment> query = session.createQuery(selectAllCommentsHql);
-            return query.list();
+            return session.createQuery(selectAllCommentsHql, Comment.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all comments. ", e);
         }
     }
 
     @Override
-    public void remove(Comment entity) {
+    public void remove(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't remove comment "
-                    + entity + " from DB. ", e);
+                    + comment + " from DB. ", e);
         } finally {
             if (session != null) {
                 session.close();

@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -14,26 +13,26 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(smile);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't create smile "
-                    + entity + " in DB. ", e);
+                    + smile + " in DB. ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return smile;
     }
 
     @Override
@@ -50,8 +49,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
             String selectAllSmilesHql = "FROM Smile";
-            Query<Smile> query = session.createQuery(selectAllSmilesHql);
-            return query.list();
+            return session.createQuery(selectAllSmilesHql, Smile.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all smiles. ", e);
         }
