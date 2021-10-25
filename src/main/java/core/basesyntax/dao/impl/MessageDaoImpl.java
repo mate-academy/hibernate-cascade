@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Add message to database transaction failed", e);
+            throw new RuntimeException("Add message to database transaction failed", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +40,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Get message from database transaction failed", e);
+            throw new RuntimeException("Get message from database transaction failed", e);
         }
     }
 
@@ -52,7 +51,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> query = session.createQuery(hql, Message.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException(
+            throw new RuntimeException(
                     "Get all messages from database transaction failed", e
             );
         }
@@ -71,7 +70,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Remove message from database transaction failed", e);
+            throw new RuntimeException("Remove message from database transaction failed", e);
         } finally {
             if (session != null) {
                 session.close();

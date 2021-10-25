@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,13 +18,13 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(messageDetails);
+            session.persist(messageDetails);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException(
+            throw new RuntimeException(
                     "Add message details to database transaction failed", e
             );
         } finally {
@@ -41,7 +40,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException(
+            throw new RuntimeException(
                     "Get message details from database transaction failed", e
             );
         }

@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Add user to database transaction failed", e);
+            throw new RuntimeException("Add user to database transaction failed", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +40,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Get user from database transaction failed", e);
+            throw new RuntimeException("Get user from database transaction failed", e);
         }
     }
 
@@ -52,7 +51,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> query = session.createQuery(hql, User.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Get all users from database transaction failed", e);
+            throw new RuntimeException("Get all users from database transaction failed", e);
         }
     }
 
@@ -69,7 +68,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Remove user from database transaction failed", e);
+            throw new RuntimeException("Remove user from database transaction failed", e);
         } finally {
             if (session != null) {
                 session.close();

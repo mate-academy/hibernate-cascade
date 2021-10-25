@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;
@@ -21,13 +20,13 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(comment);
+            session.persist(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Add comment to database transaction failed", e);
+            throw new RuntimeException("Add comment to database transaction failed", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +40,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Get comment from database transaction failed", e);
+            throw new RuntimeException("Get comment from database transaction failed", e);
         }
     }
 
@@ -52,7 +51,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> query = session.createQuery(hql, Comment.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException(
+            throw new RuntimeException(
                     "Get all comments from database transaction failed", e
             );
         }
@@ -71,7 +70,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Remove comment from database transaction failed", e);
+            throw new RuntimeException("Remove comment from database transaction failed", e);
         } finally {
             if (session != null) {
                 session.close();
