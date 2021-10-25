@@ -49,7 +49,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM Message";
+            String hql = "FROM User";
             return session.createQuery(hql).list();
         } catch (Exception e) {
             throw new DataProcessingException("There is something wrong with getting "
