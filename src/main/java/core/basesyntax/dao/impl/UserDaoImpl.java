@@ -45,25 +45,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        Session session = null;
-        Transaction transaction = null;
-        List<User> users;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            users = session.createQuery("FROM User").list();
-            transaction.commit();
+        try (Session session = factory.openSession()) {
+            return session.createQuery("FROM User").list();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Can't get all users from DB", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
-        return users;
     }
 
     @Override

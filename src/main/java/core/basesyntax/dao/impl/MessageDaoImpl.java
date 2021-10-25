@@ -45,25 +45,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        Session session = null;
-        Transaction transaction = null;
-        List<Message> messages;
-        try {
-            session = factory.openSession();
-            transaction = session.beginTransaction();
-            messages = session.createQuery("FROM Message").list();
-            transaction.commit();
+        try (Session session = factory.openSession()) {
+            return session.createQuery("FROM Message").list();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Can't get all messages from DB", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
-        return messages;
     }
 
     @Override
