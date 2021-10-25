@@ -17,6 +17,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public Message create(Message entity) {
         Transaction transaction = null;
         try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
             return entity;
@@ -31,7 +32,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.load(Message.class, id);
+            return session.get(Message.class, id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

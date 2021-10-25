@@ -19,6 +19,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             session.save(entity);
+            transaction.commit();
             return entity;
         } catch (Exception e) {
             if (transaction != null) {
@@ -31,7 +32,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.load(Smile.class, id);
+            return session.get(Smile.class, id);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
