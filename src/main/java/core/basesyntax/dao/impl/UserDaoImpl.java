@@ -21,7 +21,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
