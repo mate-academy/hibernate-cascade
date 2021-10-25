@@ -25,8 +25,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
                 transaction.rollback();
             }
             throw new RuntimeException(
-                    "Add message details to database transaction failed", e
-            );
+                    "Add message details to database transaction failed. Message details:"
+                            + messageDetails, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,8 +41,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
             throw new RuntimeException(
-                    "Get message details from database transaction failed", e
-            );
+                    "Get message details from database transaction failed. Id: " + id, e);
         }
     }
 }

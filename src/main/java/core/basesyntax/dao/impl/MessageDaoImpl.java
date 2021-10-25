@@ -26,7 +26,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Add message to database transaction failed", e);
+            throw new RuntimeException(
+                    "Add message to database transaction failed. Message: " + message, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +41,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Get message from database transaction failed", e);
+            throw new RuntimeException(
+                    "Get message from database transaction failed. Id: " + id, e);
         }
     }
 
@@ -52,8 +54,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException(
-                    "Get all messages from database transaction failed", e
-            );
+                    "Get all messages from database transaction failed", e);
         }
     }
 
@@ -70,7 +71,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Remove message from database transaction failed", e);
+            throw new RuntimeException(
+                    "Remove message from database transaction failed. Message: " + message, e);
         } finally {
             if (session != null) {
                 session.close();

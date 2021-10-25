@@ -26,7 +26,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Add comment to database transaction failed", e);
+            throw new RuntimeException(
+                    "Add comment to database transaction failed. Comment: " + comment, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +41,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Get comment from database transaction failed", e);
+            throw new RuntimeException(
+                    "Get comment from database transaction failed. Id: " + id, e);
         }
     }
 
@@ -52,8 +54,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             return query.getResultList();
         } catch (Exception e) {
             throw new RuntimeException(
-                    "Get all comments from database transaction failed", e
-            );
+                    "Get all comments from database transaction failed", e);
         }
     }
 
@@ -70,7 +71,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Remove comment from database transaction failed", e);
+            throw new RuntimeException(
+                    "Remove comment from database transaction failed. Comment: " + comment, e);
         } finally {
             if (session != null) {
                 session.close();
