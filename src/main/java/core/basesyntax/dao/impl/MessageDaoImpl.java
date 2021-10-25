@@ -46,9 +46,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        String hql = "FROM Message";
+        String getAllMessagesQuery = "FROM Message";
         try (Session session = factory.openSession()) {
-            Query<Message> query = session.createQuery(hql);
+            Query<Message> query = session.createQuery(getAllMessagesQuery);
             return query.list();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all messages from DB.", e);
