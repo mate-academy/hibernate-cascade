@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,6 +19,9 @@ public class Message {
     private Long id;
     private String content;
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(name = "messages_message_details",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_details_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
