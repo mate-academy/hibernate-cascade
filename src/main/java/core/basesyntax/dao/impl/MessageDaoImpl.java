@@ -25,7 +25,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't save a message to the DB.", e);
+            throw new RuntimeException("Couldn't save a message "
+                    + entity + " to the DB. ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -65,7 +66,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't delete this message from the DB");
+            throw new RuntimeException("Couldn't delete the message "
+                    + entity + " from the DB");
         } finally {
             if (session != null) {
                 session.close();
