@@ -50,7 +50,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
             String hql = "FROM Comment";
-            return session.createQuery(hql).list();
+            return session.createQuery(hql, Comment.class).list();
         } catch (Exception e) {
             throw new DataProcessingException("There is something wrong with getting "
                     + "All Comments from DB", e);
