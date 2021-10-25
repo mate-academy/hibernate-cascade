@@ -14,21 +14,21 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(smile);
             transaction.commit();
-            return entity;
+            return smile;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("There is something wrong with saving Smile "
-                    + entity + " to DB", e);
+            throw new DataProcessingException("Can't save Smile "
+                    + smile + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting Actor by "
+            throw new DataProcessingException("Can't get Smile by "
                     + "id " + id + " from DB", e);
         }
     }
@@ -49,11 +49,10 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM Smile";
-            return session.createQuery(hql, Smile.class).list();
+            String getAllQuery = "FROM Smile";
+            return session.createQuery(getAllQuery, Smile.class).list();
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting "
-                    + "All Smiles from DB", e);
+            throw new DataProcessingException("Can't get All Smiles from DB", e);
         }
     }
 }

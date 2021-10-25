@@ -14,21 +14,21 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(user);
             transaction.commit();
-            return entity;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("There is something wrong with saving User "
-                    + entity + " to DB", e);
+            throw new DataProcessingException("Can't save User "
+                    + user + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting User by "
+            throw new DataProcessingException("Can't get User by "
                     + "id " + id + " from DB", e);
         }
     }
@@ -49,29 +49,28 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM User";
-            return session.createQuery(hql, User.class).list();
+            String getAllQuery = "FROM User";
+            return session.createQuery(getAllQuery, User.class).list();
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting "
-                    + "All Users from DB", e);
+            throw new DataProcessingException("Can't get All Users from DB", e);
         }
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("There is something wrong with deleting User "
-                    + entity + " to DB", e);
+            throw new DataProcessingException("Can't delete User "
+                    + user + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();

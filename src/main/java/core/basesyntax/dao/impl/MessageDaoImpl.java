@@ -14,21 +14,21 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(message);
             transaction.commit();
-            return entity;
+            return message;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("There is something wrong with saving Message "
-                    + entity + " to DB", e);
+            throw new DataProcessingException("Can't save Message "
+                    + message + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting Message by "
+            throw new DataProcessingException("Can't get Message by "
                     + "id " + id + " from DB", e);
         }
     }
@@ -49,29 +49,28 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM Message";
-            return session.createQuery(hql, Message.class).list();
+            String getAllQuary = "FROM Message";
+            return session.createQuery(getAllQuary, Message.class).list();
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting "
-                    + "All Message from DB", e);
+            throw new DataProcessingException("Can't get All Message from DB", e);
         }
     }
 
     @Override
-    public void remove(Message entity) {
+    public void remove(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("There is something wrong with deleting Message "
-                    + entity + " to DB", e);
+            throw new DataProcessingException("Can't delete Message "
+                    + message + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();

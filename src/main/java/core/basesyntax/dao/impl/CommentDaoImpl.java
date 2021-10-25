@@ -14,21 +14,21 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(comment);
             transaction.commit();
-            return entity;
+            return comment;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("There is something wrong with saving Comment "
-                    + entity + " to DB", e);
+            throw new DataProcessingException("Can't save Comment "
+                    + comment + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting Comment by "
+            throw new DataProcessingException("Can't get Comment by "
                     + "id " + id + " from DB", e);
         }
     }
@@ -49,29 +49,28 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM Comment";
-            return session.createQuery(hql, Comment.class).list();
+            String getAllQuery = "FROM Comment";
+            return session.createQuery(getAllQuery, Comment.class).list();
         } catch (Exception e) {
-            throw new DataProcessingException("There is something wrong with getting "
-                    + "All Comments from DB", e);
+            throw new DataProcessingException("Can't get All Comments from DB", e);
         }
     }
 
     @Override
-    public void remove(Comment entity) {
+    public void remove(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("There is something wrong with deleting Comment "
-                    + entity + " to DB", e);
+            throw new DataProcessingException("Can't delete Comment "
+                    + comment + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();
