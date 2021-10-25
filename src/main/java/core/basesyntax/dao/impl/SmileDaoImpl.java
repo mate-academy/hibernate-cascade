@@ -49,8 +49,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM Smile";
-            Query<Smile> query = session.createQuery(hql);
+            String selectAllSmilesHql = "FROM Smile";
+            Query<Smile> query = session.createQuery(selectAllSmilesHql);
             return query.list();
         } catch (Exception e) {
             throw new RuntimeException("Couldn't get all smiles. ", e);
