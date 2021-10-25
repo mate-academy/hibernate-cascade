@@ -3,9 +3,9 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
+import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import javax.persistence.Query;
 import org.hibernate.Transaction;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
