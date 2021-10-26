@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
-import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -47,9 +46,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM User";
-            Query query = session.createQuery(hql);
-            return query.getResultList();
+            return session.createQuery("FROM User").getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all user from DB", e);
         }
