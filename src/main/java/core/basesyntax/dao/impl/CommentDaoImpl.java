@@ -13,27 +13,26 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(comment);
             transaction.commit();
-
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't save comment with param "
-                    + entity + ". ", e);
+                    + comment + ". ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return comment;
     }
 
     @Override
@@ -51,25 +50,25 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.createQuery(query).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all comment", e);
+            throw new RuntimeException("Can't get all comments", e);
         }
     }
 
     @Override
-    public void remove(Comment entity) {
+    public void remove(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove comment with param "
-                    + entity + ". ", e);
+                    + comment + ". ", e);
         } finally {
             if (session != null) {
                 session.close();
