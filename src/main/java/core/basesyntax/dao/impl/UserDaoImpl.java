@@ -45,11 +45,32 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            String getAllQuery = "SELECT u FROM User u";
+            return session.createQuery(getAllQuery, User.class).list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can`t get all users from db ", e);
+        }
     }
 
     @Override
     public void remove(User entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can`t remove user from db " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
