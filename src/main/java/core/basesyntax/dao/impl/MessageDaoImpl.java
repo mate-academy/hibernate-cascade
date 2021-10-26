@@ -49,7 +49,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("FROM Message", Message.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get comments from DB", e);
+            throw new RuntimeException("Can't get all messages from DB", e);
         }
     }
 
