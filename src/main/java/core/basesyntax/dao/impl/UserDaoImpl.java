@@ -52,7 +52,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query query = session.createQuery(hql);
             return query.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all user", e);
+            throw new RuntimeException("Can't get all users", e);
         }
     }
 
