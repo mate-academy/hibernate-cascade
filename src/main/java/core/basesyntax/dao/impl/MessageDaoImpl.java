@@ -13,25 +13,25 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add the message to DB: " + entity + "Cause: ", e);
+            throw new RuntimeException("Can't add the message to DB: " + message + "Cause: ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return message;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             String selectAllMessages = "FROM Message";
             return session.createQuery(selectAllMessages, Message.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all messages from DB. " + "Cause: ", e);
+            throw new RuntimeException("Can't get all messages from DB. Cause: ", e);
         }
     }
 

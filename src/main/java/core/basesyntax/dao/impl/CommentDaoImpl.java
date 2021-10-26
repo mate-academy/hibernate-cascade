@@ -13,25 +13,25 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't creat the comment to DB: " + entity + "Cause:", e);
+            throw new RuntimeException("Can't creat the comment to DB: " + comment + "Cause:", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return comment;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             String selectAllComments = "FROM Comment";
             return session.createQuery(selectAllComments, Comment.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all comments from DB. " + "Cause: ", e);
+            throw new RuntimeException("Can't get all comments from DB. Cause: ", e);
         }
     }
 
