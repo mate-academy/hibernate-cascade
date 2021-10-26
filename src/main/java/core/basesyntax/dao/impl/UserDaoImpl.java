@@ -26,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add user to DB, "
-                    + "user: " + user.getUsername(), e);
+                    + "user: " + user, e);
         } finally {
             if (session != null) {
                 session.close();

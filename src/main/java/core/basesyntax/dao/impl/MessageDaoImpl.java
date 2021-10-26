@@ -26,7 +26,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add message to DB, "
-                    + "message: " + message.getContent(), e);
+                    + "message: " + message, e);
         } finally {
             if (session != null) {
                 session.close();

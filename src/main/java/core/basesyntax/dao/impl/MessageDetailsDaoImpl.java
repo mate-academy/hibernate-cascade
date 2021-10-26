@@ -24,10 +24,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove message details from DB, "
-                    + "message details: " + System.lineSeparator()
-                    + "Sender: " + messageDetails.getSender() + System.lineSeparator()
-                    + "Sending time: " + messageDetails.getSentTime(), e);
+            throw new RuntimeException("Can't remove message details from DB: "
+                    + messageDetails, e);
         } finally {
             if (session != null) {
                 session.close();
