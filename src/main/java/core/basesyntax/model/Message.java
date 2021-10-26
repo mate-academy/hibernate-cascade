@@ -1,8 +1,13 @@
 package core.basesyntax.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import java.util.List;
+
 public class Message {
     private Long id;
     private String content;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
