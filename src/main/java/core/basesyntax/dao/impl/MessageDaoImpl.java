@@ -33,7 +33,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             }
         }
         return entity;
-
     }
 
     @Override
@@ -51,7 +50,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query query = session.createQuery("FROM Message");
             return query.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get message list ", e);
+            throw new RuntimeException("Can't get all messages from DB.", e);
         }
     }
 
@@ -68,7 +67,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove message to DB " + entity, e);
+            throw new RuntimeException("Can't remove message from DB " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

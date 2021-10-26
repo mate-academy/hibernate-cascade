@@ -67,7 +67,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove message to DB " + entity, e);
+            throw new RuntimeException("Can't remove message from DB " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

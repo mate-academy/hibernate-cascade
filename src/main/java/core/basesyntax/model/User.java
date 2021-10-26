@@ -20,18 +20,6 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Comment> comments;
 
-    public User() {
-    }
-
-    public User(String username) {
-        this.username = username;
-    }
-
-    public User(String username, List<Comment> comments) {
-        this.username = username;
-        this.comments = comments;
-    }
-
     public Long getId() {
         return id;
     }
