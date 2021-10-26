@@ -25,7 +25,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create new message", e);
+            throw new RuntimeException("Can't create new message " + message, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -48,7 +48,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("FROM Message", Message.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all smiles from DB", e);
+            throw new RuntimeException("Can't get all messages from DB", e);
         }
     }
 
@@ -65,7 +65,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't delete message from DB", e);
+            throw new RuntimeException("Can't delete message from DB " + message, e);
         } finally {
             if (session != null) {
                 session.close();
