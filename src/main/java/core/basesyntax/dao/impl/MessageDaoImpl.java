@@ -13,26 +13,26 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message massage) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(massage);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't create message "
-                    + entity + " in DB. ", e);
+                    + massage + " in DB. ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return massage;
     }
 
     @Override
@@ -50,20 +50,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public void remove(Message entity) {
+    public void remove(Message massage) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(massage);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't remote message "
-                    + entity + " from DB. ", e);
+                    + massage + " from DB. ", e);
         } finally {
             if (session != null) {
                 session.close();

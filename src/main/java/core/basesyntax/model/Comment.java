@@ -20,8 +20,8 @@ public class Comment {
     private String content;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "coments_smiles",
-            joinColumns = @JoinColumn(name = "coments_id"),
-            inverseJoinColumns = @JoinColumn(name = "smiles_id"))
+            joinColumns = @JoinColumn(name = "coment_id"),
+            inverseJoinColumns = @JoinColumn(name = "smile_id"))
     private List<Smile> smiles;
 
     public Long getId() {
