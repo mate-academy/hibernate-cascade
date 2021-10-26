@@ -25,7 +25,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create new comment", e);
+            throw new RuntimeException("Can't create new comment " + comment, e);
         } finally {
             if (session != null) {
                 session.close();
