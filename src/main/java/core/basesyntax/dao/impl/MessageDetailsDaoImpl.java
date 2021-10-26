@@ -12,26 +12,26 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     }
 
     @Override
-    public MessageDetails create(MessageDetails massage) {
+    public MessageDetails create(MessageDetails messageDetails) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(massage);
+            session.persist(messageDetails);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't create messageDetails "
-                    + massage + " in DB. ", e);
+                    + messageDetails + " in DB. ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return massage;
+        return messageDetails;
     }
 
     @Override
