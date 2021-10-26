@@ -2,7 +2,6 @@ package core.basesyntax.model;
 
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "messages")
@@ -20,7 +21,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(value = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "messages_messages_details",
             joinColumns = @JoinColumn(name = "messages_id"),
             inverseJoinColumns = @JoinColumn(name = "messages_details_id"))
