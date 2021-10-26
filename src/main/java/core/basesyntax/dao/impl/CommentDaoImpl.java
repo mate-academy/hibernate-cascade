@@ -13,13 +13,13 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -31,7 +31,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 session.close();
             }
         }
-        return entity;
+        return comment;
     }
 
     @Override

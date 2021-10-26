@@ -12,13 +12,13 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     }
 
     @Override
-    public MessageDetails create(MessageDetails entity) {
+    public MessageDetails create(MessageDetails messageDetails) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(messageDetails);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -30,7 +30,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
                 session.close();
             }
         }
-        return entity;
+        return messageDetails;
     }
 
     @Override

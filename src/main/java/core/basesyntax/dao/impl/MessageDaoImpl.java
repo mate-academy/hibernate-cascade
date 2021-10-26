@@ -13,13 +13,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -31,7 +31,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 session.close();
             }
         }
-        return entity;
+        return message;
     }
 
     @Override
@@ -53,13 +53,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public void remove(Message entity) {
+    public void remove(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
