@@ -3,10 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,18 +38,17 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get message by id: " + id, e);
         }
     }
 
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<Message> cq = cb.createQuery(Message.class);
-            Root<Message> rootEntry = cq.from(Message.class);
-            CriteriaQuery<Message> all = cq.select(rootEntry);
-            TypedQuery<Message> allQuery = session.createQuery(all);
-            return allQuery.getResultList();
+            return session.createQuery("FROM Message", Message.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all Messages from DB!", e);
         }
     }
 

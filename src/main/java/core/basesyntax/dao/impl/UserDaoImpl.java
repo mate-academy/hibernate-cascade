@@ -3,10 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,18 +38,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get user by id: " + id, e);
         }
     }
 
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<User> cq = cb.createQuery(User.class);
-            Root<User> rootEntry = cq.from(User.class);
-            CriteriaQuery<User> all = cq.select(rootEntry);
-            TypedQuery<User> allQuery = session.createQuery(all);
-            return allQuery.getResultList();
+            return session.createQuery("FROM User", User.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all comments from DB!", e);
         }
     }
 
