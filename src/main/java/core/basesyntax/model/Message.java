@@ -17,7 +17,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+    @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private List<MessageDetails> messageDetails;
 
