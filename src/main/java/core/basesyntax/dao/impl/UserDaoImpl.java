@@ -13,25 +13,25 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't add user to DB with params: " + entity, e);
+            throw new RuntimeException("Couldn't add user to DB with params: " + user, e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return user;
     }
 
     @Override
