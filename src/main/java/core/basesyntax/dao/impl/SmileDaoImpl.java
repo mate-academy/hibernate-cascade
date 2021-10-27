@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Smile;
 import java.util.List;
 import org.hibernate.Session;
@@ -15,26 +14,26 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
+    public Smile create(Smile smile) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(smile);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add smile to DB: "
-                    + entity.getId(), e);
+            throw new RuntimeException("Can't add smile to DB: "
+                    + smile.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return smile;
     }
 
     @Override
@@ -42,7 +41,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Smile don't exist in DB: "
+            throw new RuntimeException("Smile don't exist in DB: "
                     + id, e);
         }
     }
@@ -54,7 +53,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> query = session.createQuery(hql, Smile.class);
             return query.list();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all smiles from db ", e);
+            throw new RuntimeException("Can't get all smiles from db ", e);
         }
 
     }

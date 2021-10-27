@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -15,26 +14,26 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add user to DB: "
-                    + entity.getId(), e);
+            throw new RuntimeException("Can't add user to DB: "
+                    + user.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return user;
     }
 
     @Override
@@ -42,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("User don't exist in DB: "
+            throw new RuntimeException("User don't exist in DB: "
                     + id, e);
         }
     }
@@ -54,25 +53,25 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> query = session.createQuery(hql, User.class);
             return query.list();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all users from db ", e);
+            throw new RuntimeException("Can't get all users from db ", e);
         }
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't delete user from DB: "
-                    + entity.getId(), e);
+            throw new RuntimeException("Can't delete user from DB: "
+                    + user.getId(), e);
         } finally {
             if (session != null) {
                 session.close();

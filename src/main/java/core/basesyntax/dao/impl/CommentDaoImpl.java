@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;
@@ -15,26 +14,26 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.save(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add comment to DB: "
-                    + entity.getId(), e);
+            throw new RuntimeException("Can't add comment to DB: "
+                    + comment.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return comment;
     }
 
     @Override
@@ -42,7 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Comment don't exist in DB: "
+            throw new RuntimeException("Comment don't exist in DB: "
                     + id, e);
         }
     }
@@ -54,25 +53,25 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> query = session.createQuery(hql, Comment.class);
             return query.list();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all comments from db ", e);
+            throw new RuntimeException("Can't get all comments from db ", e);
         }
     }
 
     @Override
-    public void remove(Comment entity) {
+    public void remove(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't delete comment from DB: "
-                    + entity.getId(), e);
+            throw new RuntimeException("Can't delete comment from DB: "
+                    + comment.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
