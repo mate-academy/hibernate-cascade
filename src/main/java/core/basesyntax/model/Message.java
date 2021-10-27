@@ -6,6 +6,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
@@ -20,6 +22,9 @@ public class Message {
     private String content;
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+    @JoinTable(name = "massages_messageDetails",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "messageDetail_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
