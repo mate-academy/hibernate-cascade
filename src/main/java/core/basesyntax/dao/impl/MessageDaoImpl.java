@@ -41,7 +41,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Message don't exist in DB: "
+            throw new RuntimeException("Message don't exist in DB with id: "
                     + id, e);
         }
     }
@@ -54,7 +54,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                     = session.createQuery(hql, Message.class);
             return getAllMessagesQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all messages from db ", e);
+            throw new RuntimeException("Can't get all messages from db", e);
         }
     }
 

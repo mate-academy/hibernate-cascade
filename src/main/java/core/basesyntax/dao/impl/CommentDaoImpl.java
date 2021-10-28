@@ -41,7 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Comment don't exist in DB: "
+            throw new RuntimeException("Comment don't exist in DB with id: "
                     + id, e);
         }
     }

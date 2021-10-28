@@ -41,7 +41,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Smile don't exist in DB: "
+            throw new RuntimeException("Smile don't exist in DB with id: "
                     + id, e);
         }
     }

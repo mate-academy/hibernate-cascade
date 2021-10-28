@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("User don't exist in DB: "
+            throw new RuntimeException("User don't exist in DB with id: "
                     + id, e);
         }
     }

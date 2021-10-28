@@ -39,7 +39,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("MessageDetails don't exist in DB: "
+            throw new RuntimeException("MessageDetails don't exist in DB with id: "
                     + id, e);
         }
     }
