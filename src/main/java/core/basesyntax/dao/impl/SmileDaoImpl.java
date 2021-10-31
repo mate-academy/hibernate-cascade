@@ -3,10 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
 import java.util.List;
-import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -47,8 +47,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM Smile";
-            Query query = session.createQuery(hql);
+            String hql = "SELECT s FROM Smile s";
+            Query<Smile> query = session.createQuery(hql, Smile.class);
             return query.getResultList();
         } catch (Exception e) {
             throw e;

@@ -3,10 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
-import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -40,9 +40,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             String hql = "SELECT DISTINCT u FROM User u "
                     + "LEFT JOIN FETCH u.comments WHERE u.id = :id";
-            Query query = session.createQuery(hql, User.class);
+            Query<User> query = session.createQuery(hql, User.class);
             query.setParameter("id", id);
-            return (User) query.getSingleResult();
+            return query.getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Can't get User: id=" + id, e);
         }
@@ -53,7 +53,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             String hql = "SELECT DISTINCT u FROM User u "
                     + "LEFT JOIN FETCH u.comments";
-            Query query = session.createQuery(hql, User.class);
+            Query<User> query = session.createQuery(hql, User.class);
             return query.getResultList();
         } catch (Exception e) {
             throw e;
