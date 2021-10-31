@@ -16,7 +16,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -25,7 +27,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException(e);
+            throw new RuntimeException("User not created", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -38,7 +44,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             query.setParameter("id", id);
             return (User) query.getSingleResult();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Can't get User: id=" + id, e);
         }
     }
 
@@ -57,7 +63,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void remove(User entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
@@ -66,6 +74,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
