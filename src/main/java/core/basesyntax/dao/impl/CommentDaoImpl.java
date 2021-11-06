@@ -27,7 +27,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can's save commet do db, comment " + entity,e);
+            throw new RuntimeException("Can's save comment do db, comment " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -49,7 +49,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> query = session.createQuery(hql, Comment.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw e;
+            throw new RuntimeException("Exception in getAll", e);
         }
     }
 

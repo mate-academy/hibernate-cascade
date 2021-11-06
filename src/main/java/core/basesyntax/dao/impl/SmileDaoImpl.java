@@ -27,7 +27,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Smile not created", e);
+            throw new RuntimeException("Can's save smile do db, smile " + entity,e);
         } finally {
             if (session != null) {
                 session.close();
@@ -51,7 +51,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> query = session.createQuery(hql, Smile.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw e;
+            throw new RuntimeException("Exception in getAll", e);
         }
     }
 }

@@ -27,7 +27,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("User not created", e);
+            throw new RuntimeException("Can's save user do db, user " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -56,7 +56,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> query = session.createQuery(hql, User.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw e;
+            throw new RuntimeException("Exception in getAll", e);
         }
     }
 
