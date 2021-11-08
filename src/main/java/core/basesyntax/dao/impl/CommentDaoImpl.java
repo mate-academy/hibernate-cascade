@@ -49,7 +49,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> query = session.createQuery(hql, Comment.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Exception in getAll", e);
+            throw new RuntimeException("Cant get all comments fron db", e);
         }
     }
 
