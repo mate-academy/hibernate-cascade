@@ -6,8 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Comment {
@@ -16,7 +14,7 @@ public class Comment {
     private Long id;
     private String content;
     @OneToMany
-    @Cascade(CascadeType.MERGE)
+
     private List<Smile> smiles;
 
     public Long getId() {
