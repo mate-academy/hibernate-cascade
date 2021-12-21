@@ -3,7 +3,9 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -11,22 +13,65 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
-        return null;
+    public Message create(Message message) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(message);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't add the message to DB: " + message + "Cause: ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return message;
     }
 
     @Override
     public Message get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(Message.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get the message from DB with id: "
+                    + id + "Cause: ", e);
+        }
     }
 
     @Override
     public List<Message> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            String selectAllMessages = "FROM Message";
+            return session.createQuery(selectAllMessages, Message.class).list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all messages from DB. Cause: ", e);
+        }
     }
 
     @Override
     public void remove(Message entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't remove the message from DB. " + "Cause: ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
