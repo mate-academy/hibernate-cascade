@@ -21,7 +21,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-
             session.save(entity);
             transaction.commit();
         } catch (HibernateException e) {
@@ -55,7 +54,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             return allMessages.getResultList();
         } catch (HibernateException e) {
             throw new RuntimeException(
-                    "Can't get all smiles from DB", e);
+                    "Can't get all messages from DB", e);
         }
     }
 

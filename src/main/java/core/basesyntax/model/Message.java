@@ -2,6 +2,7 @@ package core.basesyntax.model;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany
+    @OneToMany (fetch = FetchType.EAGER)
     @Cascade(value = {CascadeType.DELETE, CascadeType.SAVE_UPDATE})
     private List<MessageDetails> messageDetails;
 
