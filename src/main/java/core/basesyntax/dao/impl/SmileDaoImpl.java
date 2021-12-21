@@ -21,15 +21,14 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-
             session.save(entity);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
-                throw new RuntimeException(
-                        "Can't create smile " + entity, e);
             }
+            throw new RuntimeException(
+                    "Can't create smile " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

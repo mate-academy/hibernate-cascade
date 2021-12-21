@@ -19,15 +19,14 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-
             session.save(entity);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
-                throw new RuntimeException(
-                        "Can't create message details " + entity, e);
             }
+            throw new RuntimeException(
+                    "Can't create message details " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

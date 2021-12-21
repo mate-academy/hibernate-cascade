@@ -21,15 +21,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-
             session.save(entity);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
-                throw new RuntimeException(
-                        "Can't create user " + entity, e);
             }
+            throw new RuntimeException(
+                    "Can't create user " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -71,9 +70,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
-                throw new RuntimeException(
-                        "Can't remove user " + entity + " from db", e);
             }
+            throw new RuntimeException(
+                    "Can't remove user " + entity + " from db", e);
         } finally {
             if (session != null) {
                 session.close();
