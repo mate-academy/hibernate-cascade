@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "messades")
+@Table(name = "messages")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Message {
             fetch = FetchType.EAGER)
     @JoinTable(name = "messages_datails",
                 joinColumns = @JoinColumn(name = "message_id"),
-                inverseJoinColumns = @JoinColumn(name = "detals_id"))
+                inverseJoinColumns = @JoinColumn(name = "details_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {

@@ -26,7 +26,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("can't save to database smile: " + entity, e);
+            throw new RuntimeException("Can't save to database smile: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +40,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (HibernateError e) {
-            throw new RuntimeException("can't get from database smile by id: " + id, e);
+            throw new RuntimeException("Can't get from database smile by id: " + id, e);
         }
     }
 
@@ -49,7 +49,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("from Smile", Smile.class).getResultList();
         } catch (HibernateError e) {
-            throw new RuntimeException("can't get all smiles from database", e);
+            throw new RuntimeException("Can't get all smiles from database", e);
         }
     }
 }
