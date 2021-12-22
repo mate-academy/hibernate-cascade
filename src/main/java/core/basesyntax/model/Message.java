@@ -22,9 +22,9 @@ public class Message {
     private String content;
     @OneToMany (fetch = FetchType.EAGER)
     @Cascade (value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
-    @JoinTable (name = "messages_messages_details",
+    @JoinTable (name = "messages_message_details",
             joinColumns = @JoinColumn(name = "message_id"),
-            inverseJoinColumns = @JoinColumn(name = "messages_detail_id"))
+            inverseJoinColumns = @JoinColumn(name = "message_detail_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
