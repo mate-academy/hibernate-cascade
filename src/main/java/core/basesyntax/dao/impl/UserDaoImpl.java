@@ -48,9 +48,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            Query<User> query = session.createQuery(
+            Query<User> getAllUsersQuery = session.createQuery(
                     "from User", User.class);
-            return query.getResultList();
+            return getAllUsersQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all users from DB ", e);
         }
