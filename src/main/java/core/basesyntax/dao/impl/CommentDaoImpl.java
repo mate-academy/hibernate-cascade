@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,11 +22,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add comment " + entity
+            throw new RuntimeException("Can't add comment " + entity
                     + " to DB", e);
         } finally {
             if (session != null) {
@@ -42,8 +40,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
-        } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get comment with id = " + id
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get comment with id = " + id
                     + " from DB", e);
         }
     }
@@ -54,8 +52,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> getAllComments =
                     session.createQuery("FROM Comment", Comment.class);
             return getAllComments.getResultList();
-        } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get all comments from DB", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all comments from DB", e);
         }
     }
 
@@ -68,11 +66,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove comment " + entity
+            throw new RuntimeException("Can't remove comment " + entity
                     + " from DB", e);
         }
     }

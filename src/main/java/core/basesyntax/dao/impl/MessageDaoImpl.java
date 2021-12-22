@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,10 +22,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
-                throw new DataProcessingException("Can't add message " + entity
+                throw new RuntimeException("Can't add message " + entity
                         + " to DB", e);
             }
         } finally {
@@ -42,8 +40,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
-        } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get message with id = " + id
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get message with id = " + id
                     + " from DB", e);
         }
     }
@@ -54,8 +52,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> getAllMessages =
                     session.createQuery("FROM Message", Message.class);
             return getAllMessages.getResultList();
-        } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get all messages from DB", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all messages from DB", e);
         }
     }
 
@@ -68,11 +66,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove message " + entity
+            throw new RuntimeException("Can't remove message " + entity
                     + " from DB", e);
         } finally {
             if (session != null) {

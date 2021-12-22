@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Smile;
 import java.util.List;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,11 +22,11 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add smile " + entity
+            throw new RuntimeException("Can't add smile " + entity
                     + " to DB", e);
         } finally {
             if (session != null) {
@@ -42,8 +40,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
-        } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get smile with id = " + id
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get smile with id = " + id
                     + " to DB", e);
         }
     }
@@ -54,8 +52,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> getAllSmiles =
                     session.createQuery("FROM Smile", Smile.class);
             return getAllSmiles.getResultList();
-        } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get all smiles from DB", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all smiles from DB", e);
         }
     }
 }
