@@ -39,6 +39,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get smile by id:" + id + "from DB", e);
         }
     }
 
@@ -47,6 +49,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             Query<Smile> getAllSmiles = session.createQuery("FROM Smile", Smile.class);
             return getAllSmiles.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all smiles from DB", e);
         }
     }
 }

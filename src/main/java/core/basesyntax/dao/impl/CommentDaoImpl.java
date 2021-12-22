@@ -39,6 +39,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get comment by id:" + id + "from DB", e);
         }
     }
 
@@ -47,6 +49,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             Query<Comment> getAllComents = session.createQuery("FROM Comment", Comment.class);
             return getAllComents.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all comments from DB", e);
         }
     }
 

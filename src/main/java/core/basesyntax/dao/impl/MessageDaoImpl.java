@@ -39,6 +39,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get message by id:" + id + "from DB", e);
         }
     }
 
@@ -47,6 +49,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             Query<Message> getAllMessages = session.createQuery("FROM Message", Message.class);
             return getAllMessages.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all messages from DB", e);
         }
     }
 
