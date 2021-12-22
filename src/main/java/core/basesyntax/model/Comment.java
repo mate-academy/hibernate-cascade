@@ -21,9 +21,6 @@ public class Comment {
             inverseJoinColumns = @JoinColumn(name = "smile_id"))
     private List<Smile> smiles;
 
-    public Comment() {
-    }
-
     public Long getId() {
         return id;
     }
