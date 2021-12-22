@@ -19,7 +19,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(value = CascadeType.ALL)
+    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
