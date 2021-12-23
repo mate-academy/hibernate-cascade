@@ -25,7 +25,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't create entity " + entity, exception);
+            throw new RuntimeException("Couldn't save message details " + entity + "to Db",
+                    exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,6 +39,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     public MessageDetails get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
+        } catch (HibernateException exception) {
+            throw new RuntimeException("Session couldn't get message details with id=" + id, exception);
         }
     }
 }

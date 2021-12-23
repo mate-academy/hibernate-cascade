@@ -26,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't create entity " + entity, exception);
+            throw new RuntimeException("Couldn't save entity " + entity + " to Db", exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,6 +39,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
+        } catch (HibernateException exception) {
+            throw new RuntimeException("Session couldn't get user with id=" + id, exception);
         }
     }
 
@@ -46,6 +48,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
             return session.createQuery("from User", User.class).list();
+        } catch (HibernateException exception) {
+            throw new RuntimeException("Couldn't get all users from Db", exception);
         }
     }
 
@@ -62,7 +66,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't remove entity " + entity, exception);
+            throw new RuntimeException("Couldn't remove user " + entity + "from Db",
+                    exception);
         } finally {
             if (session != null) {
                 session.close();

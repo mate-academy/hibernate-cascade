@@ -26,7 +26,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't create entity " + entity, exception);
+            throw new RuntimeException("Couldn't save comment " + entity + " to Db",
+                    exception);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,6 +40,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
+        } catch (HibernateException exception) {
+            throw new RuntimeException("Session couldn't get comment with id " + id, exception);
         }
     }
 
@@ -46,6 +49,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
             return session.createQuery("from Comment", Comment.class).list();
+        } catch (HibernateException exception) {
+            throw new RuntimeException("Couldn't get all comments from Db", exception);
         }
     }
 
@@ -62,7 +67,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't remove entity " + entity, exception);
+            throw new RuntimeException("Couldn't remove comment " + entity + " from Db",
+                    exception);
         } finally {
             if (session != null) {
                 session.close();
