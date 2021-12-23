@@ -21,7 +21,7 @@ public class User {
     private String username;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "comments_id")
-    @Cascade(value = CascadeType.SAVE_UPDATE)
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<Comment> comments;
 
     public Long getId() {

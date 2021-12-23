@@ -21,7 +21,7 @@ public class Message {
     private String content;
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "message_details_id")
-    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
