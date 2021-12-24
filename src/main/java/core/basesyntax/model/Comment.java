@@ -47,4 +47,13 @@ public class Comment {
     public void setSmiles(List<Smile> smiles) {
         this.smiles = smiles;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", smiles=" + smiles
+                + '}';
+    }
 }

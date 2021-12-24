@@ -50,7 +50,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> getAllUsers = session.createQuery("FROM User", User.class);
             return getAllUsers.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get all comments", e);
+            throw new RuntimeException("Can`t get all users", e);
         }
     }
 
@@ -61,7 +61,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

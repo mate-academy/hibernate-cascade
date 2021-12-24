@@ -50,7 +50,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> getAllMessages = session.createQuery("FROM Message", Message.class);
             return getAllMessages.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get all comments", e);
+            throw new RuntimeException("Can`t get all messages", e);
         }
     }
 
@@ -61,7 +61,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
