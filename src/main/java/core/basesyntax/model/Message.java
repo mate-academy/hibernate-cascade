@@ -21,7 +21,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToMany(fetch = FetchType.EAGER)
-    @Cascade({CascadeType.PERSIST, CascadeType.DELETE})
+    @Cascade({CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "messages_message_details",
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name = "message_detail_id"))
