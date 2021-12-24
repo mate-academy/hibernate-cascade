@@ -19,7 +19,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "messages_messagedetails",
+    @JoinTable(name = "messages_details",
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name = "details_id"))
     private List<MessageDetails> messageDetails;
