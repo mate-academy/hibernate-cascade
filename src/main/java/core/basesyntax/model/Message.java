@@ -22,7 +22,7 @@ public class Message {
     private String content;
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(value = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinTable(name = "messages_messages_details",
+    @JoinTable(name = "messages_message_details",
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name = "message_details_id"))
     private List<MessageDetails> messageDetails;
