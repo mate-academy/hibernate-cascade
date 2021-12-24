@@ -1,8 +1,30 @@
 package core.basesyntax.model;
 
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+@Entity
+@Table(name = "messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade({CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(name = "messages_message_details",
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_detail_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
