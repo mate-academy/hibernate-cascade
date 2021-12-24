@@ -1,7 +1,16 @@
 package core.basesyntax.model;
 
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "messages")
@@ -14,8 +23,8 @@ public class Message {
             CascadeType.PERSIST},
             fetch = FetchType.EAGER)
     @JoinTable(name = "messages_details",
-    joinColumns = @JoinColumn(name = "messages_id"),
-    inverseJoinColumns = @JoinColumn(name = "details_id"))
+            joinColumns = @JoinColumn(name = "messages_id"),
+            inverseJoinColumns = @JoinColumn(name = "details_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
