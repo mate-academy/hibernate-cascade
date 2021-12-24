@@ -18,7 +18,6 @@ public class Message {
     @GeneratedValue
     private Long id;
     private String content;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "messageDetails_id")
     @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})

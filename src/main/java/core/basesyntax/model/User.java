@@ -19,7 +19,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "comment_id")
     @Cascade(CascadeType.SAVE_UPDATE)
