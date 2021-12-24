@@ -41,7 +41,8 @@ public class Smile {
     public String toString() {
         return "Smile{"
                 + "id=" + id
-                + ", value='" + value + '\''
+                + ", value='" + value
+                + '\''
                 + '}';
     }
 }
