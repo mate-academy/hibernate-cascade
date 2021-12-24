@@ -23,8 +23,8 @@ public class Message {
             CascadeType.PERSIST},
             fetch = FetchType.EAGER)
     @JoinTable(name = "messages_details",
-            joinColumns = @JoinColumn(name = "messages_id"),
-            inverseJoinColumns = @JoinColumn(name = "details_id"))
+            joinColumns = @JoinColumn(name = "message_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_details_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
