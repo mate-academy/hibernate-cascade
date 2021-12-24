@@ -1,8 +1,21 @@
 package core.basesyntax.model;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToMany(cascade = {CascadeType.REMOVE,
+            CascadeType.PERSIST},
+            fetch = FetchType.EAGER)
+    @JoinTable(name = "messages_details",
+    joinColumns = @JoinColumn(name = "messages_id"),
+    inverseJoinColumns = @JoinColumn(name = "details_id"))
     private List<MessageDetails> messageDetails;
 
     public Long getId() {
