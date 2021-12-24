@@ -45,7 +45,7 @@ public class MessageDaoImplTest extends AbstractTest {
         message.setContent("Welcome message");
         MessageDetails details = new MessageDetails();
         details.setSender("Bob");
-        message.setMessageDetails(List.of(details));
+        message.setMessageDetails(details);
         // Verify you have implemented `create` method in the MessageDao,
         // or check the CASCADE configuration
         Message actual = messageDao.create(message);
@@ -56,10 +56,10 @@ public class MessageDaoImplTest extends AbstractTest {
         Assert.assertEquals(1L, actual.getId().longValue());
         Assert.assertEquals("Welcome message", actual.getContent());
         Assert.assertNotNull(actual.getMessageDetails());
-        Assert.assertNotNull(actual.getMessageDetails().get(0));
-        Assert.assertNotNull(actual.getMessageDetails().get(0).getId());
-        Assert.assertEquals(1L, actual.getMessageDetails().get(0).getId().longValue());
-        Assert.assertEquals("Bob", actual.getMessageDetails().get(0).getSender());
+        Assert.assertNotNull(actual.getMessageDetails());
+        Assert.assertNotNull(actual.getMessageDetails().getId());
+        Assert.assertEquals(1L, actual.getMessageDetails().getId().longValue());
+        Assert.assertEquals("Bob", actual.getMessageDetails().getSender());
     }
 
     @Test
@@ -153,7 +153,7 @@ public class MessageDaoImplTest extends AbstractTest {
         message.setContent("Welcome message");
         MessageDetails details = new MessageDetails();
         details.setSender("Bob");
-        message.setMessageDetails(List.of(details));
+        message.setMessageDetails(details);
         // Verify you have implemented `create` method in the MessageDao,
         // or check the CASCADE configuration
         Message actual = messageDao.create(message);
@@ -170,10 +170,10 @@ public class MessageDaoImplTest extends AbstractTest {
 
         // verify message details
         Assert.assertNotNull(actual.getMessageDetails());
-        Assert.assertNotNull(actual.getMessageDetails().get(0).getId());
-        Assert.assertNotNull(actual.getMessageDetails().get(0).getId());
-        Assert.assertEquals(1L, actual.getMessageDetails().get(0).getId().longValue());
-        Assert.assertEquals("Bob", actual.getMessageDetails().get(0).getSender());
+        Assert.assertNotNull(actual.getMessageDetails().getId());
+        Assert.assertNotNull(actual.getMessageDetails().getId());
+        Assert.assertEquals(1L, actual.getMessageDetails().getId().longValue());
+        Assert.assertEquals("Bob", actual.getMessageDetails().getSender());
 
         // Verify message details was also created
         MessageDetailsDao messageDetailsDao = new MessageDetailsDaoImpl(getSessionFactory());
