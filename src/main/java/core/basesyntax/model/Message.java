@@ -1,15 +1,11 @@
 package core.basesyntax.model;
 
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,11 +15,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "messages_message_details",
-            joinColumns = @JoinColumn(name = "message_id"),
-            inverseJoinColumns = @JoinColumn(name = "message_details_id"))
-    private List<MessageDetails> messageDetails;
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    private MessageDetails messageDetails;
 
     public Long getId() {
         return id;
@@ -41,11 +34,11 @@ public class Message {
         this.content = content;
     }
 
-    public List<MessageDetails> getMessageDetails() {
+    public MessageDetails getMessageDetails() {
         return messageDetails;
     }
 
-    public void setMessageDetails(List<MessageDetails> messageDetails) {
+    public void setMessageDetails(MessageDetails messageDetails) {
         this.messageDetails = messageDetails;
     }
 }

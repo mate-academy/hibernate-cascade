@@ -16,7 +16,7 @@ Comments left by this user should NOT be removed.
 Add correct cascades. When you are creating a new user you should use also create comments 
 (save each new comment in the DB).
 
-1. There are two classes: Message and MessageDetails. One message can have many message details.
+1. There are two classes: Message and MessageDetails. One message can have only one message details.
 Implement the `remove(Message message)` method. MessageDetails also should be created and removed along with parent 
 Message entity.
 
