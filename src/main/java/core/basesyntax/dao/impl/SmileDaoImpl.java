@@ -3,8 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
 import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -50,10 +48,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Smile> criteria = builder.createQuery(Smile.class);
-            criteria.from(Smile.class);
-            return session.createQuery(criteria).getResultList();
+            return session.createQuery("from Smile",Smile.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all smiles from DB.", e);
         }
