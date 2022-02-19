@@ -41,6 +41,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get comment from DB. "
+                    + "user id: " + id, e);
         }
     }
 
@@ -51,6 +54,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             CriteriaQuery<User> criteria = builder.createQuery(User.class);
             criteria.from(User.class);
             return session.createQuery(criteria).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all users from DB.", e);
         }
     }
 
