@@ -3,13 +3,11 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-
+import javax.persistence.PersistenceException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
-import javax.persistence.PersistenceException;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -79,7 +77,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             }
             throw new RuntimeException("Couldn't remove comment: "
                     + entity, persistenceException);
-        }  finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
