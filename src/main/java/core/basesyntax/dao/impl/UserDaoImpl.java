@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
-import javax.persistence.PersistenceException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,12 +22,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (PersistenceException persistenceException) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't save user: "
-                    + entity, persistenceException);
+                    + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,27 +38,22 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        User user;
         try (Session session = factory.openSession()) {
-            user = session.get(User.class, id);
-        } catch (PersistenceException persistenceException) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
             throw new RuntimeException("Couldn't get user by id: "
-                    + id, persistenceException);
+                    + id, e);
         }
-        return user;
     }
 
     @Override
     public List<User> getAll() {
-        List<User> allUsers;
         try (Session session = factory.openSession()) {
             Query<User> allUsersQuery = session.createQuery("from User", User.class);
-            allUsers = allUsersQuery.getResultList();
-        } catch (PersistenceException persistenceException) {
-            throw new RuntimeException("Couldn't get all users from DB",
-                    persistenceException);
+            return allUsersQuery.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Couldn't get all users from DB", e);
         }
-        return allUsers;
     }
 
     @Override
@@ -71,12 +65,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (PersistenceException persistenceException) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't remove user: "
-                    + entity, persistenceException);
+                    + entity, e);
         } finally {
             if (session != null) {
                 session.close();

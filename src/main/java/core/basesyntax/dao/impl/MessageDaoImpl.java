@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-import javax.persistence.PersistenceException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,12 +22,12 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (PersistenceException persistenceException) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't save message: "
-                    + entity, persistenceException);
+                    + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,28 +38,23 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Message message;
         try (Session session = factory.openSession()) {
-            message = session.get(Message.class, id);
-        } catch (PersistenceException persistenceException) {
+            return session.get(Message.class, id);
+        } catch (Exception e) {
             throw new RuntimeException("Couldn't get message by id: "
-                    + id, persistenceException);
+                    + id, e);
         }
-        return message;
     }
 
     @Override
     public List<Message> getAll() {
-        List<Message> allMessages;
         try (Session session = factory.openSession()) {
             Query<Message> allMessageQuery = session
                     .createQuery("from Message", Message.class);
-            allMessages = allMessageQuery.getResultList();
-        } catch (PersistenceException persistenceException) {
-            throw new RuntimeException("Couldn't get all messages from DB",
-                    persistenceException);
+            return allMessageQuery.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Couldn't get all messages from DB", e);
         }
-        return allMessages;
     }
 
     @Override
@@ -72,12 +66,12 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (PersistenceException persistenceException) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Couldn't remove message: "
-                    + entity, persistenceException);
+                    + entity, e);
         } finally {
             if (session != null) {
                 session.close();
