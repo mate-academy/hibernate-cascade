@@ -7,8 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,9 +17,6 @@ public class User {
     private String username;
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},
             fetch = FetchType.EAGER)
-    @JoinTable(name = "users_comments",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private List<Comment> comments;
 
     public User() {
