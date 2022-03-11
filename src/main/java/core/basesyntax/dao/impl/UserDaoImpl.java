@@ -57,7 +57,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void remove(User entity) {
         Transaction transaction = null;
-        Session session;
+        Session session = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
@@ -68,6 +68,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove user " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
