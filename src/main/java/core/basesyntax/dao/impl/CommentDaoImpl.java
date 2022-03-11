@@ -40,7 +40,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Ca`nt get comment by id " + id, e);
+            throw new RuntimeException("Can't get comment by id " + id, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> getAllQuery = session.createQuery("from Comment", Comment.class);
             return getAllQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Ca`nt get comments list ", e);
+            throw new RuntimeException("Can't get comments list ", e);
         }
     }
 

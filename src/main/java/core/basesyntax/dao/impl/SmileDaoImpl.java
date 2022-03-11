@@ -40,7 +40,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Ca`nt get smile by id " + id, e);
+            throw new RuntimeException("Can't get smile by id " + id, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> getAllQuery = session.createQuery("from Smile ", Smile.class);
             return getAllQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Ca`nt get smile list ", e);
+            throw new RuntimeException("Can't get smile list ", e);
         }
     }
 }

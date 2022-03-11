@@ -40,7 +40,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Ca`nt get message by id " + id, e);
+            throw new RuntimeException("Can't get message by id " + id, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> getAllQuery = session.createQuery("from Message", Message.class);
             return getAllQuery.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Ca`nt get message list ", e);
+            throw new RuntimeException("Can't get message list ", e);
         }
     }
 
