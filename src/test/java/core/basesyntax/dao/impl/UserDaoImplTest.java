@@ -153,7 +153,7 @@ public class UserDaoImplTest extends AbstractTest {
                 "after one user was deleted. Verify you have implemented `remove` method " +
                 "in the UserDaoImpl class",1, allUsers.size());
 
-        // Verify Alice are in DB
+        // Verify Alice is in DB
         Assert.assertNotNull(allUsers.get(0));
         Assert.assertNotNull(allUsers.get(0).getId());
         Assert.assertEquals(2L, allUsers.get(0).getId().longValue());
