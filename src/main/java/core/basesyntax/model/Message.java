@@ -34,8 +34,8 @@ public class Message {
         if (this == o) {
             return true;
         }
-        if (o == null ||
-                Hibernate.getClass(this) != Hibernate.getClass(o)) {
+        if (o == null
+                || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Message message = (Message) o;

@@ -33,8 +33,8 @@ public class Smile {
         if (this == o) {
             return true;
         }
-        if (o == null ||
-                Hibernate.getClass(this) != Hibernate.getClass(o)) {
+        if (o == null
+                || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
         Smile smile = (Smile) o;
