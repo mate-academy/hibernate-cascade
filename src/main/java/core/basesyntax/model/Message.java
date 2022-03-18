@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Getter
 @Setter
@@ -23,6 +25,7 @@ public class Message {
     private Long id;
     private String content;
 
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     @OneToOne
     private MessageDetails messageDetails;
 

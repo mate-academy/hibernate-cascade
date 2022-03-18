@@ -3,6 +3,7 @@ package core.basesyntax.model;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Getter
 @Setter
@@ -29,7 +32,8 @@ public class User {
     private String username;
 
     @ToString.Exclude
-    @ManyToMany
+    @Cascade(CascadeType.SAVE_UPDATE)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_comments",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "comment_id"))
