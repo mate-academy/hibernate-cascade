@@ -1,5 +1,6 @@
 package core.basesyntax.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,
+            CascadeType.REMOVE})
     private MessageDetails messageDetails;
 
     public Long getId() {
