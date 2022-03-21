@@ -27,8 +27,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add message to DB: "
-                    + entity + ex);
+            throw new RuntimeException("Can't add message to DB: " + entity, ex);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,19 +41,17 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (HibernateException ex) {
-            throw new RuntimeException("Can't get message from DB by id: "
-                    + id + ex);
+            throw new RuntimeException("Can't get message from DB by id: " + id, ex);
         }
     }
 
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Message> getAllMessageQuery =
-                    session.createQuery("from Message", Message.class);
+            Query<Message> getAllMessageQuery = session.createQuery("from Message", Message.class);
             return getAllMessageQuery.getResultList();
         } catch (HibernateException ex) {
-            throw new RuntimeException("Can't get all messages from DB " + ex);
+            throw new RuntimeException("Can't get all messages from DB ", ex);
         }
     }
 
@@ -71,8 +68,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove message from DB: "
-                    + entity + ex);
+            throw new RuntimeException("Can't remove message from DB: " + entity, ex);
         } finally {
             if (session != null) {
                 session.close();

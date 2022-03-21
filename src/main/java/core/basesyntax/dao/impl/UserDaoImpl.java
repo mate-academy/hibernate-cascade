@@ -28,7 +28,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add user to DB: "
-                    + entity + ex);
+                    + entity, ex);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,7 +43,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             return session.get(User.class, id);
         } catch (HibernateException ex) {
             throw new RuntimeException("Can't get user from DB by id: "
-                    + id + ex);
+                    + id, ex);
         }
     }
 
@@ -54,7 +54,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     session.createQuery("from User", User.class);
             return getAllSmileQuery.getResultList();
         } catch (HibernateException ex) {
-            throw new RuntimeException("Can't get all users from DB " + ex);
+            throw new RuntimeException("Can't get all users from DB ", ex);
         }
     }
 
@@ -72,7 +72,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove user from DB: "
-                    + entity + ex);
+                    + entity, ex);
         } finally {
             if (session != null) {
                 session.close();
