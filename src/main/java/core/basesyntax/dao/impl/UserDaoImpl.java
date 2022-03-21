@@ -41,8 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (HibernateException ex) {
-            throw new RuntimeException("Can't get user from DB by id: "
-                    + id, ex);
+            throw new RuntimeException("Can't get user from DB by id: " + id, ex);
         }
     }
 
