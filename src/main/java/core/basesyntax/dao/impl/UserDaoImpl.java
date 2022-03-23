@@ -39,9 +39,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         Session session = factory.openSession();
-        User result;
         try {
-            result = session.get(User.class, id);
+            return session.get(User.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can`t get user by id " + id, e);
         } finally {
@@ -49,7 +48,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 session.close();
             }
         }
-        return result;
     }
 
     @Override

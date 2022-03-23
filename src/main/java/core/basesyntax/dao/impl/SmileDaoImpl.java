@@ -39,9 +39,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         Session session = factory.openSession();
-        Smile result;
         try {
-            result = session.get(Smile.class, id);
+            return session.get(Smile.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can`t get smile by id " + id, e);
         } finally {
@@ -49,7 +48,6 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                 session.close();
             }
         }
-        return result;
     }
 
     @Override

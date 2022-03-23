@@ -37,9 +37,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails get(Long id) {
         Session session = factory.openSession();
-        MessageDetails result;
         try {
-            result = session.get(MessageDetails.class, id);
+            return session.get(MessageDetails.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can`t get message details by id " + id, e);
         } finally {
@@ -47,6 +46,5 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
                 session.close();
             }
         }
-        return result;
     }
 }
