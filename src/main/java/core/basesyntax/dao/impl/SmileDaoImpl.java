@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Smile;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't create smile with id = " + entity.getId(), e);
+            throw new RuntimeException("Can't create smile with id = " + entity.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,7 +40,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get smile with id = " + id, e);
+            throw new RuntimeException("Can't get smile with id = " + id, e);
         }
     }
 
@@ -51,7 +50,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             Query<Smile> selectAllQuery = session.createQuery("from Smile", Smile.class);
             return selectAllQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all smiles");
+            throw new RuntimeException("Can't get all smiles");
         }
     }
 }
