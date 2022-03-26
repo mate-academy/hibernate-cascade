@@ -1,12 +1,12 @@
 package core.basesyntax.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 public class Message {
     private Long id;
     private String content;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private MessageDetails messageDetails;
 
     public Long getId() {
