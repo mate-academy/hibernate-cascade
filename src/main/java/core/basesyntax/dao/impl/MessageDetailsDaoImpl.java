@@ -39,7 +39,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Couldn't get smile from DB with id " + id, e);
+            throw new DataProcessingException("Couldn't get MessageDetails from DB with id " + id,
+                    e);
         }
     }
 }
