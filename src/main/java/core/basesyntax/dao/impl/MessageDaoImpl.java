@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
@@ -20,13 +19,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Couldn't create message: " + entity, e);
+            throw new RuntimeException("Couldn't create message: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +39,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Couldn't get message from DB with id " + id, e);
+            throw new RuntimeException("Couldn't get message from DB with id " + id, e);
         }
     }
 
@@ -49,7 +48,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("FROM " + Message.class.getName()).list();
         } catch (Exception e) {
-            throw new DataProcessingException("Couldn't get all messages from DB", e);
+            throw new RuntimeException("Couldn't get all messages from DB", e);
         }
     }
 
@@ -60,13 +59,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Couldn't remove message: " + entity, e);
+            throw new RuntimeException("Couldn't remove message: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
