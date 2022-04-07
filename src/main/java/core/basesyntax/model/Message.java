@@ -1,8 +1,17 @@
 package core.basesyntax.model;
 
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToOne(cascade = CascadeType.ALL)
     private MessageDetails messageDetails;
 
     public Long getId() {
