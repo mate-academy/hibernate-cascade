@@ -3,7 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -12,16 +15,42 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't add Smile: " + entity + " from DB: ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        Smile smile = null;
+        try (Session session = factory.openSession()) {
+            smile = session.get(Smile.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get smile by id: " + id + " from DB: ", e);
+        }
+        return smile;
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            Query<Smile> getAllSmilesQuery = session.createQuery("from Smile", Smile.class);
+            return getAllSmilesQuery.getResultList();
+        }
     }
 }
