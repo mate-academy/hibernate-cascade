@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
@@ -28,7 +27,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Couldn't add comment " + entity +" to DB", e);
+            throw new DataProcessingException("Couldn't add comment " + entity + " to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -75,7 +74,5 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 session.close();
             }
         }
-
-
     }
 }

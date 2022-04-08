@@ -22,7 +22,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -42,7 +42,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Couldn't get comment by id " + id, e);
+            throw new DataProcessingException("Couldn't get user by id " + id, e);
         }
     }
 
@@ -52,7 +52,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> getAllCommentsQuery = session.createQuery("from User", User.class);
             return getAllCommentsQuery.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Couldn't get all comment by id", e);
+            throw new DataProcessingException("Couldn't get all user", e);
         }
     }
 
