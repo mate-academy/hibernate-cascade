@@ -12,6 +12,9 @@ public class Comment {
     private String content;
     private List<Smile> smiles;
 
+    public Comment() {
+    }
+
     public Long getId() {
         return id;
     }

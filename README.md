@@ -10,17 +10,17 @@ Implement the `remove(Comment comment)` method. Smiles used in this comment shou
 Add correct cascades. When you are creating a new comment you should use existed smiles 
 (DON'T create a smile if it does not exist in the DB).
 
-1. There are two classes: User and Comment. One user can have multiple comments. 
+2. There are two classes: User and Comment. One user can have multiple comments. 
 Implement the `remove(User user)` method. Remove user from the DB.
 Comments left by this user should NOT be removed.
 Add correct cascades. When you are creating a new user you should use also create comments 
 (save each new comment in the DB).
 
-1. There are two classes: Message and MessageDetails. One message can have only one message details.
+3. There are two classes: Message and MessageDetails. One message can have only one message details.
 Implement the `remove(Message message)` method. MessageDetails also should be created and removed along with parent 
 Message entity.
 
-1. Implement all DAO interfaces (except GenericDao).
+4. Implement all DAO interfaces (except GenericDao).
 
 You can see how to implement the `getAll()` methods [here](https://youtu.be/AhSEx44RhOM) or [here](https://www.tutorialspoint.com/hibernate/hibernate_query_language.htm)
 

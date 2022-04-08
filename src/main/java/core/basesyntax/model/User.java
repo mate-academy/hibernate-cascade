@@ -7,6 +7,9 @@ public class User {
     private String username;
     private List<Comment> comments;
 
+    public User() {
+    }
+
     public Long getId() {
         return id;
     }

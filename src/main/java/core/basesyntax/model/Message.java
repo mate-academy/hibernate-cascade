@@ -5,6 +5,9 @@ public class Message {
     private String content;
     private MessageDetails messageDetails;
 
+    public Message() {
+    }
+
     public Long getId() {
         return id;
     }
