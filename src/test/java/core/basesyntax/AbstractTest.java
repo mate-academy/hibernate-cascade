@@ -72,12 +72,12 @@ public abstract class AbstractTest {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", getDataSourceProvider().hibernateDialect());
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
-        //log settings
-        //properties.put("hibernate.show_sql", Boolean.TRUE.toString());
-        //properties.put("hibernate.format_sql", Boolean.TRUE.toString());
-        //properties.put("hibernate.use_sql_coments", Boolean.FALSE.toString());
+        // log settings
+        // properties.put("hibernate.show_sql", Boolean.TRUE.toString());
+        // properties.put("hibernate.format_sql", Boolean.TRUE.toString());
+        // properties.put("hibernate.use_sql_comments", Boolean.FALSE.toString());
 
-        //data source settings
+        // data source settings
         properties.put("hibernate.connection.datasource", newDataSource());
         return properties;
     }
