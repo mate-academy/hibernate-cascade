@@ -1,11 +1,11 @@
 package core.basesyntax.dao.impl;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManagerFactory;
 
 public abstract class AbstractDao {
-    protected final SessionFactory factory;
+    protected final EntityManagerFactory factory;
 
-    protected AbstractDao(SessionFactory sessionFactory) {
-        this.factory = sessionFactory;
+    protected AbstractDao(EntityManagerFactory factory) {
+        this.factory = factory;
     }
 }
