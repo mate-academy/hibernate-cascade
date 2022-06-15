@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    private static final Logger log = LogManager.getLogger(SmileDaoImpl.class);
+    private static final Logger log = LogManager.getLogger(UserDaoImpl.class);
 
     public UserDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -30,7 +30,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Can`t create usr to DB {}", entity, e);
+            log.error("Can`t create user to DB {}", entity, e);
             throw new RuntimeException("Can`t create user to DB " + entity, e);
         } finally {
             if (session != null) {

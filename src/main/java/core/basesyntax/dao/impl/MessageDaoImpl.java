@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
-    private static final Logger log = LogManager.getLogger(SmileDaoImpl.class);
+    private static final Logger log = LogManager.getLogger(MessageDaoImpl.class);
 
     public MessageDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -52,7 +51,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public List<Message> getAll() {
         Session session = factory.openSession();
-        Query<Message> getAllMessagesQuery = session.createQuery("from Message", Message.class);
+        Query<Message> getAllMessagesQuery
+                = session.createQuery("from Message", Message.class);
         List<Message> messages = getAllMessagesQuery.getResultList();
         return messages;
     }

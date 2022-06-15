@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.MessageDetails;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,8 +28,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            log.error("Can`t create comment to DB {}", entity, e);
-            throw new RuntimeException("Can`t create comment to DB " + entity, e);
+            log.error("Can`t create messageDetails to DB {}", entity, e);
+            throw new RuntimeException("Can`t create messageDetails to DB " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
