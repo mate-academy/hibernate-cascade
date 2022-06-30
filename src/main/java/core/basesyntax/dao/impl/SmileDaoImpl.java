@@ -3,7 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -12,16 +15,37 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(entity);
+            transaction.commit();
+            return entity;
+        } catch (RuntimeException cause) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't create Smile: " + entity, cause);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        Session session = factory.openSession();
+        return session.get(Smile.class, id);
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        Session session = factory.openSession();
+        String hql = "FROM Smile";
+        Query<Smile> getAllSmilesQuery = session.createQuery(hql, Smile.class);
+        return getAllSmilesQuery.getResultList();
     }
 }
