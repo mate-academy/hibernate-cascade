@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -47,11 +46,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
+        String hql = "FROM Message";
         try (Session session = factory.openSession()) {
-            Query<Message> allMessageQuery = session.createQuery("from Message", Message.class);
-            return allMessageQuery.getResultList();
+            return session.createQuery(hql, Message.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Couldn't get all message from DB", e);
+            throw new RuntimeException("Cannot get all messages from DB", e);
         }
     }
 
