@@ -1,10 +1,13 @@
 package core.basesyntax.model;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -13,7 +16,6 @@ public class User {
     private Long id;
     private String username;
     @OneToMany (fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
-//    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<Comment> comments;
 
     public Long getId() {

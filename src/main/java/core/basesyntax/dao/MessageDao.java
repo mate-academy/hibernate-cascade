@@ -1,7 +1,6 @@
 package core.basesyntax.dao;
 
 import core.basesyntax.model.Message;
-
 import java.util.List;
 
 public interface MessageDao extends GenericDao<Message> {
