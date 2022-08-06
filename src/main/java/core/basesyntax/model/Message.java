@@ -1,6 +1,8 @@
 package core.basesyntax.model;
 
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToOne
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private MessageDetails messageDetails;
 
     public Long getId() {

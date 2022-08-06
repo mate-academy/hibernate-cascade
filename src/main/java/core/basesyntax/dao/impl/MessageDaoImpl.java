@@ -7,6 +7,8 @@ import core.basesyntax.model.Message;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -76,10 +78,16 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public void remove(Message entity) {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
+            transaction = session.beginTransaction();
             session.delete(entity);
+            transaction.commit();
         }  catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't remove comment: " + entity, e);
         } finally {
             session.close();

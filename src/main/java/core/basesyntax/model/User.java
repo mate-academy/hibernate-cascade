@@ -1,5 +1,8 @@
 package core.basesyntax.model;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,7 +12,8 @@ public class User {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    @OneToMany
+    @OneToMany (fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+//    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<Comment> comments;
 
     public Long getId() {
