@@ -21,6 +21,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
+            transaction.commit();
             return entity;
         } catch (RuntimeException e) {
             if (transaction != null) {
