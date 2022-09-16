@@ -31,7 +31,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 session.close();
             }
         }
-        return null;
+        return entity;
     }
 
     @Override
