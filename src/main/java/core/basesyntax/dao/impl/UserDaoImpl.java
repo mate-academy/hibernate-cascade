@@ -15,11 +15,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User entity) {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
+            transaction = session.beginTransaction();
             session.save(entity);
+            transaction.commit();
             return entity;
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't create new user: " + entity, e);
         } finally {
             if (session != null) {
@@ -40,7 +46,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("from User", User.class).getResultList();
+            return session.createQuery("select u from User u", User.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all users.", e);
         }

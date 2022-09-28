@@ -15,11 +15,17 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message create(Message entity) {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
+            transaction = session.beginTransaction();
             session.save(entity);
+            transaction.commit();
             return entity;
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't create new message: " + entity, e);
         } finally {
             if (session != null) {
@@ -40,7 +46,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("from Message", Message.class).getResultList();
+            return session.createQuery("select m from Message m", Message.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all messages.", e);
         }

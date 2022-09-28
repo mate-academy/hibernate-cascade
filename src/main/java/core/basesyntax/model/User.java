@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +21,7 @@ public class User {
     private Long id;
     private String username;
     @OneToMany(fetch = FetchType.EAGER)
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JoinTable(name = "users_comments",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "comment_id"))
