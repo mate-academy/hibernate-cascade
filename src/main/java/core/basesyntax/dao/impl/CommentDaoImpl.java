@@ -3,7 +3,9 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -12,21 +14,64 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(entity);
+            transaction.commit();
+        } catch (Exception exception) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException(
+                    "Can't save comment to DB " + entity, exception);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        } catch (Exception exception) {
+            throw new RuntimeException("Can`t get message " + id, exception);
+        }
     }
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        String hqlQuery = "FROM Comment";
+        try (Session session = factory.openSession()) {
+            return session.createQuery(hqlQuery, Comment.class).getResultList();
+        } catch (Exception exception) {
+            throw new RuntimeException("Can't get all comments from DB", exception);
+        }
     }
 
     @Override
     public void remove(Comment entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        } catch (Exception exception) {
+            if (transaction != null) {
+                transaction.commit();
+            }
+            throw new RuntimeException("Can't remove comment " + entity, exception);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
