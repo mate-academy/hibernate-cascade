@@ -1,6 +1,8 @@
 package core.basesyntax.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -11,10 +13,11 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "messages")
 public class Message {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
     @OneToOne
-    @Cascade({CascadeType.ALL})
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     private MessageDetails messageDetails;
 
     public Long getId() {
