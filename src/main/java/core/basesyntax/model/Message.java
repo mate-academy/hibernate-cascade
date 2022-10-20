@@ -1,8 +1,14 @@
 package core.basesyntax.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private MessageDetails messageDetails;
 
     public Long getId() {
