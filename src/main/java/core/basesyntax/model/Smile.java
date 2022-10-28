@@ -1,5 +1,6 @@
 package core.basesyntax.model;
 
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +34,23 @@ public class Smile {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Smile smile = (Smile) o;
+        return Objects.equals(id, smile.id) && Objects.equals(value, smile.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, value);
     }
 
     @Override
