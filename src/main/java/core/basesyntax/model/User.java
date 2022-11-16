@@ -1,10 +1,13 @@
 package core.basesyntax.model;
 
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 
 public class User {
     private Long id;
     private String username;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Comment> comments;
 
     public Long getId() {
