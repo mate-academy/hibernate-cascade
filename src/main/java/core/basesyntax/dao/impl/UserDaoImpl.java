@@ -26,11 +26,11 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao {
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
             Query<User> query = session.createQuery(
-                    "SELECT m FROM Message m",
+                    "SELECT u FROM User u",
                     User.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all Messages");
+            throw new RuntimeException("Can't get all Users");
         }
     }
 }

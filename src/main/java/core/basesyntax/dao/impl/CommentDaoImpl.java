@@ -26,7 +26,7 @@ public class CommentDaoImpl extends GenericDaoImpl<Comment> implements CommentDa
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
             Query<Comment> query = session.createQuery(
-                    "SELECT m FROM Message m",
+                    "SELECT c FROM Comment c",
                     Comment.class);
             return query.getResultList();
         } catch (Exception e) {
