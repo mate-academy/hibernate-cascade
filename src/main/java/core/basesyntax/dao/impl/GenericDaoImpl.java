@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.GenericDao;
-import core.basesyntax.exception.DataProcessingException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +25,7 @@ public abstract class GenericDaoImpl<T> extends AbstractDao implements GenericDa
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't save entity "
+            throw new RuntimeException("Can't save entity "
                     + entity, e);
         } finally {
             if (session != null) {
@@ -54,7 +53,7 @@ public abstract class GenericDaoImpl<T> extends AbstractDao implements GenericDa
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove entity "
+            throw new RuntimeException("Can't remove entity "
                     + entity, e);
         } finally {
             if (session != null) {
