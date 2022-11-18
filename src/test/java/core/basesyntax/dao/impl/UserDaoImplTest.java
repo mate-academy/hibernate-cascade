@@ -16,7 +16,7 @@ public class UserDaoImplTest extends AbstractTest {
 
     @Before
     public void setup() {
-        userDao = new UserDaoImpl(getSessionFactory());
+        userDao = new UserDaoImplImpl(getSessionFactory());
     }
 
     @Override
@@ -162,7 +162,7 @@ public class UserDaoImplTest extends AbstractTest {
 
     @Test
     public void remove_WithComments_Ok() {
-        CommentDao commentDao = new CommentDaoImpl(getSessionFactory());
+        CommentDao commentDao = new CommentDaoImplImpl(getSessionFactory());
 
         // verify no comments in the DB
         List<Comment> initialCommentsInDB = commentDao.getAll();
