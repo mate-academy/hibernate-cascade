@@ -20,6 +20,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
+            return entity;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -30,7 +31,6 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
                 session.close();
             }
         }
-        return entity;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.GenericDao;
 import java.util.List;
 import org.hibernate.Session;
@@ -21,6 +20,7 @@ public abstract class GenericDaoImpl<T> extends AbstractDao implements GenericDa
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
+            return entity;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -31,7 +31,6 @@ public abstract class GenericDaoImpl<T> extends AbstractDao implements GenericDa
                 session.close();
             }
         }
-        return entity;
     }
 
     @Override
@@ -42,11 +41,10 @@ public abstract class GenericDaoImpl<T> extends AbstractDao implements GenericDa
 
     @Override
     public void remove(T entity) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();

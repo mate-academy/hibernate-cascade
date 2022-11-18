@@ -22,6 +22,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             transaction = session.beginTransaction();
             session.persist(smile);
             transaction.commit();
+            return smile;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -32,7 +33,6 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                 session.close();
             }
         }
-        return smile;
     }
 
     @Override
