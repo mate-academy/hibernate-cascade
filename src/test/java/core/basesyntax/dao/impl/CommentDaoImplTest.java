@@ -15,7 +15,7 @@ public class CommentDaoImplTest extends AbstractTest {
 
     @Before
     public void before() {
-        commentDao = new CommentDaoImplImpl(getSessionFactory());
+        commentDao = new CommentDaoImpl(getSessionFactory());
     }
 
     @Test

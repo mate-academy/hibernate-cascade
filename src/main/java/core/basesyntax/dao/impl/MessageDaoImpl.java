@@ -7,8 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-public class MessageDaoImplImpl extends GenericDaoImpl<Message> implements MessageDao {
-    public MessageDaoImplImpl(SessionFactory sessionFactory) {
+public class MessageDaoImpl extends GenericDaoImpl<Message> implements MessageDao {
+    public MessageDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 

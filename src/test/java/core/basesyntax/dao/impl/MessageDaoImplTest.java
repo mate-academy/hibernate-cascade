@@ -15,7 +15,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
     @Before
     public void setUp() {
-        messageDao = new MessageDaoImplImpl(getSessionFactory());
+        messageDao = new MessageDaoImpl(getSessionFactory());
     }
 
     @Override

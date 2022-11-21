@@ -162,7 +162,7 @@ public class UserDaoImplTest extends AbstractTest {
 
     @Test
     public void remove_WithComments_Ok() {
-        CommentDao commentDao = new CommentDaoImplImpl(getSessionFactory());
+        CommentDao commentDao = new CommentDaoImpl(getSessionFactory());
 
         // verify no comments in the DB
         List<Comment> initialCommentsInDB = commentDao.getAll();

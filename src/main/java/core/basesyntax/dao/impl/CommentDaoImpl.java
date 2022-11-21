@@ -7,8 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-public class CommentDaoImplImpl extends GenericDaoImpl<Comment> implements CommentDao {
-    public CommentDaoImplImpl(SessionFactory sessionFactory) {
+public class CommentDaoImpl extends GenericDaoImpl<Comment> implements CommentDao {
+    public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
