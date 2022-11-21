@@ -16,7 +16,7 @@ public class UserDaoImplTest extends AbstractTest {
 
     @Before
     public void setup() {
-        userDao = new UserDaoImplImpl(getSessionFactory());
+        userDao = new UserDaoImpl(getSessionFactory());
     }
 
     @Override
