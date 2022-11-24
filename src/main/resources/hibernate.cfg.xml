@@ -17,5 +17,6 @@
         <mapping class="core.basesyntax.model.MessageDetails"/>
         <mapping class="core.basesyntax.model.Comment"/>
         <mapping class="core.basesyntax.model.Smile"/>
+        <mapping class="core.basesyntax.model.User"/>
     </session-factory>
 </hibernate-configuration>
