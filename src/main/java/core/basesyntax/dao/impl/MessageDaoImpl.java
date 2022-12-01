@@ -3,15 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-import java.util.Optional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -36,14 +31,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             session.close();
         }
         return entity;
-
     }
 
     @Override
     public Message get(Long id) {
         Message message = null;
         try (Session session = factory.openSession()) {
-            message = session.get(Message.class,id);
+            message = session.get(Message.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Cant get an message from db", e);
         }
@@ -56,12 +50,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
         try {
             session = factory.openSession();
-            Query getAllMessagesQuery = session.createQuery("from Message",Message.class);
+            Query getAllMessagesQuery = session.createQuery("from Message", Message.class);
             return getAllMessagesQuery.getResultList();
-        }  catch (Exception e) {
-        throw new RuntimeException("Cant get all messages from db", e);
-    }
-
+        } catch (Exception e) {
+            throw new RuntimeException("Cant get all messages from db", e);
+        }
     }
 
     @Override
@@ -81,6 +74,5 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         } finally {
             session.close();
         }
-
     }
 }

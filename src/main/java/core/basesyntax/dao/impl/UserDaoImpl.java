@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Message;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -54,7 +52,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session = factory.openSession();
             Query getAllUsersQuery = session.createQuery("from User",User.class);
             return getAllUsersQuery.getResultList();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Cant get all messages from db", e);
         }
     }
@@ -76,6 +74,5 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         } finally {
             session.close();
         }
-
     }
 }

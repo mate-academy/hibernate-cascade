@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.model.Message;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,8 +42,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         return messageDetails;
     }
 
-
-    public void remove(MessageDetails entity){
+    public void remove(MessageDetails entity) {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -60,6 +58,5 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         } finally {
             session.close();
         }
-
     }
 }

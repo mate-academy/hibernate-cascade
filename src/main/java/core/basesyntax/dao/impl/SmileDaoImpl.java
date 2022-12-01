@@ -1,11 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.model.Comment;
-import core.basesyntax.model.Message;
 import core.basesyntax.model.Smile;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -55,7 +52,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             session = factory.openSession();
             Query getAllSmilesQuery = session.createQuery("from Smile",Smile.class);
             return getAllSmilesQuery.getResultList();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Cant get all messages from db", e);
         }
     }
