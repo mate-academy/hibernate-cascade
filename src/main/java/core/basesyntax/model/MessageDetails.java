@@ -1,11 +1,28 @@
 package core.basesyntax.model;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "messege_details")
 public class MessageDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
+
+    public MessageDetails() {
+    }
+
+    public MessageDetails(String sender, LocalDateTime sentTime) {
+        this.sender = sender;
+        this.sentTime = sentTime;
+    }
 
     public Long getId() {
         return id;

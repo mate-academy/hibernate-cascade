@@ -6,4 +6,6 @@ public interface MessageDetailsDao {
     MessageDetails create(MessageDetails entity);
 
     MessageDetails get(Long id);
+
+    void remove(MessageDetails entity);
 }
