@@ -2,10 +2,8 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.exception.DataProcessException;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -25,12 +23,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null ) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             throw new DataProcessException("Create User failed with Comment id " + entity.getId());
-        }
-        finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -40,15 +37,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        try(Session session = factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         }
     }
 
     @Override
     public List<User> getAll() {
-        try(Session session = factory.openSession()) {
-            return session.createQuery("from User", User.class).getResultList()   ;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from User", User.class).getResultList();
         }
     }
 
@@ -62,12 +59,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null ) {
+            if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Delete transaction failed with comment id " + entity.getId());
-        }
-        finally {
+            throw new DataProcessException("Delete transaction failed with comment id "
+                    + entity.getId());
+        } finally {
             if (session != null) {
                 session.close();
             }

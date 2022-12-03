@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.exception.DataProcessException;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,12 +22,12 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null ) {
+            if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Create transaction failed with Comment id " + entity.getId());
-        }
-        finally {
+            throw new DataProcessException("Create transaction failed with Comment id "
+                    + entity.getId());
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -38,7 +37,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
-        try(Session session = factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         }
     }

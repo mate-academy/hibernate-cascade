@@ -1,9 +1,9 @@
 package core.basesyntax.model;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.util.List;
 
 public class User {
     private Long id;

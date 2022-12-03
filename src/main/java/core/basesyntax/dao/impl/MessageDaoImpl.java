@@ -60,12 +60,12 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null ) {
+            if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Delete transaction failed with comment id " + entity.getId());
-        }
-        finally {
+            throw new DataProcessException("Delete transaction failed with comment id "
+                    + entity.getId());
+        } finally {
             if (session != null) {
                 session.close();
             }
