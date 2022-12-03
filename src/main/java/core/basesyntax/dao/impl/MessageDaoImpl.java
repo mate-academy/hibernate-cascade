@@ -2,10 +2,8 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.exception.DataProcessException;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Message;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -25,12 +23,12 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null ) {
+            if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Create transaction failed with Comment id " + entity.getId());
-        }
-        finally {
+            throw new DataProcessException("Create transaction failed with Comment id "
+                    + entity.getId());
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -40,15 +38,15 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        try(Session session = factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         }
     }
 
     @Override
     public List<Message> getAll() {
-        try(Session session = factory.openSession()) {
-            return session.createQuery("from Message", Message.class).getResultList()   ;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from Message", Message.class).getResultList();
         }
     }
 
