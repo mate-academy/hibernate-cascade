@@ -27,7 +27,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null ) {
                 transaction.rollback();
             }
-            throw new DataProcessException("Transaction failed with comment id " + entity.getId());
+            throw new DataProcessException("Create transaction failed with Comment id " + entity.getId());
         }
         finally {
             if (session != null) {
@@ -46,28 +46,30 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = factory.openSession();
-            session.createQuery("from Comment", Comment.class);
-            transaction = session.beginTransaction();
-
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new DataProcessException("Transaction with getting all Comments failed");
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+        try(Session session = factory.openSession()) {
+            return session.createQuery("from Comment", Comment.class).getResultList()   ;
         }
-        return null;
     }
 
     @Override
     public void remove(Comment entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null ) {
+                transaction.rollback();
+            }
+            throw new DataProcessException("Delete transaction failed with comment id " + entity.getId());
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
