@@ -1,6 +1,7 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
+import core.basesyntax.exception.DataProcessException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 
@@ -20,25 +21,48 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.merge(entity);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null ) {
                 transaction.rollback();
             }
-
+            throw new DataProcessException("Transaction failed with comment id " + entity.getId());
         }
-
-        return null;
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        try(Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        }
     }
 
     @Override
     public List<Comment> getAll() {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            session.createQuery("from Comment", Comment.class);
+            transaction = session.beginTransaction();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessException("Transaction with getting all Comments failed");
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
         return null;
     }
 
