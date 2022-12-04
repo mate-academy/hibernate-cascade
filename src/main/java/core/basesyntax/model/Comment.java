@@ -18,8 +18,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(fetch = FetchType.LAZY,
-    cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "comments_smiles",
     joinColumns = @JoinColumn(name = "comment_id"),
     inverseJoinColumns = @JoinColumn(name = "smile_id"))
