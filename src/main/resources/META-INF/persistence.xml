@@ -1,0 +1,24 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="cascade_practice">
+        <description>Cascade Practice</description>
+        <class>core.basesyntax.model.Comment</class>
+        <class>core.basesyntax.model.Message</class>
+        <class>core.basesyntax.model.MessageDetails</class>
+        <class>core.basesyntax.model.Smile</class>
+        <class>core.basesyntax.model.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:mysql://b8ibfakh1tliavuusgh9-mysql.services.clever-cloud.com:3306/b8ibfakh1tliavuusgh9"/>
+            <property name="javax.persistence.jdbc.user" value="ulynhcyjrsdp1pit"/>
+            <property name="javax.persistence.jdbc.password" value="0mnyNHAbgGS6DrQ7qchk"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
