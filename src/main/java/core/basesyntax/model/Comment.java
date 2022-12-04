@@ -1,8 +1,6 @@
 package core.basesyntax.model;
 
-import org.hibernate.annotations.Cascade;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,8 +18,8 @@ public class Comment {
     private String content;
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "comments_smiles",
-    joinColumns = @JoinColumn(name = "comment_id"),
-    inverseJoinColumns = @JoinColumn(name = "smile_id"))
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "smile_id"))
     private List<Smile> smiles;
 
     public Long getId() {

@@ -1,5 +1,6 @@
 package core.basesyntax.model;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import java.util.List;
 
 @Entity
 public class User {
@@ -18,10 +18,10 @@ public class User {
     private Long id;
     private String username;
     @OneToMany(fetch = FetchType.EAGER,
-    cascade = CascadeType.PERSIST)
+            cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_comments",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "comment_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id"))
     private List<Comment> comments;
 
     public Long getId() {
