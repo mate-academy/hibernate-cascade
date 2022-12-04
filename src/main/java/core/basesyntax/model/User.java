@@ -1,10 +1,17 @@
 package core.basesyntax.model;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 public class User {
     private Long id;
     private String username;
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(value = CascadeType.PERSIST)
     private List<Comment> comments;
 
     public Long getId() {
