@@ -39,4 +39,11 @@ public class MessageDetails {
     public void setSentTime(LocalDateTime sentTime) {
         this.sentTime = sentTime;
     }
+
+    @Override
+    public String toString() {
+        return "MessageDetails{" + "id=" + id
+                + ", sender='" + sender
+                + '\'' + ", sentTime=" + sentTime + '}';
+    }
 }
