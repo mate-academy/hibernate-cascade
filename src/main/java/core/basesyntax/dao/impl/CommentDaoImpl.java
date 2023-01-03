@@ -63,11 +63,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             transaction = session.beginTransaction();
             transaction.commit();
         } catch (Exception e) {
-            if(transaction != null) {
+            if (transaction != null) {
                 transaction.rollback();
             }
         } finally {
-            if(session != null) {
+            if (session != null) {
                 session.close();
             }
         }
