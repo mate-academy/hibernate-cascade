@@ -22,7 +22,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -39,7 +39,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(User.class,id);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException("Can not get user by id " + id, e);
         }
     }
@@ -49,7 +49,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             Query<User> userFromDb = session.createQuery("FROM User", User.class);
             return userFromDb.getResultList();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException("Can not get list of users from Db", e);
         }
     }
@@ -59,8 +59,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-
-        } catch (Exception e) {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }

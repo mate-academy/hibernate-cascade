@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -23,8 +22,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null){
+        } catch (RuntimeException e) {
+            if (transaction != null) {
                 transaction.rollback();
             }
         } finally {
@@ -39,8 +38,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public Smile get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
-        } catch (Exception e) {
-            throw  new RuntimeException("Can not get smile by id " + id, e);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can not get smile by id " + id, e);
         }
     }
 
@@ -49,7 +48,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             Query<Smile> smilesFromDb = session.createQuery("FROM Smile ", Smile.class);
             return smilesFromDb.getResultList();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException("Can't get list of smile from Db", e);
         }
     }

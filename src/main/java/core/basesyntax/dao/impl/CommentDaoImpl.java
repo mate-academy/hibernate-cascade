@@ -17,11 +17,12 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment create(Comment entity) {
         Session session = null;
         Transaction transaction = null;
-        try { session = factory.openSession();
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -38,7 +39,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException("Can not get comment by id " + id, e);
         }
     }
@@ -48,7 +49,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             Query<Comment> usersFromDb = session.createQuery("FROM Comment", Comment.class);
             return usersFromDb.getResultList();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException("Can not get list comment from db ", e);
         }
     }
@@ -62,7 +63,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }

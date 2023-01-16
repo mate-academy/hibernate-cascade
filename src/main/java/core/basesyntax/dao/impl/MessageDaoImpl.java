@@ -22,7 +22,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -39,7 +39,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public Message get(Long id) {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException("Can not get message by id " + id, e);
         }
     }
@@ -47,8 +47,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Message> messageFromDb = session.createQuery("FROM Message ", Message.class);
-            return null;
+            Query<Message> messageFromDb = session.createQuery("from Message", Message.class);
+            return messageFromDb.getResultList();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can't get list of message from Db", e);
         }
     }
 
@@ -61,11 +63,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (Exception e){
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can not remove " + entity + " from Db", e);
+            throw new RuntimeException("Can't remove " + entity + " from Db", e);
         } finally {
             if (session != null) {
                 session.close();
