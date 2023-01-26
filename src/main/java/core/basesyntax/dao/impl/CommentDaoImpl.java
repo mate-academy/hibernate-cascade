@@ -27,6 +27,5 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment entity) {
-
     }
 }
