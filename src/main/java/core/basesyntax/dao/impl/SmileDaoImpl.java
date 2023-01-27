@@ -2,11 +2,8 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,7 +39,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         Smile smile;
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             smile = session.get(Smile.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get smile by id " + id, e);
@@ -53,7 +50,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         List<Smile> smiles = new ArrayList<>();
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             Query<Smile> getAllSmiles = session.createQuery("FROM Smile", Smile.class);
             return getAllSmiles.getResultList();
         } catch (Exception e) {
