@@ -20,3 +20,4 @@
         <mapping class = "core.basesyntax.model.User"/>
     </session-factory>
 </hibernate-configuration>
+
