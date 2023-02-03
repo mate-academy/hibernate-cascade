@@ -12,6 +12,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
+
         return null;
     }
 
