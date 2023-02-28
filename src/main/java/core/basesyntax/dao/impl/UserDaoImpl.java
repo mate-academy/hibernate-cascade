@@ -41,6 +41,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get user by id", e);
         }
     }
 
@@ -49,6 +51,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = sessionFactory.openSession()) {
             Query<User> getAllUsers = session.createQuery("from User", User.class);
             return getAllUsers.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all users", e);
         }
     }
 
@@ -65,7 +69,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't delete User from DB");
+            throw new RuntimeException("Can't delete User from DB", e);
         } finally {
             if (session != null) {
                 session.close();

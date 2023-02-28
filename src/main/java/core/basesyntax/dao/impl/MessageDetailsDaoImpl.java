@@ -20,7 +20,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -39,6 +39,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     public MessageDetails get(Long id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(MessageDetails.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get massage details by id", e);
         }
     }
 }
