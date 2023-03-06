@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import java.util.List;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import org.hibernate.HibernateException;
@@ -8,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import java.util.List;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
