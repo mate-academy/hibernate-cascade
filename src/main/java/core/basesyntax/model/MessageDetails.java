@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -47,5 +48,16 @@ public class MessageDetails {
                 + ", sender='" + sender + '\''
                 + ", sentTime=" + sentTime
                 + '}';
+    }
+
+    @OneToOne(mappedBy = "messageDetails", optional = false)
+    private Message cascade;
+
+    public Message getCascade() {
+        return cascade;
+    }
+
+    public void setCascade(Message cascade) {
+        this.cascade = cascade;
     }
 }
