@@ -1,9 +1,25 @@
 package core.basesyntax.model;
 
+import java.util.List;
+import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    private MessageDetails messageDetails;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    private List<MessageDetails> messageDetails;
 
     public Long getId() {
         return id;
@@ -21,11 +37,31 @@ public class Message {
         this.content = content;
     }
 
-    public MessageDetails getMessageDetails() {
+    public List<MessageDetails> getMessageDetails() {
         return messageDetails;
     }
 
-    public void setMessageDetails(MessageDetails messageDetails) {
+    public void setMessageDetails(List<MessageDetails> messageDetails) {
         this.messageDetails = messageDetails;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Message message = (Message) o;
+        return Objects.equals(id, message.id)
+                && Objects.equals(content, message.content)
+                && Objects.equals(messageDetails, message.messageDetails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, content, messageDetails);
+    }
 }
+
