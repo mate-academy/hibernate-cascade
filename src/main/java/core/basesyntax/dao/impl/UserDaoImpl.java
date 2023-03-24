@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,6 +17,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User create(User entity) {
         Session session = null;
         Transaction transaction = null;
+        if (entity.getComments() != null) {
+            CommentDaoImpl commentDao = new CommentDaoImpl(factory);
+            entity.getComments().forEach(commentDao::create);
+        }
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
@@ -67,10 +69,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction = session.beginTransaction();
             session.delete(entity);
             transaction.commit();
-            if (entity.getComments() != null) {
-                CommentDaoImpl commentDao = new CommentDaoImpl(factory);
-                entity.getComments().forEach(commentDao::create);
-            }
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

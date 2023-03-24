@@ -1,6 +1,6 @@
 package core.basesyntax.model;
 
-import javax.persistence.CascadeType;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,11 +17,11 @@ public class User {
     private Long id;
     private String username;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Comment> comments;
+
     public User() {
     }
-
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Comment> comments;
 
     public Long getId() {
         return id;
