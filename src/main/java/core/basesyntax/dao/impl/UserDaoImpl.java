@@ -17,14 +17,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User create(User entity) {
         Session session = null;
         Transaction transaction = null;
-        if (entity.getComments() != null) {
-            CommentDaoImpl commentDao = new CommentDaoImpl(factory);
-            entity.getComments().forEach(commentDao::create);
-        }
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
