@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import core.basesyntax.model.Smile;
 import org.hibernate.SessionFactory;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
@@ -57,7 +56,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         EntityManager entityManager = null;
         try {
             entityManager = factory.createEntityManager();
-            TypedQuery<Comment> getAllCommentsQuery = entityManager.createQuery("from Comment", Comment.class);
+            TypedQuery<Comment> getAllCommentsQuery =
+                    entityManager.createQuery("from Comment", Comment.class);
             return getAllCommentsQuery.getResultList();
         } finally {
             if (entityManager != null) {

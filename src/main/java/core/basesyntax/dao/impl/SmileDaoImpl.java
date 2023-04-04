@@ -24,7 +24,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             entityManager.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            if(transaction != null) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add Smile to DB: " + entity, e);
@@ -44,8 +44,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             return entityManager.find(Smile.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't find smile in DB by id: " + id, e);
-        }
-        finally {
+        } finally {
             entityManager.close();
         }
     }
@@ -55,7 +54,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         EntityManager entityManager = null;
         try {
             entityManager = factory.createEntityManager();
-            TypedQuery<Smile> getAllSmilesQuery = entityManager.createQuery("from Smile", Smile.class);
+            TypedQuery<Smile> getAllSmilesQuery =
+                    entityManager.createQuery("from Smile", Smile.class);
             return getAllSmilesQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all smiles from DB", e);
