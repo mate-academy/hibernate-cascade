@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import com.sun.xml.bind.v2.model.core.ID;
 
 @Entity
 @Table(name = "messages")
