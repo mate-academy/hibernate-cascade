@@ -1,16 +1,30 @@
 package core.basesyntax.model;
 
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToMany
     private List<Smile> smiles;
+
+    public Comment() {
+    }
+
+    public Comment(String content, List<Smile> smiles) {
+        this.content = content;
+        this.smiles = smiles;
+    }
 
     public Long getId() {
         return id;
@@ -34,5 +48,14 @@ public class Comment {
 
     public void setSmiles(List<Smile> smiles) {
         this.smiles = smiles;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{"
+            + "id=" + id + '\''
+            + ", content='" + content + '\''
+            + ", smiles=" + smiles + '\''
+            + '}';
     }
 }
