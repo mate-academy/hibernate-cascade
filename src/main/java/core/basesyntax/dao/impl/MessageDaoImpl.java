@@ -68,7 +68,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw  new RuntimeException("Couldn't remove message = [" + entity + "] to DB", e);
+            throw new RuntimeException("Couldn't remove message = [" + entity + "] to DB", e);
         } finally {
             if (session != null) {
                 session.close();
