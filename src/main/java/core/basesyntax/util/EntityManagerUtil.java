@@ -10,7 +10,6 @@ public class EntityManagerUtil {
         return Persistence.createEntityManagerFactory("mate.academy.social_app");
     }
 
-
     public static EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;
     }
