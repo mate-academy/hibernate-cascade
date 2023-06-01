@@ -15,7 +15,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToOne
-    @Cascade({org.hibernate.annotations.CascadeType.PERSIST,  CascadeType.DELETE})
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, CascadeType.DELETE})
     private MessageDetails messageDetails;
 
     public Long getId() {
