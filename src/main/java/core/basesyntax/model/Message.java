@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import java.util.List;
 
 @Entity
 public class Message {
@@ -16,7 +15,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToOne(cascade = CascadeType.ALL)
-    private List<MessageDetails> messageDetails;
+    private MessageDetails messageDetails;
 
     public Long getId() {
         return id;
@@ -34,11 +33,11 @@ public class Message {
         this.content = content;
     }
 
-    public List<MessageDetails> getMessageDetails() {
+    public MessageDetails getMessageDetails() {
         return messageDetails;
     }
 
-    public void setMessageDetails(List<MessageDetails> messageDetails) {
+    public void setMessageDetails(MessageDetails messageDetails) {
         this.messageDetails = messageDetails;
     }
 }
