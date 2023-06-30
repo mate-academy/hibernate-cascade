@@ -1,16 +1,32 @@
 package core.basesyntax.model;
 
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String content;
+    @OneToMany
+    @JoinTable(name = "comments_smiles",
+              joinColumns = @JoinColumn(name = "comments_id"),
+              inverseJoinColumns = @JoinColumn(name = "smiles_id"))
     private List<Smile> smiles;
+
+    public Comment() {
+    }
 
     public Long getId() {
         return id;
