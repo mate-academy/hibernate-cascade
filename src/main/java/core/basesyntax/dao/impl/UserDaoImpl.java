@@ -18,7 +18,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Transaction transaction = null;
         try {
             session = factory.openSession();
-            transaction = session.getTransaction();
+            transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Transaction transaction = null;
         try {
             session = factory.openSession();
-            transaction = session.getTransaction();
+            transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
