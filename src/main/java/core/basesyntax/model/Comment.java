@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +50,10 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", smiles=" + smiles +
-                '}';
+        return "Comment{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", smiles=" + smiles
+                + '}';
     }
 }
