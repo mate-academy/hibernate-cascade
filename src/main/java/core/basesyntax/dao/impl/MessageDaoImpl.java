@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Message;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -28,9 +26,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw  new RuntimeException("Can't save message to DB. Message: " + entity);
-        }
-        finally {
+            throw new RuntimeException("Can't save message to DB. Message: " + entity);
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -71,9 +68,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw  new RuntimeException("Can't remove message from DB. Message: " + entity);
-        }
-        finally {
+            throw new RuntimeException("Can't remove message from DB. Message: " + entity);
+        } finally {
             if (session != null) {
                 session.close();
             }

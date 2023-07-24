@@ -1,8 +1,13 @@
 package core.basesyntax.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "comments")
@@ -43,6 +48,7 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", content='" + content + '\'' + ", smiles=" + smiles + '}';
+        return "Comment{" + "id=" + id + ", content='" + content + '\'' + ", smiles="
+                + smiles + '}';
     }
 }

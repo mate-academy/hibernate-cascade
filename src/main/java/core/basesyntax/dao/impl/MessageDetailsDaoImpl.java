@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.model.Message;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,9 +24,9 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw  new RuntimeException("Can't save messageDetails to DB. MessageDetails: " + entity);
-        }
-        finally {
+            throw new RuntimeException("Can't save messageDetails to DB. MessageDetails: "
+                    + entity);
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -40,7 +39,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Error while getting messageDetails from DB. MessageDetails ID: "
+            throw new RuntimeException("Error while getting messageDetails from DB. "
+                    + "MessageDetails ID: "
                     + id, e);
         }
     }

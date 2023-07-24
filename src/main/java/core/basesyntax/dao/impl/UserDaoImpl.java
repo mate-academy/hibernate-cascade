@@ -1,11 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
-import core.basesyntax.model.Smile;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -29,9 +26,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw  new RuntimeException("Can't save user to DB. User: " + entity);
-        }
-        finally {
+            throw new RuntimeException("Can't save user to DB. User: " + entity);
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -72,9 +68,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw  new RuntimeException("Can't remove user from DB. User: " + entity);
-        }
-        finally {
+            throw new RuntimeException("Can't remove user from DB. User: " + entity);
+        } finally {
             if (session != null) {
                 session.close();
             }

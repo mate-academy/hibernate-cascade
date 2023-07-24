@@ -1,8 +1,11 @@
 package core.basesyntax.model;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Message {
@@ -42,6 +45,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" + "id=" + id + ", content='" + content + '\'' + ", messageDetails=" + messageDetails + '}';
+        return "Message{" + "id=" + id + ", content='" + content + '\'' + ", messageDetails="
+                + messageDetails + '}';
     }
 }
