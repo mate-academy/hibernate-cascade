@@ -3,7 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -11,17 +14,52 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     }
 
     @Override
-    public Smile create(Smile entity) {
-        return null;
+    public Smile create(Smile smile) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(smile);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return smile;
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        Smile receivedSmile = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            receivedSmile = session.get(Smile.class, id);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return receivedSmile;
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        Session session = factory.openSession();
+        Query<Smile> query = session.createQuery("from Smile", Smile.class);
+        return query.getResultList();
     }
 }
