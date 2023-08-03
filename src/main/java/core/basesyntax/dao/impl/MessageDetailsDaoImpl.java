@@ -19,6 +19,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

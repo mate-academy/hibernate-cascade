@@ -21,6 +21,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -67,6 +68,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

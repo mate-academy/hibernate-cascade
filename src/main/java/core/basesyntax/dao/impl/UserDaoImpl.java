@@ -21,6 +21,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -73,6 +74,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
