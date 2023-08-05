@@ -43,7 +43,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException(
-                    "Can't get a comment from DB by id: " +id, e
+                    "Can't get a comment from DB by id: " + id, e
             );
         }
     }
