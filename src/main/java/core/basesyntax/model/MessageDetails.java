@@ -1,8 +1,17 @@
 package core.basesyntax.model;
 
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class MessageDetails {
+@Entity
+@Table(name = "details")
+public class MessageDetails implements Cloneable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
@@ -29,5 +38,23 @@ public class MessageDetails {
 
     public void setSentTime(LocalDateTime sentTime) {
         this.sentTime = sentTime;
+    }
+
+    @Override
+    public MessageDetails clone() {
+        try {
+            return (MessageDetails) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Can't make clone of " + this, e);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "MessageDetails{"
+                + "id=" + id
+                + ", sender='" + sender + '\''
+                + ", sentTime=" + sentTime
+                + '}';
     }
 }
