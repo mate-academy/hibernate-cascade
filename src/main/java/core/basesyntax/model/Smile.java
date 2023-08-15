@@ -4,9 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class Smile {
+@Table(name = "smiles")
+public class Smile implements Cloneable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +35,15 @@ public class Smile {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public Smile clone() {
+        try {
+            return (Smile) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Can't make clone of " + this, e);
+        }
     }
 
     @Override
