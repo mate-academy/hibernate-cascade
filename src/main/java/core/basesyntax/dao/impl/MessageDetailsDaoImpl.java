@@ -23,7 +23,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             transaction.commit();
             return entity;
         } catch (Exception e) {
-            if (transaction != null ) {
+            if (transaction != null) {
                 transaction.commit();
             }
             throw new RuntimeException("Can`t create message detail: " + entity, e);
