@@ -14,20 +14,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment create(Comment entity) {
+    public Comment create(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(comment);
             transaction.commit();
-            return entity;
+            return comment;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t create comment: " + entity, e);
+            throw new RuntimeException("Can`t create comment: " + comment, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -47,7 +47,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            Query<Comment> getAllCommentQuery = session.createQuery("from Comment", Comment.class);
+            Query<Comment> getAllCommentQuery = session.createQuery("FROM Comment", Comment.class);
             return getAllCommentQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can`t find any comment", e);
@@ -55,19 +55,19 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public void remove(Comment entity) {
+    public void remove(Comment comment) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(comment);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t delete comment: " + entity, e);
+            throw new RuntimeException("Can`t delete comment: " + comment, e);
         } finally {
             if (session != null) {
                 session.close();
