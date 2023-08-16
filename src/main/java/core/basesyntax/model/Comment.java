@@ -2,6 +2,7 @@ package core.basesyntax.model;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,8 +18,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @ManyToMany
-    @JoinTable(name = "comments_smiles",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "comment_smile",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "smile_id"))
     private List<Smile> smiles;

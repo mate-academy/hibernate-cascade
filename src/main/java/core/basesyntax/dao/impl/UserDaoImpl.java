@@ -3,6 +3,7 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -39,7 +40,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(User.class, id);
+            User user = session.get(User.class, id);
+            Hibernate.initialize(user.getComments());
+            return user;
         } catch (RuntimeException e) {
             throw new RuntimeException("Can't get user by id: "
                     + id + " from DB", e);

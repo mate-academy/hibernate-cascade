@@ -17,7 +17,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "messageDetails_id")
+    @JoinColumn(name = "message_details_id")
     private MessageDetails messageDetails;
 
     public Long getId() {
