@@ -19,7 +19,7 @@ public class User {
     private Long id;
     private String username;
     @OneToMany(fetch = FetchType.EAGER,
-                cascade = CascadeType.PERSIST)
+            cascade = CascadeType.PERSIST)
     @JoinColumn(name = "comment_id")
     private List<Comment> comments;
 
