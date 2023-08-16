@@ -14,24 +14,24 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User create(User entity) {
+    public User create(User user) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(user);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
             throw new RuntimeException("Can't add user "
-                    + entity.getUsername() + " to DB");
+                    + user.getUsername() + " to DB");
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return entity;
+        return user;
     }
 
     @Override
@@ -50,19 +50,19 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                     = session.createQuery("FROM User", User.class);
             return getAllFromUsersQuery.getResultList();
         } catch (Throwable e) {
-            throw new RuntimeException("Can't get data from DB");
+            throw new RuntimeException("Can't get all users");
         }
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(User user) {
         Transaction transaction;
         try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            session.delete(entity);
+            session.delete(user);
             transaction.commit();
         } catch (Throwable e) {
-            throw new RuntimeException("Can't remove user " + entity.getUsername());
+            throw new RuntimeException("Can't remove user " + user.getUsername());
         }
     }
 }

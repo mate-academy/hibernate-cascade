@@ -14,13 +14,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     }
 
     @Override
-    public Message create(Message entity) {
+    public Message create(Message message) {
         Session session = null;
         Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
+            session.persist(message);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -31,7 +31,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 session.close();
             }
         }
-        return entity;
+        return message;
     }
 
     @Override
@@ -50,20 +50,20 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                     = session.createQuery("FROM Message", Message.class);
             return getAllFromMessageQuery.getResultList();
         } catch (Throwable e) {
-            throw new RuntimeException("Can't get data from DB");
+            throw new RuntimeException("Can't get all messages");
         }
     }
 
     @Override
-    public void remove(Message entity) {
+    public void remove(Message message) {
         Transaction transaction;
         try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.remove(message);
             transaction.commit();
         } catch (Throwable e) {
             throw new RuntimeException("Can't remove message "
-                    + entity + " from DB");
+                    + message + " from DB");
         }
     }
 }

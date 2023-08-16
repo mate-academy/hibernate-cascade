@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,6 +17,7 @@ public class Comment {
     private Long id;
     private String content;
     @OneToMany
+    @JoinColumn(name = "comment_id")
     private List<Smile> smiles;
 
     public Long getId() {
