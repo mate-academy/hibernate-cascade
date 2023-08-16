@@ -26,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             return entity;
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.commit();
+                transaction.rollback();
             }
             throw new RuntimeException("Can`t create user: " + entity, e);
         } finally {
@@ -66,7 +66,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
-                transaction.commit();
+                transaction.rollback();
             }
             throw new RuntimeException("Can`t delete user: " + entity, e);
         } finally {
