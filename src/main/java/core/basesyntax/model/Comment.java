@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,8 +20,12 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "comment_id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "comment_smile",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "smile_id")
+    )
     private List<Smile> smiles;
 
     public Long getId() {
