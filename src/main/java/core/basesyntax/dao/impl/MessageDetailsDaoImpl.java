@@ -24,7 +24,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't add message details {" + entity + "} to database!", ex);
+            throw new RuntimeException(
+                    "Can't add message details {" + entity + "} to database!", ex);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,7 +39,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception ex) {
-            throw new RuntimeException("Can't get message details from the DB with id " + id, ex);
+            throw new RuntimeException(
+                    "Can't get message details from the DB with id " + id, ex);
         }
     }
 }
