@@ -2,12 +2,12 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
-import org.hibernate.SessionFactory;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
-    public MessageDaoImpl(SessionFactory sessionFactory) {
-        super(sessionFactory);
+    public MessageDaoImpl(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
     }
 
     @Override

@@ -2,12 +2,12 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
-import org.hibernate.SessionFactory;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    public UserDaoImpl(SessionFactory sessionFactory) {
-        super(sessionFactory);
+    public UserDaoImpl(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
     }
 
     @Override

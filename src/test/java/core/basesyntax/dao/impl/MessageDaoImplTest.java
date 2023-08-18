@@ -15,7 +15,7 @@ public class MessageDaoImplTest extends AbstractTest {
 
     @Before
     public void setUp() {
-        messageDao = new MessageDaoImpl(getSessionFactory());
+        messageDao = new MessageDaoImpl(getEntityManagerFactory());
     }
 
     @Override
@@ -176,7 +176,7 @@ public class MessageDaoImplTest extends AbstractTest {
         Assert.assertEquals("Bob", actual.getMessageDetails().getSender());
 
         // Verify message details was also created
-        MessageDetailsDao messageDetailsDao = new MessageDetailsDaoImpl(getSessionFactory());
+        MessageDetailsDao messageDetailsDao = new MessageDetailsDaoImpl(getEntityManagerFactory());
         MessageDetails messageDetailsGetFromDB = messageDetailsDao.get(1L);
         Assert.assertNotNull(messageDetailsGetFromDB);
         Assert.assertNotNull(messageDetailsGetFromDB.getId());

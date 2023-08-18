@@ -2,12 +2,12 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
-import org.hibernate.SessionFactory;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
-    public CommentDaoImpl(SessionFactory sessionFactory) {
-        super(sessionFactory);
+    public CommentDaoImpl(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
     }
 
     @Override
