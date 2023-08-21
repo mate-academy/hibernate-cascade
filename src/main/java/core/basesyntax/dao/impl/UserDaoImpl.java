@@ -39,7 +39,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(User.class, id);
+            Query<User> getCommentQuery = session.createQuery("FROM User u "
+                    + "LEFT JOIN FETCH u.comments "
+                    + "WHERE u.id = :id", User.class);
+            return getCommentQuery.setParameter("id", id).getSingleResult();
         } catch (Exception e) {
             throw new NoSuchElementException("Can't get user by id: " + id, e);
         }
@@ -48,7 +51,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            Query<User> getAllCommentQuery = session.createQuery("FROM User", User.class);
+            Query<User> getAllCommentQuery = session.createQuery("SELECT DISTINCT u FROM User u "
+                    + "LEFT JOIN FETCH u.comments", User.class);
             return getAllCommentQuery.getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get list of users", e);
@@ -62,7 +66,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(user);
+            session.delete(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

@@ -39,7 +39,10 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(Comment.class, id);
+            Query<Comment> getCommentQuery = session.createQuery("FROM Comment c "
+                    + "LEFT JOIN FETCH c.smiles "
+                    + "WHERE c.id = :id", Comment.class);
+            return getCommentQuery.setParameter("id", id).getSingleResult();
         } catch (Exception e) {
             throw new NoSuchElementException("Can't get comment by id: " + id, e);
         }
