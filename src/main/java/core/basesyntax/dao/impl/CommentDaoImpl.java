@@ -5,28 +5,27 @@ import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.SessionFactory;
 
-public class CommentDaoImpl extends AbstractDao implements CommentDao {
+public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
     @Override
-    public Comment create(Comment entity) {
-        return null;
+    public Comment create(Comment item) {
+        try {
+            return super.create(item);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't insert Content entity", e);
+        }
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        return super.get(id, Comment.class);
     }
 
     @Override
     public List<Comment> getAll() {
-        return null;
-    }
-
-    @Override
-    public void remove(Comment entity) {
-
+        return super.getAll(Comment.class);
     }
 }
