@@ -15,11 +15,11 @@
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <property name="hbm2ddl.auto">update</property>
 
+        <mapping class="core.basesyntax.model.User"/>
         <mapping class="core.basesyntax.model.Comment"/>
+        <mapping class="core.basesyntax.model.Smile"/>
         <mapping class="core.basesyntax.model.Message"/>
         <mapping class="core.basesyntax.model.MessageDetails"/>
-        <mapping class="core.basesyntax.model.Smile"/>
-        <mapping class="core.basesyntax.model.User"/>
 
     </session-factory>
 </hibernate-configuration>
