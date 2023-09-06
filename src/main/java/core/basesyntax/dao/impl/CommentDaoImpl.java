@@ -1,9 +1,13 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
+import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
+import javax.persistence.criteria.CriteriaQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -12,21 +16,65 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Error while creating comment: " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Error while getting comment by id: " + id, e);
+        }
     }
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            CriteriaQuery<Comment> criteriaQuery = session.getCriteriaBuilder()
+                    .createQuery(Comment.class);
+            criteriaQuery.from(Comment.class);
+            return session.createQuery(criteriaQuery).getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error while getting all comments", e);
+        }
     }
 
     @Override
     public void remove(Comment entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Error while deleted comment: " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
