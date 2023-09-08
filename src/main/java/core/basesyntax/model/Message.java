@@ -1,5 +1,7 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.Entity;
+
 public class Message {
     private Long id;
     private String content;
