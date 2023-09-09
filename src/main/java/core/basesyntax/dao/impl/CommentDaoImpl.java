@@ -1,15 +1,16 @@
 package core.basesyntax.dao.impl;
 
-import java.util.List;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.exception.DataAccessException;
 import core.basesyntax.model.Comment;
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
+
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
