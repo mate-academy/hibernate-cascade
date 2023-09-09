@@ -1,10 +1,12 @@
 package core.basesyntax.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import org.hibernate.annotations.Fetch;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Smile> smiles;
 
     public Long getId() {
@@ -46,7 +48,7 @@ public class Comment {
         return "Comment{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", smiles=" +
+                ", smiles=" + smiles +
                 '}';
     }
 }
