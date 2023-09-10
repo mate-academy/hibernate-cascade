@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -14,12 +15,21 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message entity) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.persist(entity);
-            return entity;
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't create a message", e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
@@ -45,10 +55,19 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public void remove(Message entity) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't remove message");
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

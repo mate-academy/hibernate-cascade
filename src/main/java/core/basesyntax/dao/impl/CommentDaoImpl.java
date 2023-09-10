@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -14,18 +15,29 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        try (Session session = factory.openSession()) {
-            session.save(entity);
-            return entity;
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't create a comment: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't create a comment");
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(Comment.class, id);
+            Comment comment = session.get(Comment.class, id);
+            return comment;
         } catch (Exception e) {
             throw new RuntimeException("Can't get comment by id: " + id, e);
         }
@@ -45,10 +57,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment entity) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't remove comment: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't remove comment");
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

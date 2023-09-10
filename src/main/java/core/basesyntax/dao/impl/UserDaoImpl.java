@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -14,12 +15,21 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.persist(entity);
-            return entity;
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't create new user");
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
@@ -39,16 +49,25 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             criteriaQuery.from(User.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all comment from DB", e);
+            throw new RuntimeException("Can't get all users from DB", e);
         }
     }
 
     @Override
     public void remove(User entity) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't remove user from DB");
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

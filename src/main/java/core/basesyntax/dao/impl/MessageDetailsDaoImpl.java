@@ -4,6 +4,7 @@ import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
@@ -12,12 +13,21 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.persist(entity);
-            return entity;
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can't create new details of message");
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
