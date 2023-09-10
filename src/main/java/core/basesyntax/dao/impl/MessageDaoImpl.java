@@ -2,12 +2,14 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
+import jakarta.persistence.Entity;
 import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+@Entity
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -34,11 +36,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        try (Session session = factory.openSession()) {
-            return session.get(Message.class, id);
-        } catch (Exception e) {
-            throw new RuntimeException("Can't get message by id: " + id, e);
-        }
+        Session session = factory.openSession();
+        return session.get(Message.class, id);
     }
 
     @Override
