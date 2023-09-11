@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,7 +28,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             }
             throw new RuntimeException("Can`t added new user in to DB. User : " + user, e);
         } finally {
-            if (session != null){
+            if (session != null) {
                 session.close();
             }
         }
@@ -39,7 +37,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can`t get user by id: " + id, e);
@@ -48,7 +46,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             Query<User> getAllUserQuery = session.createQuery(
                     "from User", User.class);
             return getAllUserQuery.getResultList();

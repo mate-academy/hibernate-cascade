@@ -3,8 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-import java.util.Optional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -61,20 +59,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public void remove(Comment comment) {
         Session session = null;
         Transaction transaction = null;
-            try {
-                session = factory.openSession();
-                transaction = session.beginTransaction();
-                session.remove(comment);
-                transaction.commit();
-            } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
-                throw new RuntimeException("Can`t remove commit in to DB. Commit: " + comment, e);
-            } finally {
-                if (session != null) {
-                    session.close();
-                }
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(comment);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
+            throw new RuntimeException("Can`t remove commit in to DB. Commit: " + comment, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
