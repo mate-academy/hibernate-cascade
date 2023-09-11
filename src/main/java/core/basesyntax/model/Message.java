@@ -1,8 +1,17 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+
+import static jakarta.persistence.CascadeType.REMOVE;
+
+@Entity
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToOne(cascade = { CascadeType.PERSIST, REMOVE})
     private MessageDetails messageDetails;
 
     public Long getId() {
