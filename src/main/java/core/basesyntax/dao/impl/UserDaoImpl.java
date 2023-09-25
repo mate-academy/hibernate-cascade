@@ -25,7 +25,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         try {
-            return factory.fromSession(session -> session.get(User.class, id));
+            return factory.fromSession(session -> session.createQuery("FROM User u "
+                            + "LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class)
+                    .setParameter("id", id).getSingleResult());
         } catch (Exception e) {
             throw new RuntimeException("Can't get User by id: " + id, e);
         }
@@ -34,8 +36,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try {
-            return factory.fromSession(session -> session.createQuery("FROM User", User.class)
-                    .getResultList());
+            return factory.fromSession(session -> session.createQuery("FROM User u "
+                    + "LEFT JOIN FETCH u.comments", User.class).getResultList());
         } catch (Exception e) {
             throw new RuntimeException("Can't get List of User from db", e);
         }
