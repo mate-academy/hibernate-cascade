@@ -15,7 +15,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToOne
-    @Cascade(CascadeType.ALL)
+    @Cascade({CascadeType.PERSIST, CascadeType.REMOVE})
     private MessageDetails messageDetails;
 
     public Long getId() {
