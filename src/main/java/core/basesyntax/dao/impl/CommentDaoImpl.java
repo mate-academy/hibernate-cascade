@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
@@ -21,8 +20,17 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.persist(entity);
-            transaction.commit();
+
+
+            Query query = session.createQuery("From Comment where id = :commentID");
+            query.setParameter("commentID", entity.getId());
+
+            if (((query).list().isEmpty())) {
+
+
+                session.persist(entity);
+                transaction.commit();
+            }
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -38,7 +46,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        SessionFactory sessionFactory = factory.openSession().getSessionFactory();
         try (Session session = sessionFactory.openSession()) {
             return session.get(Comment.class, id);
         }
