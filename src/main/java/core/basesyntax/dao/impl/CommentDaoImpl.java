@@ -20,14 +20,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-
-
             Query query = session.createQuery("From Comment where id = :commentID");
             query.setParameter("commentID", entity.getId());
-
             if (((query).list().isEmpty())) {
-
-
                 session.persist(entity);
                 transaction.commit();
             }
