@@ -13,10 +13,5 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">create-drop</property>
 
-        <mapping class="core.basesyntax.model.User"/>
-        <mapping class="core.basesyntax.model.Comment"/>
-        <mapping class="core.basesyntax.model.Smile"/>
-
-
     </session-factory>
 </hibernate-configuration>
