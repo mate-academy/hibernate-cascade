@@ -26,17 +26,17 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 session.persist(entity);
                 transaction.commit();
             }
+
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("can`t add comment to DB", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-            return entity;
         }
+        if (session != null) {
+            session.close();
+        }
+        return entity;
     }
 
     @Override
