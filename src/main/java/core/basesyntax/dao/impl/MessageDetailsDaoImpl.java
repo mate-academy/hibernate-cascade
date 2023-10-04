@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,7 +24,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to save new "
+            throw new RuntimeException("Error occurred when we try to save new "
                     + "entity to DB", e);
         } finally {
             if (session != null) {
@@ -42,7 +41,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             return session.get(MessageDetails.class,id);
 
         } catch (Exception e) {
-            throw new DataProcessingException("Error occurred when"
+            throw new RuntimeException("Error occurred when"
                     + " trying to get entity by id - " + id, e);
         }
     }

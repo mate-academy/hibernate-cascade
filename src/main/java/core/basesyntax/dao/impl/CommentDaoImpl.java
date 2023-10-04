@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;
@@ -28,7 +27,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to save new "
+            throw new RuntimeException("Error occurred when we try to save new "
                     + "entity to DB", e);
         } finally {
             if (session != null) {
@@ -47,7 +46,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             return query.getSingleResult();
 
         } catch (Exception e) {
-            throw new DataProcessingException("Error occurred when"
+            throw new RuntimeException("Error occurred when"
                     + " trying to get entity by id - " + id, e);
         }
     }
@@ -58,7 +57,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             Query<Comment> query = session.createQuery("from Comment",Comment.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error o",e);
+            throw new RuntimeException("Error o",e);
         }
     }
 
@@ -75,7 +74,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to remove new "
+            throw new RuntimeException("Error occurred when we try to remove new "
                     + "entity from DB", e);
         } finally {
             if (session != null) {

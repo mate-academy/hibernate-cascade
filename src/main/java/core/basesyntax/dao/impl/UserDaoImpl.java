@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to save new "
+            throw new RuntimeException("Error occurred when we try to save new "
                     + "entity to DB", e);
         } finally {
             if (session != null) {
@@ -43,7 +42,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             return session.get(User.class,id);
 
         } catch (Exception e) {
-            throw new DataProcessingException("Error occurred when"
+            throw new RuntimeException("Error occurred when"
                     + " trying to get entity by id - " + id, e);
         }
     }
@@ -54,7 +53,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             Query<User> query = session.createQuery("from User", User.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error o", e);
+            throw new RuntimeException("Error o", e);
         }
     }
 
@@ -71,7 +70,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to remove new "
+            throw new RuntimeException("Error occurred when we try to remove new "
                     + "entity from DB", e);
         } finally {
             if (session != null) {

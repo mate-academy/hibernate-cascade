@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Smile;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to save new "
+            throw new RuntimeException("Error occurred when we try to save new "
                     + "entity to DB", e);
         } finally {
             if (session != null) {
@@ -46,7 +45,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             return query.getSingleResult();
 
         } catch (Exception e) {
-            throw new DataProcessingException("Error occurred when"
+            throw new RuntimeException("Error occurred when"
                     + " trying to get entity by id - " + id, e);
         }
     }
@@ -58,7 +57,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             return query.getResultList();
 
         } catch (Exception e) {
-            throw new DataProcessingException("Error occurred when"
+            throw new RuntimeException("Error occurred when"
                     + " trying to get list of entities - ", e);
         }
     }

@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
@@ -27,7 +26,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to save new "
+            throw new RuntimeException("Error occurred when we try to save new "
                     + "entity to DB", e);
         } finally {
             if (session != null) {
@@ -43,7 +42,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             return session.get(Message.class,id);
 
         } catch (Exception e) {
-            throw new DataProcessingException("Error occurred when"
+            throw new RuntimeException("Error occurred when"
                     + " trying to get entity by id - " + id, e);
         }
     }
@@ -54,7 +53,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             Query<Message> query = session.createQuery("from Message", Message.class);
             return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error o", e);
+            throw new RuntimeException("Error o", e);
         }
     }
 
@@ -71,7 +70,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Error occurred when we try to remove new "
+            throw new RuntimeException("Error occurred when we try to remove new "
                     + "entity from DB", e);
         } finally {
             if (session != null) {
