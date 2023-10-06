@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
@@ -45,8 +44,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-          Query<Comment> getAllCommentQuery = session.createQuery("from Comment", Comment.class);
-          return getAllCommentQuery.getResultList();
+            Query<Comment> getAllCommentQuery = session.createQuery("from Comment", Comment.class);
+            return getAllCommentQuery.getResultList();
         }
     }
 
