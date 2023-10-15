@@ -12,21 +12,21 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message entity) {
-        return null;
+        return (Message) super.createEntity(entity);
     }
 
     @Override
     public Message get(Long id) {
-        return null;
+        return (Message) super.getEntity(id, Message.class);
     }
 
     @Override
     public List<Message> getAll() {
-        return null;
+        return (List<Message>) super.getAllEntities(Message.class);
     }
 
     @Override
     public void remove(Message entity) {
-
+        super.removeEntity(entity);
     }
 }
