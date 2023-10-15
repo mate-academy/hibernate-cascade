@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.dao.DataProcessingException;
 import core.basesyntax.model.Model;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -25,7 +24,7 @@ public abstract class AbstractDao {
             session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't save "
+            throw new RuntimeException("Can't save "
                     + entity.getClass().getName() + ": " + entity, e);
         } finally {
             if (transaction != null && transaction.isActive()) {
@@ -43,7 +42,7 @@ public abstract class AbstractDao {
         try (Session session = factory.openSession()) {
             entity = session.get(entityClass, id);
         } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get "
+            throw new RuntimeException("Can't get "
                     + entityClass.getName() + " with id: " + id, e);
         }
         return entity;
@@ -55,7 +54,7 @@ public abstract class AbstractDao {
                     + entityClass.getName(), entityClass);
             return query.list();
         } catch (HibernateException e) {
-            throw new DataProcessingException("Can't get all entities of "
+            throw new RuntimeException("Can't get all entities of "
                     + entityClass.getName(), e);
         }
     }
@@ -69,7 +68,7 @@ public abstract class AbstractDao {
             session.remove(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            throw new DataProcessingException("Can't remove "
+            throw new RuntimeException("Can't remove "
                     + entity.getClass().getName() + ": " + entity, e);
         } finally {
             if (transaction != null && transaction.isActive()) {
