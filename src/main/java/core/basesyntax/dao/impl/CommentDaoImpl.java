@@ -45,7 +45,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             return comment;
 
         } catch (Exception e) {
-            throw new RuntimeException("Can not find an object ", e);
+            throw new RuntimeException("Can not find an object with ID " + id, e);
         }
     }
 

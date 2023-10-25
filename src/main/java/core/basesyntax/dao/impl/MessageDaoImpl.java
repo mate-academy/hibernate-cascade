@@ -40,7 +40,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can not find an object ", e);
+            throw new RuntimeException("Can not find an object with ID " + id, e);
         }
     }
 
