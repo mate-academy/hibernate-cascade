@@ -18,7 +18,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToOne
-    @JoinColumn(name = "message_id!!")
+    @JoinColumn(name = "messageDetails_id")
     @Cascade({CascadeType.REMOVE,CascadeType.PERSIST})
     private MessageDetails messageDetails;
 

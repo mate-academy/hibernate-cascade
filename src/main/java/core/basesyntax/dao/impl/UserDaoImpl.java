@@ -3,13 +3,9 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
-
-import jakarta.persistence.Id;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import org.hibernate.query.SelectionQuery;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -29,7 +25,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can`t save data in DB by User " + entity ,e);
+            throw new RuntimeException("Can`t save data in DB by User " + entity,e);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,7 +39,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class,id);
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get User by Id "+ id,e);
+            throw new RuntimeException("Can`t get User by Id " + id,e);
         }
 
     }
@@ -53,6 +49,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             String sqlQuery = "SELECT * FROM users";
             return session.createNativeQuery(sqlQuery, User.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can`t get all User from Db",e);
         }
     }
 
@@ -71,9 +69,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             }
             throw new RuntimeException("Can`t delete from Db User " + entity,e);
         } finally {
-           if (session != null) {
-               session.close();
-           }
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
