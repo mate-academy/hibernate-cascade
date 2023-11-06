@@ -20,7 +20,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
         try {
             session = factory.openSession();
-            transaction = session.getTransaction();
+            transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
         try {
             session = factory.openSession();
-            transaction = session.getTransaction();
+            transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
