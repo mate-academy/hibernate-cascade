@@ -1,8 +1,12 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToOne;
+
 public class Message {
     private Long id;
     private String content;
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private MessageDetails messageDetails;
 
     public Long getId() {
