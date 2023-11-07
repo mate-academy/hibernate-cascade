@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.FetchType;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class User {
     private Long id;
     private String username;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_comment",
             joinColumns = @JoinColumn(name = "user_id"),

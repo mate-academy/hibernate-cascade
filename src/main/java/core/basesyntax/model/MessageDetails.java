@@ -1,6 +1,7 @@
 package core.basesyntax.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,19 +13,23 @@ import java.time.LocalDateTime;
 public class MessageDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long messageDetailsId;
     private String sender;
     private LocalDateTime sentTime;
 
     @OneToOne
+    @JoinColumn(name = "message")
     private Message message;
 
-    public Long getId() {
-        return id;
+    public MessageDetails() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getMessageDetailsId() {
+        return messageDetailsId;
+    }
+
+    public void setMessageDetailsId(Long id) {
+        this.messageDetailsId = id;
     }
 
     public String getSender() {

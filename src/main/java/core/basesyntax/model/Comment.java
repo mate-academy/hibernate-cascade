@@ -1,5 +1,6 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,7 @@ public class Comment {
     private Long id;
     private String content;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "comment_smile",
             joinColumns = @JoinColumn(name = "comment_id"),

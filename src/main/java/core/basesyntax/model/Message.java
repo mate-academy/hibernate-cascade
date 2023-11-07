@@ -11,18 +11,21 @@ import jakarta.persistence.OneToOne;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long messageId;
     private String content;
 
     @OneToOne(mappedBy = "message", cascade = CascadeType.ALL)
     private MessageDetails messageDetails;
 
-    public Long getId() {
-        return id;
+    public Message() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long id) {
+        this.messageId = id;
     }
 
     public String getContent() {

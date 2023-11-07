@@ -2,6 +2,7 @@ package core.basesyntax.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -15,23 +16,55 @@ public abstract class AbstractDao<T> {
     }
 
     public T create(T entity) {
-        Session session = factory.getCurrentSession();
-        session.save(entity);
+        Session session = factory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error occurred while saving entity", e);
+        } finally {
+            session.close();
+        }
         return entity;
     }
 
     public T get(Long id) {
-        Session session = factory.getCurrentSession();
-        return session.get(entityClass, id);
+        Session session = factory.openSession();
+        try {
+            return session.get(entityClass, id);
+        } finally {
+            session.close();
+        }
     }
 
     public List<T> getAll() {
-        Session session = factory.getCurrentSession();
-        return session.createQuery("FROM " + entityClass.getName(), entityClass).list();
+        Session session = factory.openSession();
+        try {
+            return session.createQuery("FROM " + entityClass.getName(), entityClass).list();
+        } finally {
+            session.close();
+        }
     }
 
     public void remove(T entity) {
-        Session session = factory.getCurrentSession();
-        session.remove(entity);
+        Session session = factory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error occurred while deleting entity", e);
+        } finally {
+            session.close();
+        }
     }
 }
