@@ -3,11 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import java.util.List;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -42,7 +41,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         }
         return entity;
     }
-
 
     @Override
     public User get(Long id) {

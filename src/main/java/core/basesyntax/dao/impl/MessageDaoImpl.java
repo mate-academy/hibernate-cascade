@@ -2,9 +2,11 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-import org.hibernate.SessionFactory;
-
+import core.basesyntax.model.MessageDetails;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -13,7 +15,30 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
 
     @Override
     public Message create(Message entity) {
-        return super.create(entity);
+        Session session = factory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            // Save MessageDetails first if it exists
+            MessageDetails messageDetails = entity.getMessageDetails();
+            if (messageDetails != null) {
+                session.save(messageDetails);
+            }
+
+            // Save Message entity
+            session.save(entity);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Error occurred while saving entity", e);
+        } finally {
+            session.close();
+        }
+        return entity;
     }
 
     @Override

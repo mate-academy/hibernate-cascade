@@ -14,7 +14,7 @@ public class Message {
     private Long messageId;
     private String content;
 
-    @OneToOne(mappedBy = "message", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     private MessageDetails messageDetails;
 
     public Message() {
