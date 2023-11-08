@@ -2,10 +2,9 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
-import java.util.List;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,6 +12,7 @@ import org.hibernate.Transaction;
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     private static final String SQL_GET_ALL = "FROM Message";
+
     public SmileDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }

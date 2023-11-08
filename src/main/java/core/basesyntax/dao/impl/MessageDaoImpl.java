@@ -1,14 +1,10 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Message;
-import java.util.List;
-
-import core.basesyntax.model.Smile;
-import core.basesyntax.model.User;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -27,7 +23,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
         try {
             session = factory.openSession();
-            transaction= session.beginTransaction();
+            transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
