@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
@@ -9,11 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
     public UserDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
-        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -21,7 +17,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -40,13 +36,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         return session.get(User.class, id);
     }
 
     @Override
     public List<User> getAll() {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         List<User> userList;
         try {
             userList = session.createQuery("FROM User", User.class).list();
@@ -62,7 +58,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();

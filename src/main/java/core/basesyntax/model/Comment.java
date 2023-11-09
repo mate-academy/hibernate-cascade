@@ -1,15 +1,12 @@
 package core.basesyntax.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "comments")
@@ -19,8 +16,7 @@ public class Comment {
     private Long id;
     private String content;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Cascade(value = CascadeType.MERGE)
+    @OneToMany
     private List<Smile> smiles;
 
     public Long getId() {

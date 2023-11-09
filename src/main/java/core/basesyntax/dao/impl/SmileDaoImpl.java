@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
 import java.util.List;
@@ -9,11 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
     public SmileDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
-        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -21,7 +17,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -40,13 +36,13 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         return session.get(Smile.class, id);
     }
 
     @Override
     public List<Smile> getAll() {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         List<Smile> smileList;
         try {
             smileList = session.createQuery("FROM Smile", Smile.class).list();

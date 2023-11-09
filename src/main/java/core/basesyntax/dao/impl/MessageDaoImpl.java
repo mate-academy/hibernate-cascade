@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
@@ -9,11 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
     public MessageDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
-        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -21,7 +17,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -40,13 +36,13 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         return session.get(Message.class, id);
     }
 
     @Override
     public List<Message> getAll() {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         List<Message> messageList;
         try {
             messageList = session.createQuery("FROM Message", Message.class).list();
@@ -62,7 +58,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
