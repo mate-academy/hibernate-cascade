@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
@@ -9,11 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
-        this.sessionFactory = sessionFactory;
     }
 
     @Override
@@ -21,7 +17,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -40,13 +36,13 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         return session.get(Comment.class, id);
     }
 
     @Override
     public List<Comment> getAll() {
-        Session session = sessionFactory.openSession();
+        Session session = factory.openSession();
         List<Comment> commentList;
         try {
             commentList = session
@@ -64,7 +60,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
