@@ -8,6 +8,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
+    private static final String CANT_CREATE_MSG = "Can't create smile entity: ";
+    private static final String CANT_GET_BY_ID_MSG = "Can't get smile by id: ";
+    private static final String CANT_GET_ALL_MSG = "Can't get all smiles";
     private static final String SELECT_ALL_QUERY = "SELECT a FROM Smile a";
 
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -27,7 +30,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create smile entity: " + entity, e);
+            throw new RuntimeException(CANT_CREATE_MSG+ entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,13 +44,16 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get smile by id: " + id, e);
+            throw new RuntimeException(CANT_GET_BY_ID_MSG + id, e);
         }
     }
 
     @Override
     public List<Smile> getAll() {
-        Session session = factory.openSession();
-        return session.createQuery(SELECT_ALL_QUERY, Smile.class).getResultList();
+        try (Session session = factory.openSession()) {
+            return session.createQuery(SELECT_ALL_QUERY, Smile.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(CANT_GET_ALL_MSG, e);
+        }
     }
 }

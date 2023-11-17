@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
+    private static final String CANT_CREATE_MSG = "Can't create messageDetails entity: ";
+    private static final String CANT_GET_BY_ID_MSG = "Can't get messageDetails by id: ";
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
@@ -24,7 +26,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create messageDetails entity: " + entity, e);
+            throw new RuntimeException(CANT_CREATE_MSG + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -38,7 +40,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get messageDetails by id: " + id, e);
+            throw new RuntimeException(CANT_GET_BY_ID_MSG + id, e);
         }
     }
 }

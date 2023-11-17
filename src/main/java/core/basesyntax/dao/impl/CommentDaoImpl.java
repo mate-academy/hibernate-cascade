@@ -8,6 +8,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
+    private static final String CANT_CREATE_MSG = "Can't create comment entity: ";
+    private static final String CANT_GET_BY_ID_MSG = "Can't get comment by id: ";
+    private static final String CANT_GET_ALL_MSG = "Can't get all comments";
+    private static final String CANT_REMOVE_MSG = "Can't remove comment entity: ";
     private static final String SELECT_ALL_QUERY = "SELECT a FROM Comment a";
 
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -27,7 +31,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create comment entity: " + entity, e);
+            throw new RuntimeException(CANT_CREATE_MSG + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,14 +45,17 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get comment by id: " + id, e);
+            throw new RuntimeException(CANT_GET_BY_ID_MSG + id, e);
         }
     }
 
     @Override
     public List<Comment> getAll() {
-        Session session = factory.openSession();
-        return session.createQuery(SELECT_ALL_QUERY, Comment.class).getResultList();
+        try (Session session = factory.openSession()) {
+            return session.createQuery(SELECT_ALL_QUERY, Comment.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(CANT_GET_ALL_MSG, e);
+        }
     }
 
     @Override
@@ -64,7 +71,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove comment entity: " + entity, e);
+            throw new RuntimeException(CANT_REMOVE_MSG + entity, e);
         } finally {
             if (session != null) {
                 session.close();

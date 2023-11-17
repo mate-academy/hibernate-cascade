@@ -8,6 +8,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
+    private static final String CANT_CREATE_MSG = "Can't create user entity: ";
+    private static final String CANT_GET_BY_ID_MSG = "Can't get user by id: ";
+    private static final String CANT_GET_ALL_MSG = "Can't get all users";
+    private static final String CANT_REMOVE_MSG = "Can't remove user entity: ";
     private static final String SELECT_ALL_QUERY = "SELECT a FROM User a";
 
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -27,7 +31,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create user entity: " + entity, e);
+            throw new RuntimeException(CANT_CREATE_MSG + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,14 +45,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get user by id: " + id, e);
+            throw new RuntimeException(CANT_GET_BY_ID_MSG + id, e);
         }
     }
 
     @Override
     public List<User> getAll() {
-        Session session = factory.openSession();
-        return session.createQuery(SELECT_ALL_QUERY, User.class).getResultList();
+        try (Session session = factory.openSession()) {
+            return session.createQuery(SELECT_ALL_QUERY, User.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(CANT_GET_ALL_MSG, e);
+        }
     }
 
     @Override
@@ -64,7 +71,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove user entity: " + entity, e);
+            throw new RuntimeException(CANT_REMOVE_MSG + entity, e);
         } finally {
             if (session != null) {
                 session.close();
