@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
     private static final String CANT_CREATE_MSG = "Can't create messageDetails entity: ";
     private static final String CANT_GET_BY_ID_MSG = "Can't get messageDetails by id: ";
+
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
