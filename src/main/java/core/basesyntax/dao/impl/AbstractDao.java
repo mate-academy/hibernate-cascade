@@ -1,49 +1,57 @@
 package core.basesyntax.dao.impl;
 
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 public abstract class AbstractDao<T> {
-    protected final SessionFactory factory;
+    protected final SessionFactory sessionFactory;
+    private final Class<T> entityType;
 
-    protected AbstractDao(SessionFactory sessionFactory) {
-        this.factory = sessionFactory;
+    public AbstractDao(SessionFactory sessionFactory, Class<T> entityType) {
+        this.sessionFactory = sessionFactory;
+        this.entityType = entityType;
     }
 
     public void save(T entity) {
-        try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
             session.save(entity);
-            transaction.commit();
+            session.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException("Error while saving entity", e);
         }
     }
 
-    public T findById(Class<T> clazz, Long id) {
-        try (Session session = factory.openSession()) {
-            return session.get(clazz, id);
+    public T findById(Long id) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            return session.get(entityType, id);
         } catch (Exception e) {
-            throw new RuntimeException("Error while finding entity by id", e);
+            throw new RuntimeException("Error while getting entity by ID", e);
         }
     }
 
-    public void update(T entity) {
-        try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.update(entity);
-            transaction.commit();
+    public List<T> getAll() {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            return session.createQuery("FROM " + entityType.getSimpleName(), entityType).list();
         } catch (Exception e) {
-            throw new RuntimeException("Error while updating entity", e);
+            throw new RuntimeException("Error while getting all entities", e);
+        }
+    }
+
+    public List<T> getAll(Class<T> entityClass) {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            return session.createQuery("FROM " + entityClass.getSimpleName(), entityClass).list();
+        } catch (Exception e) {
+            throw new RuntimeException("Error while getting all entities", e);
         }
     }
 
     public void delete(T entity) {
-        try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
             session.delete(entity);
-            transaction.commit();
+            session.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException("Error while deleting entity", e);
         }

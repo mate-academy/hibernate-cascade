@@ -2,12 +2,14 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
+import java.util.List;
 import org.hibernate.SessionFactory;
 
 public class MessageDetailsDaoImpl extends AbstractDao<MessageDetails>
         implements MessageDetailsDao {
+
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
-        super(sessionFactory);
+        super(sessionFactory, MessageDetails.class);
     }
 
     @Override
@@ -18,6 +20,11 @@ public class MessageDetailsDaoImpl extends AbstractDao<MessageDetails>
 
     @Override
     public MessageDetails get(Long id) {
-        return findById(MessageDetails.class, id);
+        return findById(id);
+    }
+
+    @Override
+    public List<MessageDetails> getAll() {
+        return super.getAll(MessageDetails.class);
     }
 }
