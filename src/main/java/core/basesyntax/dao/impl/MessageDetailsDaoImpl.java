@@ -2,10 +2,10 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
-import java.util.Objects;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
@@ -22,10 +22,14 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
-            Objects.requireNonNull(transaction).rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't created entity from db", e);
         } finally {
-            Objects.requireNonNull(session).close();
+            if (session != null) {
+                session.close();
+            }
         }
         return entity;
     }
