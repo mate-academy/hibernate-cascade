@@ -2,13 +2,13 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import java.util.List;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
@@ -60,7 +60,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             throw new DataProcessingException("Error while fetching all messages", e);
         }
     }
-
 
     @Override
     public void remove(Message entity) {
