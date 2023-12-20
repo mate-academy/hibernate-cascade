@@ -1,12 +1,17 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
+import core.basesyntax.model.Message;
 import core.basesyntax.model.Smile;
 import java.util.List;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -44,10 +49,14 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
-            Smile smile = session.get(Smile.class, 1L);
-            return List.of(smile);
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Smile> criteriaQuery = criteriaBuilder.createQuery(Smile.class);
+            Root<Smile> root = criteriaQuery.from(Smile.class);
+            criteriaQuery.select(root);
+            Query<Smile> query = session.createQuery(criteriaQuery);
+            return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t find smile: ", e);
+            throw new DataProcessingException("Error while fetching all messages", e);
         }
     }
 }
