@@ -6,9 +6,13 @@ import core.basesyntax.model.Message;
 import java.security.spec.ECField;
 import java.util.List;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -46,12 +50,17 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
-            Message message = session.get(Message.class, 1L);
-            return List.of(message);
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Message> criteriaQuery = criteriaBuilder.createQuery(Message.class);
+            Root<Message> root = criteriaQuery.from(Message.class);
+            criteriaQuery.select(root);
+            Query<Message> query = session.createQuery(criteriaQuery);
+            return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t find message: ", e);
+            throw new DataProcessingException("Error while fetching all messages", e);
         }
     }
+
 
     @Override
     public void remove(Message entity) {
