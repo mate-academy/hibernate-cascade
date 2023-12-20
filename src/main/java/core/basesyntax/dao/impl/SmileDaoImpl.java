@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.dao.SmileDao;
-import core.basesyntax.model.Message;
-import core.basesyntax.model.Smile;
 import java.util.List;
-
+import core.basesyntax.dao.SmileDao;
+import core.basesyntax.model.Smile;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -42,8 +40,11 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
-        Session session = factory.openSession();
-        return session.get(Smile.class, id);
+        try (Session session = factory.openSession()){
+            return session.get(Smile.class, id);
+        } catch (Exception e) {
+            throw  new DataProcessingException("Error getting smile: ", e);
+        }
     }
 
     @Override
