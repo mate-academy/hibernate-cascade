@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
+import java.util.List;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-import java.util.List;
-import java.util.Optional;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -42,8 +40,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        Session session = factory.openSession();
-        return session.get(Comment.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Error getting comment: ", e);
+        }
     }
 
     @Override
@@ -62,12 +63,22 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment entity) {
-        try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DataProcessingException("Error while removing comment: " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
