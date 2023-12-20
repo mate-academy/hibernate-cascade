@@ -56,7 +56,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public void remove(Comment entity) {
         try (Session session = factory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(entity);
+            session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             throw new DataProcessingException("Error while removing comment: " + entity, e);
