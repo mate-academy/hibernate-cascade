@@ -1,10 +1,10 @@
 package core.basesyntax.dao.impl;
 
+import core.basesyntax.dao.MessageDetailsDao;
+import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.model.MessageDetails;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
@@ -27,7 +27,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             }
             throw new DataProcessingException("Can`t save entity messageDetails: " + entity, e);
         } finally {
-            if(session != null) {
+            if (session != null) {
                 session.close();
             }
         }
