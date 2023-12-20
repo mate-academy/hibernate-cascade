@@ -4,9 +4,13 @@ import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -44,10 +48,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()){
-            User user = session.get(User.class, 1L);
-            return List.of(user);
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+            Root<User> root = criteriaQuery.from(User.class);
+            criteriaQuery.select(root);
+            Query<User> query = session.createQuery(criteriaQuery);
+            return query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t find user: ", e);
+            throw new DataProcessingException("Error while fetching all messages", e);
         }
     }
 
