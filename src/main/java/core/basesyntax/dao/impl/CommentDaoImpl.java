@@ -5,9 +5,13 @@ import core.basesyntax.model.Comment;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -45,10 +49,14 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            Comment comment = session.get(Comment.class, 1L);
-            return List.of(comment);
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Comment> criteriaQuery = criteriaBuilder.createQuery(Comment.class);
+            Root<Comment> root = criteriaQuery.from(Comment.class);
+            criteriaQuery.select(root);
+            Query<Comment> query = session.createQuery(criteriaQuery);
+            return  query.getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can not find comment: ", e);
+            throw new DataProcessingException("Error while fetching all messages", e);
         }
     }
 
