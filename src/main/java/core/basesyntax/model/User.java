@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue()
     private Long id;
     private String username;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     public Long getId() {
