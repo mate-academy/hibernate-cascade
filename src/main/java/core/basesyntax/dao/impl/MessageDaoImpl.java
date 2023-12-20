@@ -1,11 +1,8 @@
 package core.basesyntax.dao.impl;
 
+import java.util.List;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-
-import java.security.spec.ECField;
-import java.util.List;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -43,8 +40,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Session session = factory.openSession();
-        return session.get(Message.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Message.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Error getting message: ", e);
+        }
     }
 
     @Override
@@ -64,12 +64,22 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public void remove(Message entity) {
-        try (Session session = factory.openSession()){
-            Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DataProcessingException("Error while removing message: ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
