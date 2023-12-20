@@ -1,9 +1,8 @@
 package core.basesyntax.dao.impl;
 
+import java.util.List;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
-import java.util.List;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -24,14 +23,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can`t create entity: " + entity, e);
+            throw new DataProcessingException("Can`t create entity: ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,8 +40,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        Session session = factory.openSession();
-        return session.get(User.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Error getting user: ", e);
+        }
     }
 
     @Override
@@ -61,12 +63,22 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void remove(User entity) {
-        try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DataProcessingException("Error while removing user: ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
