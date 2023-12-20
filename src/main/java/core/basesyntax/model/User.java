@@ -1,10 +1,17 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "tables")
 public class User {
+    @Id
+    @GeneratedValue()
     private Long id;
     private String username;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public Long getId() {
