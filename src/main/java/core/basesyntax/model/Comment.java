@@ -1,8 +1,12 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.*;
-
 import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "comments")
@@ -11,7 +15,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Smile> smiles;
 
     public Long getId() {
