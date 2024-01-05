@@ -1,10 +1,19 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @OneToMany(cascade = CascadeType.PERSIST
+            , fetch = FetchType.EAGER)
+    // since we have LAZY by default in @OneToMany
     private List<Comment> comments;
 
     public Long getId() {
