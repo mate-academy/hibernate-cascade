@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -39,11 +38,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        try (Session session = factory.openSession()){
+        try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to get Message" +
-                    " from the DB with given ID: " + id);
+            throw new RuntimeException("Failed to get Message"
+                    + " from the DB with given ID: " + id);
         }
     }
 

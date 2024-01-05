@@ -14,16 +14,16 @@ public class Main {
 
         UserDao userDao = new UserDaoImpl(sessionFactory);
 
-//        User user = new User();
-//
-//        Comment comment = new Comment();
-//        comment.setContent("damn");
-//        Comment comment1 = new Comment();
-//        comment1.setContent("lmao");
-//
-//        user.setComments(List.of(comment, comment1));
-//
-//        userDao.create(user);
+        //      User user = new User();
+        //
+        //      Comment comment = new Comment();
+        //      comment.setContent("damn");
+        //      Comment comment1 = new Comment();
+        //      comment1.setContent("lmao");
+        //
+        //      user.setComments(List.of(comment, comment1));
+        //
+        //      userDao.create(user);
 
         User user = userDao.get(1L);
         userDao.remove(user);
