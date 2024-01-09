@@ -10,14 +10,14 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name="Message")
+@Table(name = "Message")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-   @OneToOne
-   @Cascade(value = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne
+    @Cascade(value = {CascadeType.PERSIST, CascadeType.REMOVE})
     private MessageDetails messageDetails;
 
     public Long getId() {

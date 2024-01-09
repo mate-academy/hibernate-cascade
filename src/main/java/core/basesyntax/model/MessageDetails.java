@@ -5,14 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "MessageDetails")
 public class MessageDetails {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
