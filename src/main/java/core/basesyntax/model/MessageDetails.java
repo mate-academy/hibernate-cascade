@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "message_details")
 public class MessageDetails {
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
