@@ -13,6 +13,7 @@ public class MessageDetails {
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
+    
     public Long getId() {
         return id;
     }
