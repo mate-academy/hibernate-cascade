@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -38,7 +37,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-        return session.get(Comment.class, id);
+            return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Error while getting an entity by id: " + id, e);
         }
