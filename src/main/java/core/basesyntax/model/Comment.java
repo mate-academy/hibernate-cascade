@@ -1,15 +1,19 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import java.util.List;
 
+@Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToMany
+    @Cascade(CascadeType.PERSIST)
     private List<Smile> smiles;
 
     public Long getId() {
