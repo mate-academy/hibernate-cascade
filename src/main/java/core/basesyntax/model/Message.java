@@ -31,10 +31,10 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", messageDetails=" + messageDetails +
-                '}';
+        return "Message{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", messageDetails=" + messageDetails
+                + '}';
     }
 }
