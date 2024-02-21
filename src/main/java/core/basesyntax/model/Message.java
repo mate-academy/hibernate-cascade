@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Message {
@@ -13,6 +15,7 @@ public class Message {
     private Long id;
     private String content;
     @OneToOne
+    @Cascade({CascadeType.PERSIST, CascadeType.REMOVE})
     private MessageDetails messageDetails;
 
     public Long getId() {
