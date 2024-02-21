@@ -49,7 +49,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             return session.createQuery("SELECT smile FROM Smile smile", Smile.class)
                     .getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't form a users list from DB", e);
+            throw new RuntimeException("Can't form a smiles list from DB", e);
         }
     }
 }
