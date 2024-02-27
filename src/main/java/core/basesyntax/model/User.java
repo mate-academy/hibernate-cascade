@@ -13,7 +13,6 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
     private String username;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
