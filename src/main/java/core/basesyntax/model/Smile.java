@@ -11,6 +11,7 @@ public class Smile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String value;
+    private Comment comment;
 
     public Smile() {
     }
