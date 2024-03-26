@@ -12,7 +12,6 @@
         <property name="connection.password">root</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
-
         <mapping class="core.basesyntax.model.Comment"/>
         <mapping class="core.basesyntax.model.Message"/>
         <mapping class="core.basesyntax.model.MessageDetails"/>
