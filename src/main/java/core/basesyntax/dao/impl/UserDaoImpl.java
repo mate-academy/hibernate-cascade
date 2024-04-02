@@ -49,7 +49,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            String hql = "FROM Comment";
+            String hql = "FROM User";
             Query<User> fromUser = session.createQuery(hql, User.class);
             if (fromUser != null) {
                 return fromUser.getResultList();
