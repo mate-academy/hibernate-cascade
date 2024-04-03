@@ -56,7 +56,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public List<Message> getAll() {
         Session session = factory.openSession();
         try {
-            return session.createQuery("FROM Smile", Message.class).getResultList();
+            return session.createQuery("FROM Message", Message.class).getResultList();
         } catch (Exception exception) {
             throw new RuntimeException("Can't get all smiles");
         } finally {
