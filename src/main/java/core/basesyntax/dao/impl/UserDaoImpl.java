@@ -1,9 +1,8 @@
 package core.basesyntax.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,8 +15,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User entity) {
         Transaction transaction = null;
-        Session session = factory.openSession();
+        Session session = null;
         try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -38,7 +38,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = factory.openSession();
         try {
             transaction = session.beginTransaction();
-            User user = session.getReference(User.class, id);
+            User user = session.get(User.class, id);
             transaction.commit();
             return user;
         } catch (Exception exception) {
@@ -54,22 +54,14 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         Transaction transaction = null;
-        List<User> users = new ArrayList<>();
         Session session = factory.openSession();
         try {
-            transaction = session.getTransaction();
-            transaction.begin();
-            users = session.createQuery("FROM User", User.class).getResultList();
-            transaction.commit();
+            return session.createQuery("FROM User", User.class).getResultList();
         } catch (Exception exception) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Can't get all smiles");
         } finally {
             session.close();
         }
-        return users;
     }
 
     @Override
@@ -78,7 +70,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = factory.openSession();
         try {
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.delete(entity);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {

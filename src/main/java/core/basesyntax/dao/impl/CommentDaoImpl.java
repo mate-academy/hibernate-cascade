@@ -1,9 +1,9 @@
 package core.basesyntax.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -41,7 +41,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             transaction = session.getTransaction();
             transaction.begin();
-            comment = session.getReference(Comment.class, id);
+            comment = session.get(Comment.class, id);
             transaction.commit();
         } catch (Exception exception) {
             if (transaction != null) {
@@ -56,17 +56,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        Transaction transaction = null;
         List<Comment> comments = new ArrayList<>();
         Session session = factory.openSession();
         try {
-            transaction = session.beginTransaction();
             comments = session.createQuery("from Smile", Comment.class).getResultList();
-            transaction.commit();
         } catch (Exception exception) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Cant get all comments");
         } finally {
             session.close();
@@ -77,10 +71,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment entity) {
         Transaction transaction = null;
-        Session session = factory.openSession();
+        Session session = null;
         try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.delete(entity);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {

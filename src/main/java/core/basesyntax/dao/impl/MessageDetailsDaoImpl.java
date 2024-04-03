@@ -38,7 +38,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try {
             transaction = session.getTransaction();
             transaction.begin();
-            messageDetails = session.getReference(MessageDetails.class, id);
+            messageDetails = session.get(MessageDetails.class, id);
             transaction.commit();
         } catch (Exception exception) {
             if (transaction != null) {

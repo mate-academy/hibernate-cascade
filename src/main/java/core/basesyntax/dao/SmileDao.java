@@ -1,7 +1,7 @@
 package core.basesyntax.dao;
 
-import java.util.List;
 import core.basesyntax.model.Smile;
+import java.util.List;
 
 public interface SmileDao {
     Smile create(Smile smile);

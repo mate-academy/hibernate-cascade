@@ -1,9 +1,8 @@
 package core.basesyntax.dao.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -39,7 +38,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Session session = factory.openSession();
         try {
             transaction = session.beginTransaction();
-            Message message = session.getReference(Message.class, id);
+            Message message = session.get(Message.class, id);
             transaction.commit();
             return message;
         } catch (Exception exception) {
@@ -55,23 +54,14 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        Transaction transaction = null;
-        List<Message> messages = new ArrayList<>();
         Session session = factory.openSession();
         try {
-            transaction = session.getTransaction();
-            transaction.begin();
-            messages = session.createQuery("FROM Smile", Message.class).getResultList();
-            transaction.commit();
+            return session.createQuery("FROM Smile", Message.class).getResultList();
         } catch (Exception exception) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Can't get all smiles");
         } finally {
             session.close();
         }
-        return messages;
     }
 
     @Override
@@ -80,7 +70,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Session session = factory.openSession();
         try {
             transaction = session.beginTransaction();
-            session.remove(entity);
+            session.delete(entity);
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {
