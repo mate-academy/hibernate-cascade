@@ -2,10 +2,8 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -50,7 +48,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             throw new RuntimeException("cannot closing session", e);
         }
     }
-
 
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {

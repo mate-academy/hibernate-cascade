@@ -2,10 +2,8 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,13 +21,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Cannot create User " + entity);
+            throw new RuntimeException("Error while creating entity");
         } finally {
             if (transaction != null) {
                 session.close();
@@ -65,6 +63,27 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void remove(User entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, entity.getId());
+            if (user != null) {
+                session.delete(user);
+            } else {
+                throw new RuntimeException("Entity not found with id: " + entity.getId());
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Failed to delete entity " + entity, e);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 }

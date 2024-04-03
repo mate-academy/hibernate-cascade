@@ -2,10 +2,8 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -50,7 +48,6 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             throw new RuntimeException("cannot closing session", e);
         }
     }
-
 
     @Override
     public List<Message> getAll() {
