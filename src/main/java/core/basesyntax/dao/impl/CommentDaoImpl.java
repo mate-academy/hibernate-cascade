@@ -2,10 +2,10 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import java.util.List;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -26,7 +26,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't get the comment" + entity, e);
+            throw new RuntimeException("Couldn't create comment: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,17 +39,16 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Couldn't get the comment from the database" + id, e);
+            throw new RuntimeException("Couldn't get comment from DB where id: " + id, e);
         }
     }
 
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("FROM Comment", Comment.class)
-                    .getResultList();
+            return session.createQuery("FROM Comment", Comment.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Couldn't get comments from the database", e);
+            throw new RuntimeException("Couldn't get comments from DB.", e);
         }
     }
 
@@ -66,8 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't remove the comment"
-                    + entity, e);
+            throw new RuntimeException("Couldn't remove comment: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

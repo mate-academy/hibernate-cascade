@@ -42,14 +42,8 @@ public class MessageDetails {
 
     @Override
     public String toString() {
-        return "MessageDetails{"
-                + "id="
-                + id
-                + ", content='"
-                + sender
-                + '\''
-                + ", sentTime="
-                + sentTime
-                + '}';
+        return "MessageDetails{" + "id=" + id
+                + ", sender='" + sender + '\''
+                + ", sentTime=" + sentTime + '}';
     }
 }

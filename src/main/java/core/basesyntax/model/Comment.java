@@ -1,5 +1,6 @@
 package core.basesyntax.model;
 
+import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -7,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "comments")
@@ -45,14 +45,8 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{"
-                + "id="
-                + id
-                + ", content='"
-                + content
-                + '\''
-                + ", smiles="
-                + smiles
-                + '}';
+        return "Comment{" + "id=" + id
+                + ", content='" + content + '\''
+                + ", smiles=" + smiles + '}';
     }
 }

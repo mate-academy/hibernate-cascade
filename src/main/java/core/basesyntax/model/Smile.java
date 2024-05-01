@@ -40,11 +40,8 @@ public class Smile {
     @Override
     public String toString() {
         return "Smile{"
-                + "id="
-                + id
-                + ", value='"
-                + value
-                + '\''
+                + "id=" + id
+                + ", value='" + value + '\''
                 + '}';
     }
 }
