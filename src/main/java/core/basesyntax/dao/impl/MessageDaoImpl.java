@@ -21,6 +21,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
            transaction = session.beginTransaction();
            session.persist(entity);
            transaction.commit();
+           return entity;
        } catch (Exception e) {
            throw new RuntimeException("Couldn't create the message :" + entity, e);
        } finally {
