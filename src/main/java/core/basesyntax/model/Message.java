@@ -1,14 +1,13 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "messages")
@@ -17,8 +16,10 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<MessageDetails> messageDetails;
+
+    @OneToOne
+    @Cascade({CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
+    private MessageDetails messageDetails;
 
     public Long getId() {
         return id;
@@ -36,18 +37,11 @@ public class Message {
         this.content = content;
     }
 
-    public List<MessageDetails> getMessageDetails() {
+    public MessageDetails getMessageDetails() {
         return messageDetails;
     }
 
-    public void setMessageDetails(List<MessageDetails> messageDetails) {
+    public void setMessageDetails(MessageDetails messageDetails) {
         this.messageDetails = messageDetails;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" + "id=" + id
-                + ", content='" + content + '\''
-                + ", messageDetails=" + messageDetails + '}';
     }
 }

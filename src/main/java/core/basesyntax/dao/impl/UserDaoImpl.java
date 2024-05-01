@@ -26,7 +26,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't create user: " + entity, e);
+            throw new RuntimeException(
+                    "Can`t add user to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,16 +40,17 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Couldn't get user from DB where id: " + id, e);
+            throw new RuntimeException(
+                    "Can`t get user from DB", e);
         }
     }
 
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("FROM User", User.class).getResultList();
+            return session.createQuery("From User", User.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Couldn't get users from DB.", e);
+            throw new RuntimeException("Can't get all users from DB", e);
         }
     }
 
@@ -65,7 +67,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Couldn't remove user: " + entity, e);
+            throw new RuntimeException(
+                    "Can`t remove user from DB", e);
         } finally {
             if (session != null) {
                 session.close();
