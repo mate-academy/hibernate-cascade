@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import javax.management.relation.RoleUnresolved;
+
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -14,21 +16,62 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+            return entity;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Couldn't create user : " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Couldn't get user from database where id: " + id, e);
+        }
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("FROM User", User.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Couldn't get users from database", e);
+        }
     }
 
     @Override
     public void remove(User entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Couldn't remove user : " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

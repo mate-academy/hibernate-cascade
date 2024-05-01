@@ -1,9 +1,24 @@
 package core.basesyntax.model;
 
+import java.util.List;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "massages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    private MessageDetails messageDetails;
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<MessageDetails> messageDetails;
 
     public Long getId() {
         return id;
@@ -21,11 +36,18 @@ public class Message {
         this.content = content;
     }
 
-    public MessageDetails getMessageDetails() {
+    public List<MessageDetails> getMessageDetails() {
         return messageDetails;
     }
 
-    public void setMessageDetails(MessageDetails messageDetails) {
+    public void setMessageDetails(List<MessageDetails> messageDetails) {
         this.messageDetails = messageDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" + "id=" + id
+                + ", content='" + content + '\''
+                + ", messageDetails=" + messageDetails + '}';
     }
 }
