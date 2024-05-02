@@ -13,6 +13,10 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
 
-
+        <mapping class="core.basesyntax.model.Comment"></mapping>
+        <mapping class="core.basesyntax.model.Message"></mapping>
+        <mapping class="core.basesyntax.model.MessageDetails"></mapping>
+        <mapping class="core.basesyntax.model.Smile"></mapping>
+        <mapping class="core.basesyntax.model.User"></mapping>
     </session-factory>
 </hibernate-configuration>
