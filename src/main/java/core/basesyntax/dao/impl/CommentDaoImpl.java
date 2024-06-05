@@ -26,6 +26,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new DataProcessingException("Couldn't save comment to DB");
         } finally {
             if (session != null) {
                 session.close();
@@ -46,7 +47,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("FROM commetns", Comment.class).list();
+            return session.createQuery("FROM Comment", Comment.class).list();
         } catch (Exception e) {
             throw new DataProcessingException("Couldn't get list of comments");
         }
@@ -65,6 +66,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new DataProcessingException("Couldn't remove comment from DB");
         } finally {
             if (session != null) {
                 session.close();
