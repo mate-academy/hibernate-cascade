@@ -16,7 +16,7 @@ public class Message {
     private Long id;
     private String content;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
     private MessageDetails messageDetails;
 
     public Long getId() {
