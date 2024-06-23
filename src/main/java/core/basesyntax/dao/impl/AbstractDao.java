@@ -25,7 +25,7 @@ public abstract class AbstractDao<T extends Serializable> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't create entity", e);
+            throw new DataProcessingException("Can't create entity: " + entity, e);
         }
     }
 
@@ -33,7 +33,7 @@ public abstract class AbstractDao<T extends Serializable> {
         try (Session session = factory.openSession()) {
             return session.get(clazz, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Could not get entity from DB", e);
+            throw new DataProcessingException("Could not get entity from DB by id " + id, e);
         }
     }
 
@@ -41,7 +41,7 @@ public abstract class AbstractDao<T extends Serializable> {
         try (Session session = factory.openSession()) {
             return session.createQuery("from " + entityClass.getName(), entityClass).list();
         } catch (Exception e) {
-            throw new DataProcessingException("Could not get entity from DB", e);
+            throw new DataProcessingException("Could not get all from DB", e);
         }
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractDao<T extends Serializable> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't create entity", e);
+            throw new DataProcessingException("Can't remove entity: " + entity, e);
         }
     }
 }
