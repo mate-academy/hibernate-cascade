@@ -5,7 +5,6 @@ import core.basesyntax.model.Comment;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
 import java.util.List;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
