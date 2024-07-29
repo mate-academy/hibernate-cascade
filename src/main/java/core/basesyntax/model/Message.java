@@ -1,8 +1,16 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "message_details_id")
     private MessageDetails messageDetails;
 
     public Long getId() {
