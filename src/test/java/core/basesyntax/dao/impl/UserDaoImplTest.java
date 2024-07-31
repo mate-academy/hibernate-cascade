@@ -7,6 +7,7 @@ import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import core.basesyntax.model.User;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,7 @@ public class UserDaoImplTest extends AbstractTest {
 
         // Verify all data from DB
         User actual = userDao.get(1L);
+        Hibernate.initialize(actual.getComments())
         Assert.assertNotNull(actual);
         Assert.assertNotNull(actual.getId());
         Assert.assertNotNull(actual.getUsername());
@@ -206,6 +208,8 @@ public class UserDaoImplTest extends AbstractTest {
         Assert.assertEquals("Alice", allUsersBeforeRemove.get(1).getUsername());
 
         // verify comments
+        Hibernate.initialize(allUsersBeforeRemove.get(0).getComments());
+        Hibernate.initialize(allUsersBeforeRemove.get(1).getComments());
 
         List<Comment> allCommentsBeforeRemove = commentDao.getAll();
         Assert.assertNotNull(allCommentsBeforeRemove);
