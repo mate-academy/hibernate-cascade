@@ -18,12 +18,9 @@ public class Comment {
 
     @ManyToMany
     @JoinTable(
-        
-        name = "comment_smile",
-        
-        joinColumns = @JoinColumn(name = "comment_id"),
-        
-        inverseJoinColumns = @JoinColumn(name = "smile_id")
+            name = "comment_smile",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "smile_id")
     )
     private List<Smile> smiles;
 
