@@ -17,6 +17,13 @@ public class Smile {
     @ManyToMany(mappedBy = "smiles")
     private List<Comment> comments;
 
+    public Smile() {
+    }
+
+    public Smile(String value) {
+        this.value = value;
+    }
+
     public Long getId() {
         return id;
     }
