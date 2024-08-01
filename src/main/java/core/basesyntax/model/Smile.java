@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import java.util.List;
 
 @Entity
 public class Smile {
@@ -12,13 +14,10 @@ public class Smile {
     private Long id;
     private String value;
 
-    public Smile() {
-    }
+    @ManyToMany(mappedBy = "smiles")
+    private List<Comment> comments;
 
-    public Smile(String value) {
-        this.value = value;
-    }
-
+    // getters and setters
     public Long getId() {
         return id;
     }
@@ -35,11 +34,11 @@ public class Smile {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "Smile{"
-                + "id=" + id
-                + ", value='" + value + '\''
-                + '}';
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
