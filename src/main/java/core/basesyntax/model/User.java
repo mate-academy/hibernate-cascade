@@ -18,7 +18,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Comment> comments;
 
-    // getters and setters
     public Long getId() {
         return id;
     }
