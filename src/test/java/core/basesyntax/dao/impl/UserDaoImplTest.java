@@ -67,7 +67,7 @@ public class UserDaoImplTest extends AbstractTest {
 
         // Verify all data from DB
         User actual = userDao.get(1L);
-        Hibernate.initialize(actual.getComments())
+        Hibernate.initialize(actual.getComments());
         Assert.assertNotNull(actual);
         Assert.assertNotNull(actual.getId());
         Assert.assertNotNull(actual.getUsername());
