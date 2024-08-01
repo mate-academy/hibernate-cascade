@@ -17,7 +17,6 @@ public class Smile {
     @ManyToMany(mappedBy = "smiles")
     private List<Comment> comments;
 
-    // getters and setters
     public Long getId() {
         return id;
     }
