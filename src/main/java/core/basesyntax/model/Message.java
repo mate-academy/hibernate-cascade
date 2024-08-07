@@ -1,6 +1,11 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Message {
@@ -9,7 +14,7 @@ public class Message {
     private Long id;
     private String content;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "message_details_id")
     private MessageDetails messageDetails;
 
