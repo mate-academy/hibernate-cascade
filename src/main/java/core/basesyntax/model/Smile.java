@@ -1,6 +1,9 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Smile {
@@ -34,9 +37,9 @@ public class Smile {
 
     @Override
     public String toString() {
-        return "Smile{" +
-                "id=" + id +
-                ", value='" + value + '\'' +
-                '}';
+        return "Smile{"
+                + "id=" + id
+                + ", value='" + value + '\''
+                + '}';
     }
 }
