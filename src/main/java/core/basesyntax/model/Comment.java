@@ -46,5 +46,5 @@ public class Comment {
 
     public void setSmiles(List<Smile> smiles) {
         this.smiles = smiles;
-    }
+    
 }
