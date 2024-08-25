@@ -1,11 +1,36 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.List;
 
+@Entity
+@NamedQuery(name = "getAllUsers", query = "SELECT u FROM User u")
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+
+    @OneToMany(cascade = {CascadeType.PERSIST},
+            fetch = FetchType.EAGER)
     private List<Comment> comments;
+
+    public User() {
+    }
+
+    public User(String username, List<Comment> comments) {
+        this.username = username;
+        this.comments = comments;
+    }
 
     public Long getId() {
         return id;
@@ -29,5 +54,14 @@ public class User {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+               + "id=" + id
+               + ", username='" + username + '\''
+               + ", comments=" + comments
+               + '}';
     }
 }
