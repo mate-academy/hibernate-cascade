@@ -2,6 +2,7 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
+
 import java.util.List;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -60,7 +61,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment entity) {
         try (Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
             session.remove(entity);
+            transaction.commit();
         }
     }
 }
