@@ -2,11 +2,7 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-
 import java.util.List;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -41,20 +37,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        Comment commentById;
         try (Session session = factory.openSession()) {
-            commentById = session.get(Comment.class, id);
+            return session.createQuery("from Comment c " +
+                            "left join fetch c.smiles " +
+                            "where c.id = :id", Comment.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
         }
-        return commentById;
     }
 
     @Override
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<Comment> criteria = criteriaBuilder.createQuery(Comment.class);
-            criteria.from(Comment.class);
-            return session.createQuery(criteria).getResultList();
+            return session.createQuery("from Comment", Comment.class)
+                    .getResultList();
         }
     }
 
