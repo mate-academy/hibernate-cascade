@@ -39,9 +39,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.createQuery("from Comment c " +
-                            "left join fetch c.smiles " +
-                            "where c.id = :id", Comment.class)
+            return session.createQuery("from Comment c "
+                            + "left join fetch c.smiles "
+                            + "where c.id = :id", Comment.class)
                     .setParameter("id", id)
                     .getSingleResult();
         }

@@ -1,13 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
-
 import java.util.List;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -43,9 +38,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.createQuery("from User u " +
-                            "left join fetch u.comments " +
-                            "where u.id = :id", User.class)
+            return session.createQuery("from User u "
+                            + "left join fetch u.comments "
+                            + "where u.id = :id", User.class)
                     .setParameter("id", id)
                     .getSingleResult();
         }
@@ -54,8 +49,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("from User u " +
-                            "left join fetch u.comments", User.class)
+            return session.createQuery("from User u "
+                            + "left join fetch u.comments", User.class)
                     .getResultList();
         }
     }
