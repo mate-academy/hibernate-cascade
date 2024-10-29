@@ -5,7 +5,7 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="connection.url">jdbc:mysql://localhost/cinema?serverTimezone=UTC</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.username">ma_admin</property>
@@ -13,6 +13,10 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
 
-
+        <mapping class="mate.academy.hibernate.relations.model.User"/>
+        <mapping class="mate.academy.hibernate.relations.model.Comment"/>
+        <mapping class="mate.academy.hibernate.relations.model.Message"/>
+        <mapping class="mate.academy.hibernate.relations.model.MessageDerails"/>
+        <mapping class="mate.academy.hibernate.relations.model.Smile"/>
     </session-factory>
 </hibernate-configuration>
