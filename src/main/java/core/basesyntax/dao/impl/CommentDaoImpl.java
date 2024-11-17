@@ -1,13 +1,15 @@
 package core.basesyntax.dao.impl;
 
+import static core.basesyntax.HibernateUtil.getSessionFactory;
+
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
+import core.basesyntax.model.Smile;
 import java.util.List;
-
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
-import static core.basesyntax.HibernateUtil.getSessionFactory;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -18,11 +20,19 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment create(Comment entity) {
         try (Session session = getSessionFactory().openSession()) {
             session.beginTransaction();
+
+            List<Smile> existingSmiles = entity.getSmiles().stream()
+                    .map(smile -> session.get(Smile.class, smile.getId()))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+            entity.setSmiles(existingSmiles);
+
             session.save(entity);
             session.getTransaction().commit();
             return entity;
         } catch (Exception e) {
-            throw new RuntimeException("Can not create Comment: " + entity, e);
+            throw new RuntimeException("Failed to create Comment: " + entity, e);
         }
     }
 
