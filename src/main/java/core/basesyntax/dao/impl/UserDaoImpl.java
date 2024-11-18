@@ -1,12 +1,9 @@
 package core.basesyntax.dao.impl;
 
-import static core.basesyntax.HibernateUtil.getSessionFactory;
-
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
-import java.util.List;
-
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
