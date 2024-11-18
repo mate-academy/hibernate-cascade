@@ -1,17 +1,18 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "messages")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(name = "message_details",
+            joinColumns = @JoinColumn(name = "message"),
+            inverseJoinColumns = @JoinColumn(name = "details"))
     private MessageDetails messageDetails;
 
     public Long getId() {

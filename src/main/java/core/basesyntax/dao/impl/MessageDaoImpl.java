@@ -5,8 +5,12 @@ import static core.basesyntax.HibernateUtil.getSessionFactory;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
+
+import core.basesyntax.model.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -15,46 +19,63 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message entity) {
-        try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            session.save(entity);
-            session.getTransaction().commit();
-            return entity;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can not create Message: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't note save Message to the DB" + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
     public Message get(Long id) {
-        try (Session session = getSessionFactory().openSession()) {
-            return session.get(Message.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Message.class,id);
         } catch (Exception e) {
-            throw new RuntimeException("Can not get Message by id: " + id, e);
+            throw new EntityNotFoundException("Can't get Message by id: "
+                    + id, e);
         }
     }
 
     @Override
     public List<Message> getAll() {
-        try (Session session = getSessionFactory().openSession()) {
-            String sql = "FROM Message";
-            return session.createQuery(sql, Message.class).list();
+        Session session = null;
+        try {
+            session = factory.openSession();
+            return session.createQuery("from Message", Message.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can not get all Message", e);
+            throw new RuntimeException("Failed to get all Message", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public void remove(Message entity) {
-        try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            Message managedMessage = session.get(Message.class, entity.getId());
-            if (managedMessage != null) {
-                session.delete(managedMessage);
-            }
-            session.getTransaction().commit();
+        Transaction transaction = null;
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can not remove Massage: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't not remove the Message: " + entity, e);
         }
     }
 }

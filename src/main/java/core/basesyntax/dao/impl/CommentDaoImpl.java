@@ -5,8 +5,12 @@ import static core.basesyntax.HibernateUtil.getSessionFactory;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
+
+import core.basesyntax.model.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -15,46 +19,63 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            session.save(entity);
-            session.getTransaction().commit();
-            return entity;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can not create Comment: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't note save Comment to the DB" + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
     public Comment get(Long id) {
-        try (Session session = getSessionFactory().openSession()) {
-            return session.get(Comment.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class,id);
         } catch (Exception e) {
-            throw new RuntimeException("Can not get Comment by id: " + id, e);
+            throw new EntityNotFoundException("Can't get Comment by id: "
+                    + id, e);
         }
     }
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = getSessionFactory().openSession()) {
-            String sql = "FROM Comment";
-            return session.createQuery(sql, Comment.class).list();
+        Session session = null;
+        try {
+            session = factory.openSession();
+            return session.createQuery("from Comment", Comment.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can not get all Comments", e);
+            throw new RuntimeException("Failed to get all Comment", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public void remove(Comment entity) {
-        try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            Comment managedComment = session.get(Comment.class, entity.getId());
-            if (managedComment != null) {
-                session.delete(managedComment);
-            }
-            session.getTransaction().commit();
+        Transaction transaction = null;
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can not remove Comment: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't not remove the Comment: " + entity, e);
         }
     }
 }

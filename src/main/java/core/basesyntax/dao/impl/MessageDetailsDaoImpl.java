@@ -4,8 +4,11 @@ import static core.basesyntax.HibernateUtil.getSessionFactory;
 
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
+import core.basesyntax.model.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
@@ -14,22 +17,33 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            session.save(entity);
-            session.getTransaction().commit();
-            return entity;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can not create MassageDetails: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't note save MessageDetails to the DB" + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
     public MessageDetails get(Long id) {
-        try (Session session = getSessionFactory().openSession()) {
-            return session.get(MessageDetails.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(MessageDetails.class,id);
         } catch (Exception e) {
-            throw new RuntimeException("Can not get MessageDetails by id: " + id, e);
+            throw new EntityNotFoundException("Can't get MessageDetails by id: "
+                    + id, e);
         }
     }
 }

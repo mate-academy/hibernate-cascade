@@ -5,8 +5,11 @@ import static core.basesyntax.HibernateUtil.getSessionFactory;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
+
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -15,46 +18,63 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            session.save(entity);
-            session.getTransaction().commit();
-            return entity;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can not create User: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't note save User to the DB" + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+        return entity;
     }
 
     @Override
     public User get(Long id) {
-        try (Session session = getSessionFactory().openSession()) {
-            return session.get(User.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(User.class,id);
         } catch (Exception e) {
-            throw new RuntimeException("Can not get User by id: " + id, e);
+            throw new EntityNotFoundException("Can't get User by id: "
+                    + id, e);
         }
     }
 
     @Override
     public List<User> getAll() {
-        try (Session session = getSessionFactory().openSession()) {
-            String sql = "FROM User";
-            return session.createQuery(sql, User.class).list();
+        Session session = null;
+        try {
+            session = factory.openSession();
+            return session.createQuery("from User", User.class).list();
         } catch (Exception e) {
-            throw new RuntimeException("Can not get all User", e);
+            throw new RuntimeException("Failed to get all User", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public void remove(User entity) {
-        try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            User managedUser = session.get(User.class, entity.getId());
-            if (managedUser != null) {
-                session.delete(managedUser);
-            }
-            session.getTransaction().commit();
+        Transaction transaction = null;
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
-            throw new RuntimeException("Can not remove User: " + entity, e);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't not remove the User: " + entity, e);
         }
     }
 }
