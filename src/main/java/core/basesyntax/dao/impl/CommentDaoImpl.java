@@ -22,9 +22,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
-            entity.setId((Long) session.getIdentifier(entity));
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -39,20 +38,22 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        Session session = factory.openSession();
-        Comment comment = session.get(Comment.class, id);
-        session.close();
-        return comment;
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new DataAccessException("Can't get comment by id. Id: " + id, e);
+        }
     }
 
     @Override
     public List<Comment> getAll() {
-        Session session = factory.openSession();
-        List<Comment> comments = session.createQuery("from Comment",
-                        Comment.class)
-                .getResultList();
-        session.close();
-        return comments;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from Comment",
+                            Comment.class)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new DataAccessException("Can't get all comments from DB", e);
+        }
     }
 
     @Override

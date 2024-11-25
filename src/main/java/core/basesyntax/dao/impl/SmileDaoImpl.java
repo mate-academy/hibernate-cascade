@@ -4,7 +4,6 @@ import core.basesyntax.dao.SmileDao;
 import core.basesyntax.exception.DataAccessException;
 import core.basesyntax.model.Smile;
 import java.util.List;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,9 +21,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
-            entity.setId((Long) session.getIdentifier(entity));
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -39,10 +37,11 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
-        Session session = factory.openSession();
-        Smile smile = session.get(Smile.class, id);
-        session.close();
-        return smile;
+        try (Session session = factory.openSession()) {
+            return session.get(Smile.class, id);
+        } catch (Exception e) {
+            throw new DataAccessException("Can't get smile by id. Id: " + id, e);
+        }
     }
 
     @Override

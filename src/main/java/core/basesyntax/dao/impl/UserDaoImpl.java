@@ -22,9 +22,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
-            entity.setId((Long) session.getIdentifier(entity));
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -39,25 +38,27 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        Session session = factory.openSession();
-        User user = session.createQuery("from User u "
-                        + "left join fetch u.comments "
-                        + "where u.id = :id", User.class)
-                .setParameter("id", id)
-                .getSingleResult();
-        session.close();
-        return user;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from User u "
+                            + "left join fetch u.comments "
+                            + "where u.id = :id", User.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (Exception e) {
+            throw new DataAccessException("Can't get user from DB by id. Id: " + id, e);
+        }
     }
 
     @Override
     public List<User> getAll() {
-        Session session = factory.openSession();
-        List<User> users = session.createQuery("from User u "
-                                + "left join fetch u.comments",
-                        User.class)
-                .getResultList();
-        session.close();
-        return users;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from User u "
+                                    + "left join fetch u.comments",
+                            User.class)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new DataAccessException("Can't get all users from DB", e);
+        }
     }
 
     @Override

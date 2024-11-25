@@ -22,9 +22,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
-            entity.setId((Long) session.getIdentifier(entity));
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -39,20 +38,22 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        Session session = factory.openSession();
-        Message message = session.get(Message.class, id);
-        session.close();
-        return message;
+        try (Session session = factory.openSession()) {
+            return session.get(Message.class, id);
+        } catch (Exception e) {
+            throw new DataAccessException("Can't get message by id. Id: " + id, e);
+        }
     }
 
     @Override
     public List<Message> getAll() {
-        Session session = factory.openSession();
-        List<Message> messages = session.createQuery("from Message",
-                        Message.class)
-                .getResultList();
-        session.close();
-        return messages;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from Message",
+                            Message.class)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new DataAccessException("Can't get all messages from DB", e);
+        }
     }
 
     @Override
