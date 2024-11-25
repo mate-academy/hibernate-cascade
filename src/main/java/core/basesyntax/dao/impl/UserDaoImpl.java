@@ -40,7 +40,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         Session session = factory.openSession();
-        User user = session.get(User.class, id);
+        User user = session.createQuery("from User u "
+                        + "left join fetch u.comments "
+                        + "where u.id = :id", User.class)
+                .setParameter("id", id)
+                .getSingleResult();
         session.close();
         return user;
     }
@@ -48,7 +52,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         Session session = factory.openSession();
-        List<User> users = session.createQuery("SELECT a FROM User a",
+        List<User> users = session.createQuery("from User u "
+                                + "left join fetch u.comments",
                         User.class)
                 .getResultList();
         session.close();
