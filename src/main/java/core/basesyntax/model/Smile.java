@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "smile")
 public class Smile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
