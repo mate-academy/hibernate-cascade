@@ -11,8 +11,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import javax.management.Query;
-
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
 
@@ -38,7 +36,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can not add Comment", e);
+            throw new DataProcessingException("Can not create Comment", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -47,7 +45,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     }
 
     @Override
-    public Comment get(Long id) {
+    public Comment get(Long id) {?????????????????переделать
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         try {
@@ -69,6 +67,23 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public void remove(Comment entity) {
-
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can not remove Comment", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
