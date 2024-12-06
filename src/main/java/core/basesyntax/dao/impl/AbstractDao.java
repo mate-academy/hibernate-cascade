@@ -14,32 +14,28 @@ public abstract class AbstractDao<T> {
 
     protected T save(T entity) {
         Session session = null;
-        Transaction tx = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            tx = session.beginTransaction();
+            transaction = session.beginTransaction();
             session.persist(entity);
-            tx.commit();
-            return entity;
+            transaction.commit();
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
-            throw new RuntimeException("Unable to save " + entity, e);
+            throw new RuntimeException("Could not save entity", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
+        return entity;
     }
 
     protected T findById(Class<T> clazz, Long id) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             return session.get(clazz, id);
-        } catch (Exception e) {
-            throw new RuntimeException("Cant find by id: " + id + e);
         }
     }
 
@@ -51,17 +47,17 @@ public abstract class AbstractDao<T> {
 
     protected void delete(T entity) {
         Session session = null;
-        Transaction tx = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            tx = session.beginTransaction();
-            session.remove(entity);
-            tx.commit();
+            transaction = session.beginTransaction();
+            session.delete(entity);
+            transaction.commit();
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
-            throw new RuntimeException("Unable to delete " + entity, e);
+            throw new RuntimeException("Could not delete entity", e);
         } finally {
             if (session != null) {
                 session.close();

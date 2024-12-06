@@ -27,6 +27,6 @@ public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
 
     @Override
     public void remove(Message entity) {
-        remove(entity);
+        delete(entity);
     }
 }

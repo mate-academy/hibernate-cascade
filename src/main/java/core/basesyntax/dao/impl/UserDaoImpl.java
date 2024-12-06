@@ -27,6 +27,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public void remove(User entity) {
-        remove(entity);
+        delete(entity);
     }
 }

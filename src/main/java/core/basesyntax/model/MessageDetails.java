@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity(name = "MessageDetails")
+@Entity
 public class MessageDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
