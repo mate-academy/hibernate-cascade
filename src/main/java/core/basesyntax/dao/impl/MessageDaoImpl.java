@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.exeption.DataProcessingException;
 import core.basesyntax.model.Message;
@@ -17,28 +16,24 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message entity) {
-        if (entity == null) {
-            throw new RuntimeException("unacceptable data");
-        }
-
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
         Transaction transaction = null;
+        Session session = null;
         try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
-            return entity;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can not create Message", e);
+            throw new DataProcessingException("Could not create a message ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
+        return entity;
     }
 
     @Override
@@ -54,24 +49,31 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public List<Message> getAll() {
 
         try (Session session = factory.openSession()) {
-            return session.createQuery("FROM Message", Message.class).list();
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get all Messages", e);
+            return session.createNativeQuery("SELECT * FROM Message",
+                    Message.class).getResultList();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Could not get a list of all messages " + e);
         }
     }
 
     @Override
     public void remove(Message entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (RuntimeException ex) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove Message", e);
+            throw new RuntimeException("Could not remove a message ", ex);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
 
     }

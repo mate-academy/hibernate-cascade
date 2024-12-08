@@ -1,8 +1,6 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.exeption.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -16,61 +14,60 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        if (entity == null) {
-            throw new RuntimeException("unacceptable data");
-        }
-
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
         Transaction transaction = null;
+        Session session = null;
         try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
-            return entity;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can not create User", e);
+            throw new RuntimeException("Could not create a user ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
+        return entity;
     }
 
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(User.class, id);
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get User by id " + id, e);
+            return session.createNativeQuery("SELECT * FROM User WHERE id = :id", User.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (RuntimeException ex) {
+            throw new RuntimeException("Could not get a list of all users " + ex);
         }
     }
 
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            return session.createQuery("from User", User.class).getResultList();
+            return session.createQuery("FROM User").list();
+        } catch (RuntimeException ex) {
+            throw new RuntimeException("Could not get a list of all users " + ex);
         }
     }
 
     @Override
     public void remove(User entity) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = null;
         Transaction transaction = null;
+        Session session = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can not remove User", e);
+            throw new RuntimeException("Could not remove a user ", e);
         } finally {
             if (session != null) {
                 session.close();

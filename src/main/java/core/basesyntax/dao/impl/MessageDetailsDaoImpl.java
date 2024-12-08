@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.exeption.DataProcessingException;
 import core.basesyntax.model.MessageDetails;
@@ -15,28 +14,24 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        if (entity == null) {
-            throw new RuntimeException("unacceptable data");
-        }
-
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
         Transaction transaction = null;
+        Session session = null;
         try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.save(entity);
             transaction.commit();
-            return entity;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can not create Message", e);
+            throw new DataProcessingException("Could not create message details ", e);
         } finally {
             if (session != null) {
                 session.close();
             }
         }
+        return entity;
     }
 
     @Override
@@ -45,7 +40,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
         try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get Message by id " + id, e);
+            throw new RuntimeException("Can't get Message by id " + id, e);
         }
     }
 }
