@@ -5,7 +5,6 @@ import core.basesyntax.dao.UserDao;
 import core.basesyntax.exeption.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -33,7 +32,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can not create Comment", e);
+            throw new DataProcessingException("Can not create User", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,16 +42,39 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get User by id " + id, e);
+        }
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from User", User.class).getResultList();
+        }
     }
 
     @Override
     public void remove(User entity) {
-
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can not remove User", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

@@ -31,7 +31,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can not create Comment", e);
+            throw new DataProcessingException("Can not create Message", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,6 +41,11 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
-        return null;
+
+        try (Session session = factory.openSession()) {
+            return session.get(MessageDetails.class, id);
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get Message by id " + id, e);
+        }
     }
 }
