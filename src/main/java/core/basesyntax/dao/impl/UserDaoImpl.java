@@ -39,13 +39,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void remove(User entity) {
-      try(var session = factory.openSession()){
-          var transaction = session.beginTransaction();
-          session.remove(entity);
-          transaction.commit();
-      } catch (Exception e){
-          e.printStackTrace();
-      }
+        try (var session = factory.openSession()) {
+            var transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
