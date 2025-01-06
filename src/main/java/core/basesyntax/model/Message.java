@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -14,8 +13,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "message_details_id")
+    @OneToOne(cascade = {CascadeType.PERSIST,
+            CascadeType.REMOVE})
+
     private MessageDetails messageDetails;
 
     public Long getId() {
@@ -42,3 +42,4 @@ public class Message {
         this.messageDetails = messageDetails;
     }
 }
+
