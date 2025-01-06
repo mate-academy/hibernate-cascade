@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Smile {
@@ -11,6 +13,9 @@ public class Smile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String value;
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
     public Smile() {
     }
@@ -35,6 +40,14 @@ public class Smile {
         this.value = value;
     }
 
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
     @Override
     public String toString() {
         return "Smile{"
@@ -43,3 +56,4 @@ public class Smile {
                 + '}';
     }
 }
+
