@@ -1,15 +1,15 @@
-import core.basesyntax.dao.impl.UserDaoImpl;
 import core.basesyntax.dao.impl.CommentDaoImpl;
-import core.basesyntax.model.User;
+import core.basesyntax.dao.impl.UserDaoImpl;
 import core.basesyntax.model.Comment;
 import core.basesyntax.HibernateUtil;
-import java.util.List;
+import core.basesyntax.model.User;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        UserDaoImpl userDao = new UserDaoImpl(HibernateUtil.getSessionFactory());
-        CommentDaoImpl commentDao = new CommentDaoImpl(HibernateUtil.getSessionFactory());
+        final UserDaoImpl userDao = new UserDaoImpl(HibernateUtil.getSessionFactory());
+        final CommentDaoImpl commentDao = new CommentDaoImpl(HibernateUtil.getSessionFactory());
         User user = new User();
         user.setUsername("User");
         Comment comment1 = new Comment();
