@@ -1,6 +1,6 @@
+import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.impl.CommentDaoImpl;
 import core.basesyntax.dao.impl.UserDaoImpl;
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.Arrays;
