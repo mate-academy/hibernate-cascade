@@ -14,7 +14,7 @@ public class Smile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String value;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
