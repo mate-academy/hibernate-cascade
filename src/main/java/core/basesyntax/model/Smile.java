@@ -5,20 +5,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+
 @Entity
 public class Smile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String value;
 
+    // Конструктор по умолчанию
     public Smile() {
     }
 
+    // Конструктор с параметрами
     public Smile(String value) {
         this.value = value;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -37,9 +42,9 @@ public class Smile {
 
     @Override
     public String toString() {
-        return "Smile{"
-                + "id=" + id
-                + ", value='" + value + '\''
-                + '}';
+        return "Smile{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                '}';
     }
 }

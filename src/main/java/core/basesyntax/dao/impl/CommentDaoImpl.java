@@ -12,21 +12,31 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        return null;
+        return executeInsideTransaction(session -> {
+            session.save(entity);
+            return entity;
+        });
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        return executeInsideTransaction(session -> session.get(Comment.class, id));
     }
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        return executeInsideTransaction(session -> session.createQuery("FROM Comment", Comment.class).list());
     }
 
     @Override
     public void remove(Comment entity) {
-
+        executeInsideTransaction(session -> {
+            Comment comment = session.merge(entity); // Слияние сессии
+            if (comment.getSmiles() != null && !comment.getSmiles().isEmpty()) {
+                comment.getSmiles().clear(); // Удаляем связи с существующими смайлами
+            }
+            session.remove(comment); // Удаляем сам комментарий
+            return null;
+        });
     }
 }

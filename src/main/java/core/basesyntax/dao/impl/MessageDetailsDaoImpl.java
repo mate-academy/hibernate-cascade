@@ -11,11 +11,14 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        return null;
+        return executeInsideTransaction(session -> {
+            session.save(entity);
+            return entity;
+        });
     }
 
     @Override
     public MessageDetails get(Long id) {
-        return null;
+        return executeInsideTransaction(session -> session.get(MessageDetails.class, id));
     }
 }
