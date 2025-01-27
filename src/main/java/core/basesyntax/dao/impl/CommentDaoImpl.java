@@ -5,7 +5,6 @@ import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.SessionFactory;
 
-
 public class CommentDaoImpl extends AbstractDao
         implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
