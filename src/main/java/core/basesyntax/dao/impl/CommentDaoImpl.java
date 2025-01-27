@@ -40,3 +40,4 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         });
     }
 }
+
