@@ -13,7 +13,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 public class Comment {
