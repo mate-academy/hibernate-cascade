@@ -13,7 +13,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message create(Message entity) {
         return executeInsideTransaction(session -> {
-            session.save(entity);
+            session.persist(entity);
             return entity;
         });
     }
@@ -25,15 +25,16 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        return executeInsideTransaction(session -> session.createQuery("FROM Message", Message.class).list());
+        return executeInsideTransaction(session -> session.createQuery(
+                "FROM Message", Message.class).list());
     }
 
     @Override
     public void remove(Message entity) {
         executeInsideTransaction(session -> {
-            session.remove(entity);
+            Message mergedMessage = session.merge(entity);
+            session.remove(mergedMessage);
             return null;
         });
     }
 }
-

@@ -19,10 +19,7 @@ public class MessageDetails {
 
     private LocalDateTime sentTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "message_id")
-    private Message message;
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }

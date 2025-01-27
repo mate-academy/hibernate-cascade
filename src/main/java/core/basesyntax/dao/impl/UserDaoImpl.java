@@ -1,9 +1,10 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
+import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
-import java.util.List;
 import org.hibernate.SessionFactory;
+import java.util.List;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -13,14 +14,20 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User entity) {
         return executeInsideTransaction(session -> {
-            session.save(entity);
+            if (entity.getComments() != null) {
+                entity.getComments().forEach(comment -> comment.setUser(entity));
+            }
+            session.persist(entity);
             return entity;
         });
     }
 
     @Override
     public User get(Long id) {
-        return executeInsideTransaction(session -> session.get(User.class, id));
+        return executeInsideTransaction(session -> session.createQuery(
+                        "SELECT u FROM User u LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class)
+                .setParameter("id", id)
+                .uniqueResult());
     }
 
     @Override
@@ -31,8 +38,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void remove(User entity) {
         executeInsideTransaction(session -> {
-            session.remove(entity);
+            User user = session.merge(entity);
+            if (user.getComments() != null) {
+                user.getComments().clear();
+            }
+            session.remove(user);
             return null;
         });
     }
 }
+

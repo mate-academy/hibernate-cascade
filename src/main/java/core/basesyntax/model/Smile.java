@@ -1,10 +1,8 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Smile {
@@ -14,16 +12,16 @@ public class Smile {
 
     private String value;
 
-    // Конструктор по умолчанию
+    @ManyToMany(mappedBy = "smiles", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
     public Smile() {
     }
 
-    // Конструктор с параметрами
     public Smile(String value) {
         this.value = value;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -40,11 +38,11 @@ public class Smile {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "Smile{" +
-                "id=" + id +
-                ", value='" + value + '\'' +
-                '}';
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

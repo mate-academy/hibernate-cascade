@@ -2,8 +2,8 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-import java.util.List;
 import org.hibernate.SessionFactory;
+import java.util.List;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -13,14 +13,17 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment create(Comment entity) {
         return executeInsideTransaction(session -> {
-            session.save(entity);
+            session.persist(entity);
             return entity;
         });
     }
 
     @Override
     public Comment get(Long id) {
-        return executeInsideTransaction(session -> session.get(Comment.class, id));
+        return executeInsideTransaction(session -> session.createQuery(
+                        "SELECT c FROM Comment c LEFT JOIN FETCH c.smiles WHERE c.id = :id", Comment.class)
+                .setParameter("id", id)
+                .uniqueResult());
     }
 
     @Override
@@ -31,11 +34,8 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment entity) {
         executeInsideTransaction(session -> {
-            Comment comment = session.merge(entity); // Слияние сессии
-            if (comment.getSmiles() != null && !comment.getSmiles().isEmpty()) {
-                comment.getSmiles().clear(); // Удаляем связи с существующими смайлами
-            }
-            session.remove(comment); // Удаляем сам комментарий
+            Comment comment = session.merge(entity);
+            session.remove(comment);
             return null;
         });
     }

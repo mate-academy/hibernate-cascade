@@ -2,8 +2,9 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
-import java.util.List;
 import org.hibernate.SessionFactory;
+
+import java.util.List;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public SmileDaoImpl(SessionFactory sessionFactory) {
@@ -13,7 +14,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile create(Smile entity) {
         return executeInsideTransaction(session -> {
-            session.save(entity);
+            session.persist(entity);
             return entity;
         });
     }
