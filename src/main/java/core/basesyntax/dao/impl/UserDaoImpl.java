@@ -1,7 +1,7 @@
 package core.basesyntax.dao.impl;
+
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
-
 import java.util.List;
 import org.hibernate.SessionFactory;
 
@@ -24,8 +24,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         return executeInsideTransaction(session -> session.createQuery(
-                        "SELECT u FROM User " +
-                                "u LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class)
+                        "SELECT u FROM User "
+                                + "u LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class)
                 .setParameter("id", id)
                 .uniqueResult());
     }

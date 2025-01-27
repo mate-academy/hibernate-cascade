@@ -1,9 +1,9 @@
 package core.basesyntax.dao.impl;
 
+import java.util.function.Function;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import java.util.function.Function;
 
 public abstract class AbstractDao {
     protected final SessionFactory factory;
