@@ -20,7 +20,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        return executeInsideTransaction(session -> session.get(Message.class, id));
+        return executeInsideTransaction(session
+                -> session.get(Message.class, id));
     }
 
     @Override

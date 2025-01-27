@@ -5,7 +5,8 @@ import core.basesyntax.model.Comment;
 import org.hibernate.SessionFactory;
 import java.util.List;
 
-public class CommentDaoImpl extends AbstractDao implements CommentDao {
+public class CommentDaoImpl extends AbstractDao
+        implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
@@ -21,14 +22,17 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         return executeInsideTransaction(session -> session.createQuery(
-                        "SELECT c FROM Comment c LEFT JOIN FETCH c.smiles WHERE c.id = :id", Comment.class)
+                        "SELECT c FROM Comment c LEFT" +
+                                " JOIN FETCH" +
+                                " c.smiles WHERE c.id = :id", Comment.class)
                 .setParameter("id", id)
                 .uniqueResult());
     }
 
     @Override
     public List<Comment> getAll() {
-        return executeInsideTransaction(session -> session.createQuery("FROM Comment", Comment.class).list());
+        return executeInsideTransaction(session ->
+                session.createQuery("FROM Comment", Comment.class).list());
     }
 
     @Override
