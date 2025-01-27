@@ -1,9 +1,9 @@
 package core.basesyntax.dao.impl;
-
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
-import org.hibernate.SessionFactory;
+
 import java.util.List;
+import org.hibernate.SessionFactory;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
