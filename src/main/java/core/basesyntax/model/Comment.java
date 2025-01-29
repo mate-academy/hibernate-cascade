@@ -1,15 +1,35 @@
 package core.basesyntax.model;
 
+import java.util.List;
+
+import core.basesyntax.dao.CommentDao;
+import core.basesyntax.dao.impl.CommentDaoImpl;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.util.List;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+
+    @OneToMany(cascade = {CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "comment_smiles",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "smile_id")
+    )
     private List<Smile> smiles;
 
     public Long getId() {
