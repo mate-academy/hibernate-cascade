@@ -1,6 +1,5 @@
 package core.basesyntax.model;
 
-import core.basesyntax.dao.MessageDao;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
