@@ -1,9 +1,6 @@
 package core.basesyntax.model;
 
 import java.util.List;
-
-import core.basesyntax.dao.CommentDao;
-import core.basesyntax.dao.impl.CommentDaoImpl;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +20,7 @@ public class Comment {
     private Long id;
     private String content;
 
-    @OneToMany(cascade = {CascadeType.REFRESH},
+    @OneToMany(cascade = {CascadeType.MERGE},
             fetch = FetchType.EAGER)
     @JoinTable(
             name = "comment_smiles",

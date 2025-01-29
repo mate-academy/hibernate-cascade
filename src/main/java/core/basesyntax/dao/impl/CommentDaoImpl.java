@@ -19,9 +19,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            if (entity != null) {
-                session.persist(entity);
-            }
+            session.saveOrUpdate(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -61,7 +59,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();;
             transaction = session.beginTransaction();
-
             if (entity != null) {
                 session.remove(entity);
             }
