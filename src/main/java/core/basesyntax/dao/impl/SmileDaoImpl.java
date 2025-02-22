@@ -47,6 +47,11 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "From Smile";
+            return session.createQuery(hql, Smile.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot retrieve smiles from DB", e);
+        }
     }
 }
