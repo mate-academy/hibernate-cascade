@@ -14,5 +14,6 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="core.basesyntax.model.MessageDetails"/>
+        <mapping class="core.basesyntax.model.Message"/>
     </session-factory>
 </hibernate-configuration>

@@ -48,7 +48,12 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "From Message";
+            return session.createQuery(hql, Message.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot retrieve messages", e);
+        }
     }
 
     @Override
