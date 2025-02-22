@@ -38,7 +38,11 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Smile.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot retrieve smile with id: " + id, e);
+        }
     }
 
     @Override
