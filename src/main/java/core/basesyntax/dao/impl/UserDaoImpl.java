@@ -38,7 +38,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot retrieve user with id: " + id, e);
+        }
     }
 
     @Override
