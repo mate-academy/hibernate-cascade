@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
@@ -18,7 +17,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -37,7 +36,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Cannot retrieve user with id: " + id, e);
@@ -47,7 +46,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         String hql = "From User";
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             return session.createQuery(hql, User.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Cannot retrieve data from db", e);
@@ -59,7 +58,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();

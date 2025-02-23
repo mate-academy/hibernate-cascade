@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
@@ -18,7 +17,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -37,7 +36,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Cannot retrieve comment with id: " + id, e);
@@ -46,7 +45,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             String hql = "From Comment";
             return session.createQuery(hql, Comment.class).getResultList();
         } catch (Exception e) {
@@ -59,7 +58,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
