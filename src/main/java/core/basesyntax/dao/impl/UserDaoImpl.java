@@ -47,7 +47,12 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return null;
+        String hql = "From User";
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(hql, User.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot retrieve data from db", e);
+        }
     }
 
     @Override
