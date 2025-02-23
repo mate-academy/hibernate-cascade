@@ -47,7 +47,12 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "From Comment";
+            return session.createQuery(hql, Comment.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot retrieve comments from db", e);
+        }
     }
 
     @Override
