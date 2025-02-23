@@ -38,7 +38,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        return null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot retrieve comment with id: " + id, e);
+        }
     }
 
     @Override
