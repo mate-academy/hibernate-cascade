@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +25,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Create message details failed. MessageDetails: " + entity, e);
+            throw new RuntimeException("Create message details failed. MessageDetails: "
+                    + entity, e);
         } finally {
             if (session != null) {
                 session.close();
