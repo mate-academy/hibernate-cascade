@@ -34,13 +34,19 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
-        Session session = factory.openSession();
-        return session.get(Smile.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Smile.class, id);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can't remove entity " + id, e);
+        }
     }
 
     @Override
     public List<Smile> getAll() {
-        Session session = factory.openSession();
-        return session.createQuery("SELECT a FROM Smile a", Smile.class).list();
+        try (Session session = factory.openSession()) {
+            return session.createQuery("SELECT a FROM Smile a", Smile.class).list();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can't get all smile", e);
+        }
     }
 }

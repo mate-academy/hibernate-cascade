@@ -33,7 +33,10 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
-        Session session = factory.openSession();
-        return session.get(MessageDetails.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(MessageDetails.class, id);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can't remove entity " + id, e);
+        }
     }
 }

@@ -34,14 +34,20 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        Session session = factory.openSession();
-        return session.get(Comment.class, id);
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can't remove entity " + id, e);
+        }
     }
 
     @Override
     public List<Comment> getAll() {
-        Session session = factory.openSession();
-        return session.createQuery("SELECT a FROM Comment a", Comment.class).list();
+        try (Session session = factory.openSession()) {
+            return session.createQuery("SELECT a FROM Comment a", Comment.class).list();
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Can't get all comments", e);
+        }
     }
 
     @Override
