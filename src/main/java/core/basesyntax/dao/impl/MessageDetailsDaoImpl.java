@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
@@ -14,9 +13,8 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
@@ -25,24 +23,16 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove entity " + entity, e);
-        } finally {
-            session.close();
         }
         return entity;
     }
 
     @Override
     public MessageDetails get(Long id) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             return session.get(MessageDetails.class, id);
         } catch (RuntimeException e) {
             throw new RuntimeException("Can't remove entity " + id, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }

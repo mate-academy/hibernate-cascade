@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
 import java.util.List;
@@ -15,9 +14,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile entity) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
@@ -26,39 +24,25 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove entity " + entity, e);
-        } finally {
-            session.close();
         }
         return entity;
     }
 
     @Override
     public Smile get(Long id) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (RuntimeException e) {
             throw new RuntimeException("Can't remove entity " + id, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
     @Override
     public List<Smile> getAll() {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession();) {
             return session.createQuery("SELECT a FROM Smile a", Smile.class).list();
         } catch (RuntimeException e) {
             throw new RuntimeException("Can't get all smile", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }

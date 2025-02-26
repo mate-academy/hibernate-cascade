@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
@@ -15,9 +14,8 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
@@ -26,49 +24,32 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove entity " + entity, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
         return entity;
     }
 
     @Override
     public User get(Long id) {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (RuntimeException e) {
             throw new RuntimeException("Can't remove entity " + id, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
     @Override
     public List<User> getAll() {
-        Session session = null;
-        try {
-            session = factory.openSession();
+        try (Session session = factory.openSession()) {
             return session.createQuery("SELECT a FROM User a", User.class).list();
         } catch (RuntimeException e) {
             throw new RuntimeException("Can't get all user", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
     @Override
     public void remove(User entity) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        try {
+        try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
@@ -77,10 +58,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove entity " + entity, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }
