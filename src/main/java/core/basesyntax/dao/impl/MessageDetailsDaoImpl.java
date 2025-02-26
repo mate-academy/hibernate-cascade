@@ -13,8 +13,10 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
@@ -23,6 +25,10 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove entity " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return entity;
     }

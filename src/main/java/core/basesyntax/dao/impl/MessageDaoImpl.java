@@ -14,8 +14,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message entity) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
@@ -24,6 +26,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove entity " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return entity;
     }
@@ -48,8 +54,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public void remove(Message entity) {
+        Session session = null;
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             session.getTransaction().commit();
@@ -58,6 +66,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove entity " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
