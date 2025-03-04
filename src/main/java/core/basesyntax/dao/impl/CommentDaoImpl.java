@@ -1,9 +1,14 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
+import core.basesyntax.dao.exception.DataProcessingException;
+import core.basesyntax.dao.exception.EmptyTableException;
+import core.basesyntax.dao.exception.IdNotFoundException;
 import core.basesyntax.model.Comment;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -12,21 +17,62 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't save comment: ", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(Comment.class, id);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Can't find comment with id: " + id, e);
+        }
     }
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("from Comment", Comment.class).list();
+        } catch (Exception e) {
+            throw new EmptyTableException("There no items in table : Comment", e);
+        }
     }
 
     @Override
     public void remove(Comment entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't remove comment with id :" + entity.getId(), e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
