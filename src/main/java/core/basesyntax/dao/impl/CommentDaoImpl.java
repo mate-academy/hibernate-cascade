@@ -19,7 +19,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -36,19 +36,29 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        try {
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't find comment with id: " + id, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public List<Comment> getAll() {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        try {
             return session.createQuery("from Comment", Comment.class).list();
         } catch (Exception e) {
             throw new RuntimeException("There no items in table : Comment", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 

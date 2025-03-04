@@ -6,8 +6,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -19,7 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     public Long getId() {
@@ -38,16 +36,21 @@ public class User {
         this.username = username;
     }
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_comment",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "comment_id")
-    )
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     public List<Comment> getComments() {
         return comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", username='" + username + '\''
+                + ", comments=" + comments
+                + '}';
     }
 }

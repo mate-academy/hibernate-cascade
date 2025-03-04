@@ -1,12 +1,11 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -37,17 +36,21 @@ public class Comment {
         this.content = content;
     }
 
-    @OneToMany(cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "comment_smile",
-            joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "smile_id")
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
     public List<Smile> getSmiles() {
         return smiles;
     }
 
     public void setSmiles(List<Smile> smiles) {
         this.smiles = smiles;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", smiles=" + smiles
+                + '}';
     }
 }

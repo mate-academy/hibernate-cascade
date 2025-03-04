@@ -19,7 +19,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -36,19 +36,29 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        try {
             return session.get(Message.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get message with id :" + id, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public List<Message> getAll() {
-        try (Session session = factory.openSession()) {
+        Session session = factory.openSession();
+        try {
             return session.createQuery("from Message", Message.class).list();
         } catch (Exception e) {
             throw new RuntimeException("There no items in table : Message", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
