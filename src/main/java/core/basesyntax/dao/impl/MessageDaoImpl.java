@@ -1,9 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.dao.exception.DataProcessingException;
-import core.basesyntax.dao.exception.EmptyTableException;
-import core.basesyntax.dao.exception.IdNotFoundException;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
@@ -28,7 +25,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove message with id :" + entity.getId(), e);
+            throw new RuntimeException("Can't remove message with id :" + entity.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,7 +39,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
-            throw new IdNotFoundException("Can't get message with id :" + id, e);
+            throw new RuntimeException("Can't get message with id :" + id, e);
         }
     }
 
@@ -51,7 +48,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("from Message", Message.class).list();
         } catch (Exception e) {
-            throw new EmptyTableException("There no items in table : Message", e);
+            throw new RuntimeException("There no items in table : Message", e);
         }
     }
 
@@ -68,7 +65,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove message with id :" + entity.getId(), e);
+            throw new RuntimeException("Can't remove message with id :" + entity.getId(), e);
         } finally {
             if (session != null) {
                 session.close();

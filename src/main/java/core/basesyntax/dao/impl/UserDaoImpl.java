@@ -1,9 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.dao.exception.DataProcessingException;
-import core.basesyntax.dao.exception.EmptyTableException;
-import core.basesyntax.dao.exception.IdNotFoundException;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -29,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't save User with id: " + entity.getId(), e);
+            throw new RuntimeException("Can't save User with id: " + entity.getId(), e);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,7 +40,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
-            throw new IdNotFoundException("Can't get User with id : " + id, e);
+            throw new RuntimeException("Can't get User with id : " + id, e);
         }
     }
 
@@ -52,7 +49,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("from User", User.class).list();
         } catch (Exception e) {
-            throw new EmptyTableException("The table User is empty", e);
+            throw new RuntimeException("The table User is empty", e);
         }
     }
 
@@ -69,7 +66,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove User with id :" + entity.getId(), e);
+            throw new RuntimeException("Can't remove User with id :" + entity.getId(), e);
         } finally {
             if (session != null) {
                 session.close();

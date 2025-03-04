@@ -1,9 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
-import core.basesyntax.dao.exception.DataProcessingException;
-import core.basesyntax.dao.exception.EmptyTableException;
-import core.basesyntax.dao.exception.IdNotFoundException;
 import core.basesyntax.model.Comment;
 import java.util.List;
 import org.hibernate.Session;
@@ -28,7 +25,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't save comment: ", e);
+            throw new RuntimeException("Can't save comment: ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,7 +39,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.get(Comment.class, id);
         } catch (Exception e) {
-            throw new IdNotFoundException("Can't find comment with id: " + id, e);
+            throw new RuntimeException("Can't find comment with id: " + id, e);
         }
     }
 
@@ -51,7 +48,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("from Comment", Comment.class).list();
         } catch (Exception e) {
-            throw new EmptyTableException("There no items in table : Comment", e);
+            throw new RuntimeException("There no items in table : Comment", e);
         }
     }
 
@@ -68,7 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove comment with id :" + entity.getId(), e);
+            throw new RuntimeException("Can't remove comment with id :" + entity.getId(), e);
         } finally {
             if (session != null) {
                 session.close();

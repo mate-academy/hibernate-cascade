@@ -1,9 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.dao.exception.DataProcessingException;
-import core.basesyntax.dao.exception.EmptyTableException;
-import core.basesyntax.dao.exception.IdNotFoundException;
 import core.basesyntax.model.Smile;
 import java.util.List;
 import org.hibernate.Session;
@@ -28,7 +25,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't save smile: ", e);
+            throw new RuntimeException("Can't save smile: ", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,7 +39,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.get(Smile.class, id);
         } catch (Exception e) {
-            throw new IdNotFoundException("Can't get smile with id : " + id, e);
+            throw new RuntimeException("Can't get smile with id : " + id, e);
         }
     }
 
@@ -51,7 +48,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("from Smile", Smile.class).list();
         } catch (Exception e) {
-            throw new EmptyTableException("The table : Smile - is empty", e);
+            throw new RuntimeException("The table : Smile - is empty", e);
         }
     }
 }
