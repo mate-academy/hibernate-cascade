@@ -4,7 +4,6 @@ import core.basesyntax.dao.UserDao;
 import core.basesyntax.dao.exception.DataProcessingException;
 import core.basesyntax.dao.exception.EmptyTableException;
 import core.basesyntax.dao.exception.IdNotFoundException;
-import core.basesyntax.model.Smile;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -41,7 +40,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
-        try(Session session = factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new IdNotFoundException("Can't get User with id : " + id, e);

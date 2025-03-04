@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
-import core.basesyntax.dao.exception.DataProcessingException;
 import core.basesyntax.dao.exception.EmptyTableException;
 import core.basesyntax.dao.exception.IdNotFoundException;
 import core.basesyntax.model.MessageDetails;

@@ -4,7 +4,6 @@ import core.basesyntax.dao.MessageDao;
 import core.basesyntax.dao.exception.DataProcessingException;
 import core.basesyntax.dao.exception.EmptyTableException;
 import core.basesyntax.dao.exception.IdNotFoundException;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
@@ -40,7 +39,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
-        try(Session session = factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(Message.class, id);
         } catch (Exception e) {
             throw new IdNotFoundException("Can't get message with id :" + id, e);
