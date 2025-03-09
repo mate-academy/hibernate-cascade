@@ -40,7 +40,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(User.class, id);
+            Query<User> query = session.createQuery(
+                    "FROM User u LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class);
+            query.setParameter("id", id);
+            return query.uniqueResult();
         } catch (Exception e) {
             throw new RuntimeException("Can't get user: " + id, e);
         }
@@ -49,15 +52,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public List<User> getAll() {
         try (Session session = factory.openSession()) {
-            session.beginTransaction();
 
-            Query<User> query = session.createQuery("FROM User ", User.class);
-            List<User> users = query.getResultList();
+            Query<User> query = session.createQuery(
+                    "FROM User u LEFT JOIN FETCH u.comments", User.class);
+            return query.list();
 
-            session.getTransaction().commit();
-            session.close();
-
-            return users;
         } catch (Exception e) {
             throw new RuntimeException("Can't get users", e);
         }
@@ -70,11 +69,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            User managedEntity = session.find(User.class, entity.getId());
-            if (managedEntity != null) {
-                session.remove(managedEntity);
+            User user = session.get(User.class, entity.getId());
+            if (user != null) {
+                user.getComments().clear();
+                session.merge(user);
             }
-            session.getTransaction().commit();
+            session.remove(user);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
