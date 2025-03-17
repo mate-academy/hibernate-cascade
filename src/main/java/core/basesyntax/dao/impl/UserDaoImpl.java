@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.exception.DataProcessingException;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
 import org.hibernate.Session;
@@ -61,10 +60,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            for (Comment comment : user.getComments()) {
-                comment.setUser(null);
-                session.merge(comment);
-            }
             session.remove(user);
             transaction.commit();
         } catch (Exception e) {
