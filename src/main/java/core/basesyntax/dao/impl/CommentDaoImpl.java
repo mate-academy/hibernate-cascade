@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Comment;
-import core.basesyntax.model.Smile;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,20 +20,14 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            for (Smile smile : entity.getSmiles()) {
-                Smile existingSmile = session.get(Smile.class, smile.getId());
-                if (existingSmile == null) {
-                    throw new RuntimeException("Smile with id " + smile.getId()
-                            + " does not exist in the database.");
-                }
-            }
             session.persist(entity);
+            transaction.commit();
             return entity;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Cannot create message: " + entity, e);
+            throw new DataProcessingException("Cannot create comment: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
