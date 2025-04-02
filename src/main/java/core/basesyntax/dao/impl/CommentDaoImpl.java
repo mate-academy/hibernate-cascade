@@ -38,8 +38,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment get(Long id) {
+        Comment comment;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Comment comment = session.get(Comment.class, id);
+            comment = session.get(Comment.class, id);
             return comment;
         } catch (Exception e) {
             throw new DataProcessingException("Can't get comment by id: " + id, e);
@@ -48,19 +49,29 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
+        List<Comment> comments;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Comment", Comment.class).list();
+            comments = session.createQuery("FROM Comment", Comment.class).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get all comments", e);
         }
+        return comments;
     }
 
     @Override
     public void remove(Comment entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
             session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DataProcessingException("Can't remove comment", e);
+        } finally {
+            session.close();
         }
     }
 }

@@ -38,8 +38,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message get(Long id) {
+        Message message;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Message message = session.get(Message.class, id);
+            message = session.get(Message.class, id);
             return message;
         } catch (Exception e) {
             throw new DataProcessingException("Can't get message by id: " + id, e);
@@ -48,19 +49,29 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
+        List<Message> messages;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Message", Message.class).list();
+            messages = session.createQuery("FROM Message", Message.class).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get all messages", e);
         }
+        return messages;
     }
 
     @Override
-    public void remove(Message entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.remove(entity);
+    public void remove(Message message) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.remove(message);
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DataProcessingException("Can't remove message", e);
+        } finally {
+            session.close();
         }
     }
 }

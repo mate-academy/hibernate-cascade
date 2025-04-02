@@ -37,8 +37,9 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails get(Long id) {
+        MessageDetails messageDetails;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            MessageDetails messageDetails = session.get(MessageDetails.class, id);
+            messageDetails = session.get(MessageDetails.class, id);
             return messageDetails;
         } catch (Exception e) {
             throw new DataProcessingException("Can't get message details by id: " + id, e);

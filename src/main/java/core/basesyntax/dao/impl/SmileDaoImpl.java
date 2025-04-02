@@ -38,8 +38,9 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile get(Long id) {
+        Smile smile;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Smile smile = session.get(Smile.class, id);
+            smile = session.get(Smile.class, id);
             return smile;
         } catch (Exception e) {
             throw new DataProcessingException("Can't get smile by id: " + id, e);
@@ -48,10 +49,12 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public List<Smile> getAll() {
+        List<Smile> smiles;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Smile", Smile.class).list();
+            smiles = session.createQuery("FROM Smile", Smile.class).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get all smiles", e);
         }
+        return smiles;
     }
 }

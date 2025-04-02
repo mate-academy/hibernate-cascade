@@ -38,8 +38,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User get(Long id) {
+        User user;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            User user = session.get(User.class, id);
+            user = session.get(User.class, id);
             return user;
         } catch (Exception e) {
             throw new DataProcessingException("Can't get user by id: " + id, e);
@@ -48,19 +49,29 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
+        List<User> users;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM User", User.class).list();
+            users = session.createQuery("FROM User", User.class).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get all users", e);
         }
+        return users;
     }
 
     @Override
-    public void remove(User entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.remove(entity);
+    public void remove(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.remove(user);
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DataProcessingException("Can't remove user", e);
+        } finally {
+            session.close();
         }
     }
 }
