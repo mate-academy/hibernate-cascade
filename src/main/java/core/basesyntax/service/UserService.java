@@ -1,9 +1,9 @@
-package core.basesyntax.dao;
+package core.basesyntax.service;
 
 import core.basesyntax.model.User;
 import java.util.List;
 
-public interface UserDao extends GenericDao<User> {
+public interface UserService extends GenericService<User> {
     User create(User entity);
 
     User get(Long id);

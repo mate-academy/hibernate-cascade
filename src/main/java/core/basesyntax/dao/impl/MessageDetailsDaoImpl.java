@@ -1,9 +1,9 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.MessageDetails;
+import core.basesyntax.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

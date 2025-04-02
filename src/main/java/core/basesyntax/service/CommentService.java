@@ -1,9 +1,9 @@
-package core.basesyntax.dao;
+package core.basesyntax.service;
 
 import core.basesyntax.model.Comment;
 import java.util.List;
 
-public interface CommentDao extends GenericDao<Comment> {
+public interface CommentService extends GenericService<Comment> {
     Comment create(Comment entity);
 
     Comment get(Long id);

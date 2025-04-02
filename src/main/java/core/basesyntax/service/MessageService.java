@@ -1,9 +1,9 @@
-package core.basesyntax.dao;
+package core.basesyntax.service;
 
 import core.basesyntax.model.Message;
 import java.util.List;
 
-public interface MessageDao extends GenericDao<Message> {
+public interface MessageService extends GenericService<Message> {
     Message create(Message entity);
 
     Message get(Long id);
