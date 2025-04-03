@@ -2,7 +2,6 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.Message;
 import java.util.List;
 import org.hibernate.Session;
@@ -28,7 +27,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't insert message: " + entity, e);
+            throw new RuntimeException("Can't insert message: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -43,7 +42,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             message = session.get(Message.class, id);
             return message;
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get message by id: " + id, e);
+            throw new RuntimeException("Can't get message by id: " + id, e);
         }
     }
 
@@ -53,7 +52,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             messages = session.createQuery("FROM Message", Message.class).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get all messages", e);
+            throw new RuntimeException("Can't get all messages", e);
         }
         return messages;
     }
@@ -69,7 +68,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't remove message", e);
+            throw new RuntimeException("Can't remove message", e);
         } finally {
             session.close();
         }
