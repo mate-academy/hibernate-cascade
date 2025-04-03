@@ -1,4 +1,4 @@
-package core.basesyntax.util;
+package core.basesyntax;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

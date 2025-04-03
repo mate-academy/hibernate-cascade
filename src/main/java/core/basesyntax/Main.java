@@ -10,7 +10,6 @@ import core.basesyntax.service.CommentService;
 import core.basesyntax.service.MessageService;
 import core.basesyntax.service.SmileService;
 import core.basesyntax.service.UserService;
-import core.basesyntax.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.SessionFactory;
 

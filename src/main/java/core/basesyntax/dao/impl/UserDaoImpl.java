@@ -1,9 +1,9 @@
 package core.basesyntax.dao.impl;
 
+import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.User;
-import core.basesyntax.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
