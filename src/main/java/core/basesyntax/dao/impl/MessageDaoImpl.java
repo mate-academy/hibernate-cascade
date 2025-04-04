@@ -59,18 +59,23 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public void remove(Message message) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction transaction = null;
         try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
             session.remove(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove message", e);
+            throw new RuntimeException("Error occurred while removing message "
+                    + "from the database: " + message, e);
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
