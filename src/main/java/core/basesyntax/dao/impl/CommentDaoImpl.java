@@ -74,7 +74,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public List<Comment> getAll() {
-        List<Comment> entityList = null;
+        List<Comment> entityList;
         Session session = null;
 
         try {
