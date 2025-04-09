@@ -37,7 +37,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 }
             }
 
-            entity.setSmiles(validatedSmiles); // ustawiamy już istniejące encje
+            entity.setSmiles(validatedSmiles);
             session.save(entity);
             transaction.commit();
         } catch (Exception e) {
