@@ -1,8 +1,14 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToOne;
+
 public class Message {
     private Long id;
     private String content;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MessageDetails messageDetails;
 
     public Long getId() {
