@@ -2,7 +2,9 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
@@ -11,11 +13,43 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.save(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Cannot create MessageDetails: " + entity.toString(), e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return entity;
     }
 
     @Override
     public MessageDetails get(Long id) {
-        return null;
+        Session session = null;
+        MessageDetails entity = null;
+
+        try {
+            session = factory.openSession();
+            entity = (MessageDetails) session.get(MessageDetails.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot get Comment: " + id, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 }
