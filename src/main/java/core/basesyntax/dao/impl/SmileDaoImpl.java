@@ -2,14 +2,12 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.model.Message;
 import core.basesyntax.model.Smile;
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import java.util.List;
 
 public class SmileDaoImpl extends AbstractDao implements SmileDao {
     private Session session = null;
@@ -31,7 +29,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can not save entity... :",e);
+            throw new RuntimeException("Can not save entity... :", e);
         } finally {
             if (session != null) {
                 session.close();

@@ -3,16 +3,14 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-import java.util.List;
-
-import core.basesyntax.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import java.util.List;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
-    private  Session session = null;
+    private Session session = null;
     private Transaction transaction = null;
 
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -31,7 +29,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can not save entity... :",e);
+            throw new RuntimeException("Can not save entity... :", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -70,7 +68,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Message can not be removed... ",e);
+            throw new RuntimeException("Message can not be removed... ", e);
         } finally {
             if (session != null) {
                 session.close();

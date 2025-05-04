@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
-    private  Session session = null;
+    private Session session = null;
     private Transaction transaction = null;
 
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
@@ -18,21 +18,21 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails create(MessageDetails entity) {
         try {
-        session = HibernateUtil.getSessionFactory().openSession();
-        transaction = session.beginTransaction();
-        transaction.begin();
-        session.save(entity);
-        transaction.commit();
-    } catch (Exception e) {
-        if (transaction != null) {
-            transaction.rollback();
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            transaction.begin();
+            session.save(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can not save entity... :", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
-        throw new RuntimeException("Can not save entity... :",e);
-    } finally {
-        if (session != null) {
-            session.close();
-        }
-    }
         return entity;
     }
 

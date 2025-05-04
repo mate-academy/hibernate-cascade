@@ -3,14 +3,14 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import java.util.List;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
-    private  Session session = null;
+    private Session session = null;
     private Transaction transaction = null;
 
     public CommentDaoImpl(SessionFactory sessionFactory) {
@@ -29,7 +29,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can not save entity... :",e);
+            throw new RuntimeException("Can not save entity... :", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -65,7 +65,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Comment can not be removed... ",e);
+            throw new RuntimeException("Comment can not be removed... ", e);
         } finally {
             if (session != null) {
                 session.close();
