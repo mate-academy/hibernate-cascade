@@ -10,7 +10,6 @@ import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
-
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
