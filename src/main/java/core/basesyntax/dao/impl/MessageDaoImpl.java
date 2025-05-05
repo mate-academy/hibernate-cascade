@@ -41,8 +41,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         Message user = null;
         try (Session session = factory.openSession()) {
             user = session.get(Message.class, id);
+            return user;
+        } catch (Exception e) {
+            throw new RuntimeException("Can not get a message by id",e);
         }
-        return user;
     }
 
     @Override
@@ -50,6 +52,8 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             Query<Message> query = session.createQuery("FROM Message", Message.class);
             return query.list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can not get a message by id",e);
         }
     }
 

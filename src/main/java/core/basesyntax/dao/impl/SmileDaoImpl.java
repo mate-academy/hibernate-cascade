@@ -41,8 +41,10 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         Smile smile = null;
         try (Session session = factory.openSession()) {
             smile = session.get(Smile.class, id);
+            return smile;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return smile;
     }
 
     @Override
@@ -50,6 +52,8 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             Query<Smile> query = session.createQuery("FROM Smile", Smile.class);
             return query.list();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
