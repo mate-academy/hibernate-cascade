@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
 import org.hibernate.Session;
@@ -8,8 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetailsDao {
-    private Session session = null;
-    private Transaction transaction = null;
 
     public MessageDetailsDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -17,8 +14,10 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             transaction.begin();
             session.save(entity);
@@ -39,7 +38,7 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
     @Override
     public MessageDetails get(Long id) {
         MessageDetails messageDetails = null;
-        try (Session session1 = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session1 = factory.openSession()) {
             messageDetails = session1.get(MessageDetails.class, id);
         }
         return messageDetails;

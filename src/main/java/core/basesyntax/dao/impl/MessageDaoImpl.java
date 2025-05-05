@@ -1,6 +1,5 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.HibernateUtil;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
@@ -10,8 +9,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
-    private Session session = null;
-    private Transaction transaction = null;
 
     public MessageDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -19,8 +16,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message entity) {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             transaction.begin();
             session.save(entity);
@@ -41,7 +40,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message get(Long id) {
         Message user = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             user = session.get(Message.class, id);
         }
         return user;
@@ -49,7 +48,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public List<Message> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<Message> query = session.createQuery("FROM Message", Message.class);
             return query.list();
         }
@@ -57,9 +56,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public void remove(Message entity) {
-
+        Session session = null;
+        Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             transaction.begin();
             session.remove(entity);

@@ -22,7 +22,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         User user = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             user = session.get(User.class, id);
         }
         return user;
@@ -30,7 +30,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = factory.openSession()) {
             Query<User> query = session.createQuery("FROM User", User.class);
             return query.list();
         }
@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             transaction.begin();
             session.remove(entity);
