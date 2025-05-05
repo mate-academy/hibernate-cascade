@@ -9,8 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
-    private Session session = null;
-    private Transaction transaction = null;
+
 
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -18,10 +17,11 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
+        Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            transaction.begin();
             session.save(entity);
             transaction.commit();
         } catch (Exception e) {
@@ -57,7 +57,6 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         try {
             session = factory.openSession();
             transaction = session.beginTransaction();
-            transaction.begin();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
