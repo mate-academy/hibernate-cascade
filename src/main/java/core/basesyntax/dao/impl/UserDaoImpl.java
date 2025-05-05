@@ -15,7 +15,25 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        return null;
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            transaction.begin();
+            session.save(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can not save entity... :", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 
     @Override
