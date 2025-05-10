@@ -4,8 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
 
 @Entity
+@NamedQuery(name = "getAllSmiles", query = "SELECT s FROM Smile s")
+@Table(name = "smiles")
 public class Smile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
