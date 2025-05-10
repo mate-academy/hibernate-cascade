@@ -6,10 +6,11 @@ import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import core.basesyntax.model.User;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 public class UserDaoImplTest extends AbstractTest {
     private UserDao userDao;
