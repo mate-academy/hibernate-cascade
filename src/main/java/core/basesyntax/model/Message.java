@@ -1,8 +1,22 @@
 package core.basesyntax.model;
 
-public class Message {
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "messages")
+public class Message implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private MessageDetails messageDetails;
 
     public Long getId() {
