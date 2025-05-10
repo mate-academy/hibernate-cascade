@@ -40,6 +40,11 @@
             <version>2.7.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>4.0.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
