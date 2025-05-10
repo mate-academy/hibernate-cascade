@@ -15,7 +15,7 @@ public class CommentDaoImplTest extends AbstractTest {
 
     @Before
     public void before() {
-        commentDao = new CommentDaoImpl(getSessionFactory());
+        commentDao = new CommentDaoImpl(getEntityManagerFactory());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class CommentDaoImplTest extends AbstractTest {
 
     @Test
     public void addComment_WithExistedSmiles_Ok() {
-        SmileDao smileDao = new SmileDaoImpl(getSessionFactory());
+        SmileDao smileDao = new SmileDaoImpl(getEntityManagerFactory());
 
         // Create smiles and store in DB
         Smile funnySmile = new Smile("funny");
@@ -155,7 +155,7 @@ public class CommentDaoImplTest extends AbstractTest {
 
     @Test
     public void removeComment_NoSmile_Ok() {
-        SmileDao smileDao = new SmileDaoImpl(getSessionFactory());
+        SmileDao smileDao = new SmileDaoImpl(getEntityManagerFactory());
 
         // Create smiles and store in DB
         Smile funnySmile = new Smile("funny");

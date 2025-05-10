@@ -1,15 +1,15 @@
 package core.basesyntax;
 
-import org.hibernate.SessionFactory;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory = initSessionFactory();
+    private static EntityManagerFactory entityManagerFactory = initEntityManagerFactory();
 
     private HibernateUtil() {
     }
 
-    private static SessionFactory initSessionFactory() {
+    private static EntityManagerFactory initEntityManagerFactory() {
         try {
             return new Configuration().configure().buildSessionFactory();
         } catch (Exception e) {
@@ -17,7 +17,7 @@ public class HibernateUtil {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
     }
 }

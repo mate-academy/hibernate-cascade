@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import javax.sql.DataSource;
-
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.Interceptor;
-import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hsqldb.jdbc.JDBCDataSource;
@@ -37,28 +36,27 @@ public abstract class AbstractTest {
         Database database();
     }
 
-    private SessionFactory factory;
+    private EntityManagerFactory entityManagerFactory;
 
     @Before
     public void init() {
-        factory = newSessionFactory();
+        entityManagerFactory = newEntityManagerFactory();
     }
 
-
-    private SessionFactory newSessionFactory() {
+    private EntityManagerFactory newEntityManagerFactory() {
         Properties properties = getProperties();
         Configuration configuration = new Configuration().addProperties(properties);
-        for(Class<?> entityClass : entities()) {
+        for (Class<?> entityClass : entities()) {
             configuration.addAnnotatedClass(entityClass);
         }
         String[] packages = packages();
-        if(packages != null) {
-            for(String scannedPackage : packages) {
+        if (packages != null) {
+            for (String scannedPackage : packages) {
                 configuration.addPackage(scannedPackage);
             }
         }
         Interceptor interceptor = interceptor();
-        if(interceptor != null) {
+        if (interceptor != null) {
             configuration.setInterceptor(interceptor);
         }
         return configuration.buildSessionFactory(
@@ -100,8 +98,8 @@ public abstract class AbstractTest {
         return new HsqldbDataSourceProvider();
     }
 
-    public SessionFactory getSessionFactory() {
-        return factory;
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
     }
 
     public static class HsqldbDataSourceProvider implements DataSourceProvider {

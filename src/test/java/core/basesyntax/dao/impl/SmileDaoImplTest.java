@@ -14,7 +14,7 @@ public class SmileDaoImplTest extends AbstractTest {
 
     @Before
     public void setUp() {
-        smileDao = new SmileDaoImpl(getSessionFactory());
+        smileDao = new SmileDaoImpl(getEntityManagerFactory());
     }
 
     @Override
