@@ -3,30 +3,79 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
+    private static final String CANNOT_CREATE_USER_TEMPLATE = "Cannot create user: ";
+    private static final String CANNOT_GET_USER_TEMPLATE = "Cannot get user with id: ";
+    private static final String CANNOT_GET_USERS = "Cannot get users";
+    private static final String CANNOT_REMOVE_USER_TEMPLATE = "Cannot remove user: ";
+    private static final String GET_ALL_USERS_QUERY = "FROM User";
+
     public UserDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
     @Override
     public User create(User entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException(CANNOT_CREATE_USER_TEMPLATE + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return entity;
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException(CANNOT_GET_USER_TEMPLATE + id, e);
+        }
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.createQuery(GET_ALL_USERS_QUERY, User.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(CANNOT_GET_USERS, e);
+        }
     }
 
     @Override
     public void remove(User entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException(CANNOT_REMOVE_USER_TEMPLATE + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
