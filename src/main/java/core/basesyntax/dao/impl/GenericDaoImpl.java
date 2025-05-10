@@ -1,21 +1,23 @@
 package core.basesyntax.dao.impl;
 
-import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.User;
+import core.basesyntax.dao.GenericDao;
+import jakarta.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.criteria.HibernateCriteriaBuilder;
-import org.hibernate.query.criteria.JpaCriteriaQuery;
 
-public class UserDaoImpl extends AbstractDao implements UserDao {
-    public UserDaoImpl(SessionFactory sessionFactory) {
+public class GenericDaoImpl<T> extends AbstractDao implements GenericDao<T> {
+    private final Class<T> entityClass;
+
+    public GenericDaoImpl(SessionFactory sessionFactory, Class<T> entityClass) {
         super(sessionFactory);
+        this.entityClass = entityClass;
     }
 
     @Override
-    public User create(User entity) {
+    public T create(T entity) {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -27,7 +29,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't save user: " + entity.getUsername(), e);
+            throw new RuntimeException("Can't save entity: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -37,26 +39,26 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
-    public User get(Long id) {
+    public T get(Long id) {
         try (Session session = factory.openSession()) {
-            return session.get(User.class, id);
-        } catch (Exception e) {
-            throw new RuntimeException("Can't get user with id: " + id);
+            return session.get(entityClass, id);
         }
     }
 
     @Override
-    public List<User> getAll() {
+    public List<T> getAll() {
         try (Session session = factory.openSession()) {
             HibernateCriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            JpaCriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
-            query.from(User.class);
-            return session.createQuery(query).getResultList();
+            CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+            criteriaQuery.from(entityClass);
+            return session.createQuery(criteriaQuery).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get entities from DB.", e);
         }
     }
 
     @Override
-    public void remove(User entity) {
+    public void remove(Object entity) {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -68,7 +70,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove user: " + entity.getUsername(), e);
+            throw new RuntimeException("Can't remove entity: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
