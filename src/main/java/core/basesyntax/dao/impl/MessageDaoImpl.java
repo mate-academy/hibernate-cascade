@@ -14,17 +14,28 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
 
     @Override
     public Message create(Message entity) {
-        return null;
+        try (Session session = factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+            return entity;
+        } catch (Exception e) {
+            throw new RuntimeException("Can't create a message: " + entity, e);
+        }
     }
 
     @Override
     public Message get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.get(Message.class, id);
+        }
     }
 
     @Override
     public List<Message> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("FROM Message", Message.class).list();
+        }
     }
 
     @Override
