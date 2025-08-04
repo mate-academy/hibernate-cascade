@@ -11,18 +11,27 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MessageDetailsDaoImplTest extends AbstractTest {
+
     private static final LocalDateTime DEFAULT_TIME
             = LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 25));
+
     private MessageDetailsDao messageDetailsDao;
 
     @Before
     public void setUp() {
         messageDetailsDao = new MessageDetailsDaoImpl(getSessionFactory());
+        System.out.println("test start");
+
     }
 
     @Override
     protected Class<?>[] entities() {
         return new Class[]{MessageDetails.class};
+    }
+
+    @Test
+    public void testCreate1() {
+        Assert.assertEquals(1, 1);
     }
 
     @Test

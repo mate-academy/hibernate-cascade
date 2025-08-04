@@ -1,8 +1,17 @@
 package core.basesyntax.model;
 
+import com.mysql.cj.CacheAdapter;
+import jakarta.persistence.*;
+
+@Entity
 public class Message {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+
+    @OneToOne(mappedBy = "message", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private MessageDetails messageDetails;
 
     public Long getId() {
