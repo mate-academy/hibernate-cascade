@@ -1,12 +1,10 @@
 package core.basesyntax.model;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -14,13 +12,9 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column
     private String content;
 
-    @Column
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "message_details_id", referencedColumnName = "id")
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private MessageDetails messageDetails;
 
     public Long getId() {

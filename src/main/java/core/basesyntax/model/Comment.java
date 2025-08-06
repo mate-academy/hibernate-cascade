@@ -21,7 +21,7 @@ public class Comment {
 
     private String content;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "comments_smiles",
             joinColumns = {@JoinColumn(name = "comment_id")},

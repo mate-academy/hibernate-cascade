@@ -51,7 +51,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         try {
             session = factory.openSession();
-            return session.createQuery("SELECT * FROM users", User.class).getResultList();
+            return session.createQuery("FROM User", User.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all users");
         } finally {
@@ -64,10 +64,16 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void remove(User entity) {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = factory.openSession();
-            session.delete(entity);
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't remove entity: " + entity.toString(), e);
         } finally {
             if (session != null) {
