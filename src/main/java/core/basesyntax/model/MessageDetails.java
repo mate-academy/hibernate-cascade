@@ -1,7 +1,9 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,10 +14,6 @@ public class MessageDetails {
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
-
-    @OneToOne
-    @JoinColumn(name = "message_id", nullable = true)
-    private Message message;
 
     public MessageDetails() {
     }
@@ -46,11 +44,10 @@ public class MessageDetails {
 
     @Override
     public String toString() {
-        return "MessageDetails{" +
-                "id=" + id +
-                ", sender='" + sender + '\'' +
-                ", sentTime=" + sentTime +
-                ", message=" + message +
-                '}';
+        return "MessageDetails{"
+                + "id=" + id
+                + ", sender='" + sender + '\''
+                + ", sentTime=" + sentTime
+                + '}';
     }
 }

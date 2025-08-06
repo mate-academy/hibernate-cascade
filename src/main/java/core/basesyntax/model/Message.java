@@ -1,7 +1,11 @@
 package core.basesyntax.model;
 
-import com.mysql.cj.CacheAdapter;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Message {
@@ -11,7 +15,7 @@ public class Message {
     private Long id;
     private String content;
 
-    @OneToOne(mappedBy = "message", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private MessageDetails messageDetails;
 
     public Long getId() {

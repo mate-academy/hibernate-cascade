@@ -1,9 +1,10 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.util.List;
 
 @Entity
@@ -46,10 +47,10 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", smiles=" + smiles +
-                '}';
+        return "Comment{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", smiles=" + smiles
+                + '}';
     }
 }
