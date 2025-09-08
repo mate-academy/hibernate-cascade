@@ -16,7 +16,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User create(User entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -26,6 +28,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             }
             throw new RuntimeException(
                     "Can't create User entity: " + entity + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return entity;
     }
@@ -33,7 +39,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             User user = session.get(User.class, id);
             transaction.commit();
@@ -43,6 +51,10 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't find user by id: " + id + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -60,7 +72,9 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void remove(User entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
@@ -69,6 +83,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove user: " + entity + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
+
     }
 }

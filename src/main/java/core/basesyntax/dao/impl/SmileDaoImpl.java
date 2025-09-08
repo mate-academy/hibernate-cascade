@@ -16,7 +16,9 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile create(Smile entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -26,6 +28,10 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             }
             throw new RuntimeException(
                     "Can't create Smile entity: " + entity + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return entity;
     }
@@ -33,7 +39,9 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     @Override
     public Smile get(Long id) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             Smile smile = session.get(Smile.class, id);
             transaction.commit();
@@ -43,6 +51,10 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't get Smile by id: " + id + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 

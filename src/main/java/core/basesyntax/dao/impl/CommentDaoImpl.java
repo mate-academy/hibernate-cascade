@@ -3,8 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-
-import core.basesyntax.model.Message;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -18,7 +16,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment create(Comment entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -28,6 +28,10 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             }
             throw new RuntimeException(
                     "Can't create Comment entity: " + entity + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return entity;
     }
@@ -35,7 +39,9 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public Comment get(Long id) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             Comment comment = session.get(Comment.class, id);
             transaction.commit();
@@ -46,6 +52,10 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             }
             throw new RuntimeException(
                     "Can't get Message entity with id: " + id + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();;
+            }
         }
     }
 
@@ -64,13 +74,19 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     @Override
     public void remove(Comment entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
         } catch (Exception e) {
             throw new RuntimeException(
                     "Can't remove Message entity: " + entity + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

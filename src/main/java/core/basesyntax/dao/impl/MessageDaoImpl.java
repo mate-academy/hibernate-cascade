@@ -3,8 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
 import java.util.List;
-
-import core.basesyntax.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -18,7 +16,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message create(Message entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -28,6 +28,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             }
             throw new RuntimeException(
                     "Can't create Message entity: " + entity + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return entity;
     }
@@ -35,7 +39,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public Message get(Long id) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             Message message = session.get(Message.class, id);
             transaction.commit();
@@ -46,6 +52,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             }
             throw new RuntimeException(
                     "Can't get Message by id: " + id + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -64,7 +74,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     @Override
     public void remove(Message entity) {
         Transaction transaction = null;
-        try (Session session = factory.openSession()) {
+        Session session = null;
+        try {
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
@@ -74,6 +86,10 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             }
             throw new RuntimeException(
                     "Can't delete Message entity: " + entity + " , error: " + e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
