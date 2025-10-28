@@ -12,16 +12,16 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile entity) {
-        return null;
+        return createObj(entity);
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        return getObj(Smile.class, id);
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        return getAllObj(Smile.class);
     }
 }
