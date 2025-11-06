@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
-    private SessionFactory sessionFactory;
 
     public CommentDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -19,7 +18,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -40,7 +39,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public Comment get(Long id) {
         Session session = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             return session.get(Comment.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get comment " + id, e);
@@ -55,7 +54,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public List<Comment> getAll() {
         Session session = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             return session.createQuery("from Comment", Comment.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all comments", e);
@@ -71,7 +70,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             Comment comment = session.get(Comment.class, entity.getId());
             session.remove(comment);

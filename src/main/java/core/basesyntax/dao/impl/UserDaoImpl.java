@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
-    private SessionFactory sessionFactory;
 
     public UserDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
@@ -19,7 +18,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
@@ -41,7 +40,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         try {
 
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             return session.get(User.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Can't get User with id " + id, e);
@@ -56,7 +55,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public List<User> getAll() {
         Session session = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             return session.createQuery("from User", User.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all users", e);
@@ -72,7 +71,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = sessionFactory.openSession();
+            session = factory.openSession();
             transaction = session.beginTransaction();
             User user = session.get(User.class, entity.getId());
             session.remove(user);
