@@ -5,13 +5,17 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/ticket_app?serverTimeZone=UTC</property>
-        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">Boksery3#</property>
-        <property name="show_sql">true</property>
-        <property name="hbm2ddl.auto">create-drop</property>
+        <!-- Database connection -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/cinema?serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">ma_admin</property>
+        <property name="hibernate.connection.password">1234</property>
+
+        <!-- Hibernate settings -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
 
         <!-- Entity mappings -->
         <mapping class="core.basesyntax.model.User"/>
@@ -21,3 +25,4 @@
         <mapping class="core.basesyntax.model.MessageDetails"/>
     </session-factory>
 </hibernate-configuration>
+

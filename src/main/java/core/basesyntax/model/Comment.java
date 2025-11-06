@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 
@@ -24,10 +23,6 @@ public class Comment {
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "smile_id"))
     private List<Smile> smiles;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     public Comment() {
     }
@@ -55,12 +50,5 @@ public class Comment {
     public void setSmiles(List<Smile> smiles) {
         this.smiles = smiles;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
+
