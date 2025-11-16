@@ -16,59 +16,22 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.persist(entity);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return entity;
+        return persistEntity(entity);
     }
 
     @Override
     public Comment get(Long id) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        return session.get(Comment.class, id);
+        return findById(Comment.class, id);
     }
 
     @Override
     public List<Comment> getAll() {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("from Comment", Comment.class).list();
-        }
+        return getEntities(Comment.class);
     }
 
     @Override
     public void remove(Comment entity) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.remove(entity);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+
+        removeEntity(entity);
     }
 }

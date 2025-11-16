@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     private String content;
     @ManyToMany

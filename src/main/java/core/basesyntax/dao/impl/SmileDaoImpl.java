@@ -17,35 +17,16 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile entity) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Transaction transaction = null;
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.persist(entity);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return entity;
+        return persistEntity(entity);
     }
 
     @Override
     public Smile get(Long id) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        return session.get(Smile.class, id);
+        return findById(Smile.class, id);
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        return getEntities(Smile.class);
     }
 }

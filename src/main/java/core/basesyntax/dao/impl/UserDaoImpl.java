@@ -14,56 +14,25 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         super(sessionFactory);
     }
 
+
     @Override
     public User create(User entity) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.persist(entity);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return entity;
+        return persistEntity(entity);
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        return findById(User.class, id);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return getEntities(User.class);
     }
 
     @Override
     public void remove(User entity) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.remove(entity);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+
+        removeEntity(entity);
     }
 }
