@@ -10,7 +10,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         super(sessionFactory);
     }
 
-
     @Override
     public User create(User entity) {
         return persistEntity(entity);

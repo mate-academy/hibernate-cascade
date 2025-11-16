@@ -1,9 +1,9 @@
 package core.basesyntax.dao.impl;
 
-import java.util.List;
-import java.util.function.Consumer;
 import java.io.IOException;
+import java.util.List;
 import core.basesyntax.dao.DataProcessingException;
+import java.util.function.Consumer;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
