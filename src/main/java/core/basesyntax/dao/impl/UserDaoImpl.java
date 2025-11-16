@@ -12,21 +12,22 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        return null;
+        return persistEntity(entity);
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        return findById(User.class, id);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return getEntities(User.class);
     }
 
     @Override
     public void remove(User entity) {
 
+        removeEntity(entity);
     }
 }
