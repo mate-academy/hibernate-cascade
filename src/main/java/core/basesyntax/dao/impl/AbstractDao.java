@@ -1,13 +1,12 @@
 package core.basesyntax.dao.impl;
 
+import java.util.List;
+import java.util.function.Consumer;
+import java.io.IOException;
 import core.basesyntax.dao.DataProcessingException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.function.Consumer;
 
 public abstract class AbstractDao {
     protected final SessionFactory factory;
