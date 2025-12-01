@@ -18,7 +18,8 @@ public class User {
 
     private String username;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST,
+            fetch = FetchType.EAGER)
     private List<Comment> comments;
 
     public Long getId() {
@@ -43,5 +44,10 @@ public class User {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+        if (comments != null) {
+            for (Comment comment : comments) {
+                comment.setUser(this);
+            }
+        }
     }
 }

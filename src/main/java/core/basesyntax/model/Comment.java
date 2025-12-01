@@ -1,13 +1,14 @@
 package core.basesyntax.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,8 +24,8 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.MERGE)
-    private List<Smile> smiles;
+    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER)
+    private List<Smile> smiles = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -48,6 +49,15 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void addSmile(Smile smile) {
+        this.smiles.add(smile);
+        smile.setComment(this);
+    }
+
+    public void removeSmile(Smile smile) {
+        this.smiles.remove(smile);
     }
 
     public List<Smile> getSmiles() {

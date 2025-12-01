@@ -4,6 +4,8 @@ import core.basesyntax.AbstractTest;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.Comment;
+import core.basesyntax.model.Message;
+import core.basesyntax.model.MessageDetails;
 import core.basesyntax.model.Smile;
 import core.basesyntax.model.User;
 import java.util.List;
@@ -24,7 +26,9 @@ public class UserDaoImplTest extends AbstractTest {
         return new Class[] {
                 User.class,
                 Comment.class,
-                Smile.class
+                Smile.class,
+                Message.class,
+                MessageDetails.class
         };
     }
 

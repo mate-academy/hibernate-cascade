@@ -2,6 +2,7 @@ package core.basesyntax.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,7 +17,7 @@ public class Message {
 
     private String content;
 
-    @OneToOne(mappedBy = "message", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "message", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private MessageDetails messageDetails;
 
     public Long getId() {
