@@ -31,15 +31,15 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 session.close();
             }
         }
-       return entity;
+        return entity;
     }
 
     @Override
     public User get(Long id) {
-        try(Session session = factory.openSession()) {
+        try (Session session = factory.openSession()) {
             return session.get(User.class, id);
         } catch (RuntimeException ex) {
-            throw new RuntimeException("Couldn't get user with id: " +id, ex);
+            throw new RuntimeException("Couldn't get user with id: " + id, ex);
         }
     }
 
