@@ -37,13 +37,21 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public User get(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery(
+            User user = session.createQuery(
                             "SELECT u FROM User u "
                                     + "LEFT JOIN FETCH u.comments "
                                     + "WHERE u.id = :id",
                             User.class)
                     .setParameter("id", id)
                     .uniqueResult();
+
+            if (user == null) {
+                throw new RuntimeException("User not found with id " + id);
+            }
+
+            return user;
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException("Can't find user by id " + id, e);
         }
@@ -71,23 +79,22 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public void remove(User entity) {
-        Session session = null;
         Transaction transaction = null;
-        try {
-            session = sessionFactory.openSession();
+
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            User mergedUser = session.merge(entity);
-            session.remove(mergedUser);
+
+            User user = session.get(User.class, entity.getId());
+            if (user != null) {
+                session.remove(user);
+            }
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove an element from DB " + entity, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            throw new RuntimeException("Can't remove user " + entity, e);
         }
     }
 }
