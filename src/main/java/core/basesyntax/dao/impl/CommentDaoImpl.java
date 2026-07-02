@@ -3,7 +3,6 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,12 +22,12 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             session.persist(entity);
             transaction.commit();
             return entity;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't create a comment" + e);
-        }  finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -48,7 +47,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
     public List<Comment> getAll() {
         try (Session session = factory.openSession()) {
             return session.createQuery("from Comment").list();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Can't get all comments", e);
         }
     }
@@ -62,12 +61,12 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
             transaction = session.beginTransaction();
             session.remove(session.merge(entity));
             transaction.commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove a comment" + e);
-        }   finally {
+        } finally {
             if (session != null) {
                 session.close();
             }

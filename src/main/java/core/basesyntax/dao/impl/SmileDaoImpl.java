@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,12 +21,12 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't create a smile" + e);
-        }  finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -49,7 +47,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
             return session.createQuery("from Smile", Smile.class).getResultList();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Cant get a smile by ids" + e);
         }
     }
@@ -63,12 +61,12 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
             transaction = session.beginTransaction();
             session.remove(session.merge(entity));
             transaction.commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't remove a smile" + e);
-        }   finally {
+        } finally {
             if (session != null) {
                 session.close();
             }

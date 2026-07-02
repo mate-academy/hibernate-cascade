@@ -23,10 +23,14 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             transaction.commit();
             return entity;
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't create message details: " + entity, e);
         } finally {
-            if (session != null) session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
@@ -58,10 +62,14 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
             session.remove(session.merge(entity));
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new RuntimeException("Can't remove message details: " + entity, e);
         } finally {
-            if (session != null) session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

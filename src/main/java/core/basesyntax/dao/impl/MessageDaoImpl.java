@@ -2,10 +2,10 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import java.util.List;
 
 public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public MessageDaoImpl(SessionFactory sessionFactory) {
@@ -61,9 +61,9 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             transaction = session.beginTransaction();
             session.remove(entity);
             transaction.commit();
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Can't remove a message" + e);
-        }   finally {
+        } finally {
             if (session != null) {
                 session.close();
             }

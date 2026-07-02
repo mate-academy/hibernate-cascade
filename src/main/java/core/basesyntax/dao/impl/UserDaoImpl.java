@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -28,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't create a user" + e);
+            throw new RuntimeException("Can't create a user: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +38,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     public User get(Long id) {
         try (Session session = factory.openSession()) {
             return session.createQuery(
-                            "SELECT u FROM User u LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class)
+                            "FROM User u LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (Exception e) {
@@ -53,7 +51,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
         try (Session session = factory.openSession()) {
             return session.createQuery("from User", User.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all users" + e);
+            throw new RuntimeException("Can't get all users", e);
         }
     }
 
@@ -69,7 +67,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 if (transaction != null) {
                     transaction.rollback();
                 }
-                throw new RuntimeException("Could not remove user " + entity, e);
+                throw new RuntimeException("Could not remove user: " + entity, e);
             }
         }
     }
