@@ -1,4 +1,4 @@
-# Common mistakes
+mvn -DskipTests=false clean package# Common mistakes
 
 * Think if you need to use JPA-specific or Hibernate-specific methods to make cascades work.
 * In all of your dao classes you have `sessionFactory` object (which is passed via constructor). 

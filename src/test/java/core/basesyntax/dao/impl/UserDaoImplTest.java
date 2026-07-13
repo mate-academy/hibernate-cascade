@@ -56,12 +56,13 @@ public class UserDaoImplTest extends AbstractTest {
 
     @Test
     public void getById_WithComments_Ok() {
-        Comment okComment = new Comment();
-        okComment.setContent("This comment is ok!");
+        Comment comment = new Comment();
+        comment.setContent("This comment is ok!");
 
         User user = new User();
         user.setUsername("bob");
-        user.setComments(List.of(okComment));
+        user.setComments(List.of(comment));
+        comment.setUser(user);
         userDao.create(user);
 
         // Verify all data from DB
@@ -174,9 +175,11 @@ public class UserDaoImplTest extends AbstractTest {
 
         Comment okCommentByBob = new Comment();
         okCommentByBob.setContent("This comment is ok!");
+        okCommentByBob.setUser(bob);
 
         Comment goodCommentByBob = new Comment();
         goodCommentByBob.setContent("This comment is good!");
+        goodCommentByBob.setUser(bob);
 
         bob.setComments(List.of(okCommentByBob, goodCommentByBob));
         userDao.create(bob);
@@ -186,9 +189,11 @@ public class UserDaoImplTest extends AbstractTest {
 
         Comment notBadCommentByAlice = new Comment();
         notBadCommentByAlice.setContent("This comment is not bad!");
+        notBadCommentByAlice.setUser(alice);
 
         Comment awesomeCommentByAlice = new Comment();
         awesomeCommentByAlice.setContent("This comment is awesome!");
+        awesomeCommentByAlice.setUser(alice);
 
         alice.setComments(List.of(notBadCommentByAlice, awesomeCommentByAlice));
         userDao.create(alice);
