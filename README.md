@@ -13,3 +13,4 @@ Moreover, we expect you to gain some practice with cascades. Please fulfill the 
 4. Implement all DAO interfaces (except GenericDao).
 
 #### [Try to avoid these common mistakes while solving task](./checklist.md)
+
