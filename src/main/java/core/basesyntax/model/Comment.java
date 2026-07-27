@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 import java.util.List;
 
 public class Comment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
