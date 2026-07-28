@@ -37,9 +37,9 @@ public class Smile {
 
     @Override
     public String toString() {
-        return "Smile{ "
+        return "Smile{"
                 + "id=" + id
                 + ", value='" + value + '\''
-                + ' }';
+                + '}';
     }
 }
