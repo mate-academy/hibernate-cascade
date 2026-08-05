@@ -3,6 +3,7 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.AbstractTest;
 import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.MessageDetails;
+import core.basesyntax.model.Message;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -22,7 +23,7 @@ public class MessageDetailsDaoImplTest extends AbstractTest {
 
     @Override
     protected Class<?>[] entities() {
-        return new Class[]{MessageDetails.class};
+        return new Class[]{MessageDetails.class, Message.class};
     }
 
     @Test
