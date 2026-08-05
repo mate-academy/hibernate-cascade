@@ -3,6 +3,7 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.SessionFactory;
 
 public class CommentDaoImpl extends AbstractDao implements CommentDao {
@@ -12,21 +13,22 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        return null;
+        return (Comment) super.createEntity(entity);
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        Optional<Comment> comment = super.get(id, Comment.class);
+        return comment.orElse(null);
     }
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        return super.getAll(Comment.class);
     }
 
     @Override
     public void remove(Comment entity) {
-
+        super.removeEntity(entity);
     }
 }
