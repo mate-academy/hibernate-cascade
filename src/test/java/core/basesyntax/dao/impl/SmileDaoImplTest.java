@@ -1,7 +1,6 @@
 package core.basesyntax.dao.impl;
 
 import java.util.List;
-
 import core.basesyntax.AbstractTest;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
