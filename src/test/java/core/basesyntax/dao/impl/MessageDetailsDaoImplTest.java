@@ -33,8 +33,8 @@ public class MessageDetailsDaoImplTest extends AbstractTest {
         MessageDetails actual = messageDetailsDao.create(messageDetails);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDetailsDaoImpl class", actual);
-        Assert.assertNotNull(actual.getId());
-        Assert.assertEquals(1L, actual.getId().longValue());
+        Assert.assertNotNull(actual.getMessageDetailsId());
+        Assert.assertEquals(1L, actual.getMessageDetailsId().longValue());
         Assert.assertNotNull(actual.getSender());
         Assert.assertEquals("Bob", actual.getSender());
         Assert.assertNotNull(actual.getSentTime());
@@ -47,15 +47,15 @@ public class MessageDetailsDaoImplTest extends AbstractTest {
         messageDetails.setSender("Bob");
         messageDetails.setSentTime(DEFAULT_TIME);
         MessageDetails created = messageDetailsDao.create(messageDetails);
-        Assert.assertNotNull(created.getId());
-        Assert.assertEquals(1L, created.getId().longValue());
+        Assert.assertNotNull(created.getMessageDetailsId());
+        Assert.assertEquals(1L, created.getMessageDetailsId().longValue());
 
         // Validate get(Long id) works as expected
         MessageDetails actual = messageDetailsDao.get(1L);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDetailsDaoImpl class", actual);
-        Assert.assertNotNull(actual.getId());
-        Assert.assertEquals(1L, actual.getId().longValue());
+        Assert.assertNotNull(actual.getMessageDetailsId());
+        Assert.assertEquals(1L, actual.getMessageDetailsId().longValue());
         Assert.assertNotNull(actual.getSender());
         Assert.assertEquals("Bob", actual.getSender());
         Assert.assertNotNull(actual.getSentTime());

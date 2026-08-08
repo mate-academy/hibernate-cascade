@@ -1,16 +1,31 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+
+@Entity
 public class Message {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long messageId;
     private String content;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
     private MessageDetails messageDetails;
 
-    public Long getId() {
-        return id;
+    public Message() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long id) {
+        this.messageId = id;
     }
 
     public String getContent() {

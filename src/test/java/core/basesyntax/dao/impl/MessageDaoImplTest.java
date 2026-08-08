@@ -33,9 +33,9 @@ public class MessageDaoImplTest extends AbstractTest {
         Message actual = messageDao.create(message);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDaoImpl class", actual);
-        Assert.assertNotNull(actual.getId());
+        Assert.assertNotNull(actual.getMessageId());
         Assert.assertNotNull(actual.getContent());
-        Assert.assertEquals(1L, actual.getId().longValue());
+        Assert.assertEquals(1L, actual.getMessageId().longValue());
         Assert.assertEquals("Welcome message", actual.getContent());
     }
 
@@ -51,14 +51,14 @@ public class MessageDaoImplTest extends AbstractTest {
         Message actual = messageDao.create(message);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDaoImpl class", actual);
-        Assert.assertNotNull(actual.getId());
+        Assert.assertNotNull(actual.getMessageId());
         Assert.assertNotNull(actual.getContent());
-        Assert.assertEquals(1L, actual.getId().longValue());
+        Assert.assertEquals(1L, actual.getMessageId().longValue());
         Assert.assertEquals("Welcome message", actual.getContent());
         Assert.assertNotNull(actual.getMessageDetails());
         Assert.assertNotNull(actual.getMessageDetails());
-        Assert.assertNotNull(actual.getMessageDetails().getId());
-        Assert.assertEquals(1L, actual.getMessageDetails().getId().longValue());
+        Assert.assertNotNull(actual.getMessageDetails().getMessageDetailsId());
+        Assert.assertEquals(1L, actual.getMessageDetails().getMessageDetailsId().longValue());
         Assert.assertEquals("Bob", actual.getMessageDetails().getSender());
     }
 
@@ -69,13 +69,13 @@ public class MessageDaoImplTest extends AbstractTest {
         Message created = messageDao.create(message);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDaoImpl class", created);
-        Assert.assertNotNull(created.getId());
+        Assert.assertNotNull(created.getMessageId());
         Assert.assertNotNull(created.getContent());
 
         Message actual = messageDao.get(1L);
         Assert.assertNotNull(actual);
-        Assert.assertNotNull(actual.getId());
-        Assert.assertEquals(1L, actual.getId().longValue());
+        Assert.assertNotNull(actual.getMessageId());
+        Assert.assertEquals(1L, actual.getMessageId().longValue());
         Assert.assertEquals("Welcome message", actual.getContent());
     }
 
@@ -87,7 +87,7 @@ public class MessageDaoImplTest extends AbstractTest {
         Message createdWelcome = messageDao.create(welcomeMessage);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDaoImpl class", createdWelcome);
-        Assert.assertNotNull(createdWelcome.getId());
+        Assert.assertNotNull(createdWelcome.getMessageId());
         Assert.assertNotNull(createdWelcome.getContent());
 
         Message goodbyeMessage = new Message();
@@ -95,7 +95,7 @@ public class MessageDaoImplTest extends AbstractTest {
         Message createdGoodbye = messageDao.create(goodbyeMessage);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDaoImpl class", createdGoodbye);
-        Assert.assertNotNull(createdGoodbye.getId());
+        Assert.assertNotNull(createdGoodbye.getMessageId());
         Assert.assertNotNull(createdGoodbye.getContent());
 
         // Verify getAll() works well
@@ -105,14 +105,14 @@ public class MessageDaoImplTest extends AbstractTest {
         Assert.assertFalse(allMessages.isEmpty());
         Assert.assertEquals(2, allMessages.size());
         Assert.assertNotNull(allMessages.get(0));
-        Assert.assertNotNull(allMessages.get(0).getId());
-        Assert.assertEquals(1L, allMessages.get(0).getId().longValue());
+        Assert.assertNotNull(allMessages.get(0).getMessageId());
+        Assert.assertEquals(1L, allMessages.get(0).getMessageId().longValue());
         Assert.assertEquals("Welcome message", allMessages.get(0).getContent());
 
         // check the second message in the list
         Assert.assertNotNull(allMessages.get(1));
-        Assert.assertNotNull(allMessages.get(1).getId());
-        Assert.assertEquals(2L, allMessages.get(1).getId().longValue());
+        Assert.assertNotNull(allMessages.get(1).getMessageId());
+        Assert.assertEquals(2L, allMessages.get(1).getMessageId().longValue());
         Assert.assertEquals("Goodbye message", allMessages.get(1).getContent());
     }
 
@@ -124,14 +124,14 @@ public class MessageDaoImplTest extends AbstractTest {
         Message createdWelcome = messageDao.create(welcomeMessage);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDaoImpl class", createdWelcome);
-        Assert.assertNotNull(createdWelcome.getId());
+        Assert.assertNotNull(createdWelcome.getMessageId());
         Assert.assertNotNull(createdWelcome.getContent());
 
         // Verify message is in the DB
         Message created = messageDao.get(1L);
         Assert.assertNotNull(created);
-        Assert.assertNotNull(created.getId());
-        Assert.assertEquals(1L, created.getId().longValue());
+        Assert.assertNotNull(created.getMessageId());
+        Assert.assertEquals(1L, created.getMessageId().longValue());
         Assert.assertEquals("Welcome message", created.getContent());
 
         // Delete message from the DB
@@ -159,28 +159,28 @@ public class MessageDaoImplTest extends AbstractTest {
         Message actual = messageDao.create(message);
         Assert.assertNotNull("Check you have implemented the `create` method " +
                 "in the MessageDaoImpl class", actual);
-        Assert.assertNotNull(actual.getId());
+        Assert.assertNotNull(actual.getMessageId());
 
         // Verify message is in the DB
         Message created = messageDao.get(1L);
         Assert.assertNotNull(created);
-        Assert.assertNotNull(created.getId());
-        Assert.assertEquals(1L, created.getId().longValue());
+        Assert.assertNotNull(created.getMessageId());
+        Assert.assertEquals(1L, created.getMessageId().longValue());
         Assert.assertEquals("Welcome message", created.getContent());
 
         // verify message details
         Assert.assertNotNull(actual.getMessageDetails());
-        Assert.assertNotNull(actual.getMessageDetails().getId());
-        Assert.assertNotNull(actual.getMessageDetails().getId());
-        Assert.assertEquals(1L, actual.getMessageDetails().getId().longValue());
+        Assert.assertNotNull(actual.getMessageDetails().getMessageDetailsId());
+        Assert.assertNotNull(actual.getMessageDetails().getMessageDetailsId());
+        Assert.assertEquals(1L, actual.getMessageDetails().getMessageDetailsId().longValue());
         Assert.assertEquals("Bob", actual.getMessageDetails().getSender());
 
         // Verify message details was also created
         MessageDetailsDao messageDetailsDao = new MessageDetailsDaoImpl(getSessionFactory());
         MessageDetails messageDetailsGetFromDB = messageDetailsDao.get(1L);
         Assert.assertNotNull(messageDetailsGetFromDB);
-        Assert.assertNotNull(messageDetailsGetFromDB.getId());
-        Assert.assertEquals(1L, messageDetailsGetFromDB.getId().longValue());
+        Assert.assertNotNull(messageDetailsGetFromDB.getMessageDetailsId());
+        Assert.assertEquals(1L, messageDetailsGetFromDB.getMessageDetailsId().longValue());
         // Delete message from the DB
         messageDao.remove(message);
 
