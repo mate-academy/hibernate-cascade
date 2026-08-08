@@ -4,6 +4,7 @@ import core.basesyntax.model.Smile;
 import java.util.List;
 
 public interface SmileDao {
+
     Smile create(Smile smile);
 
     Smile get(Long id);
