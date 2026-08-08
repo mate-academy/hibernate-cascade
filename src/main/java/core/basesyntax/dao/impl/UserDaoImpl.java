@@ -3,7 +3,10 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -12,21 +15,67 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = super.factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+            return entity;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can not create the user", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        try (Session session = super.factory.openSession()) {
+            Query<User> getUserById = session.createQuery("from User c "
+                    + " LEFT JOIN FETCH c.comments WHERE c.id = :id",
+                    User.class);
+            getUserById.setParameter("id", id);
+            return (User) getUserById.uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Can not get the user", e);
+        }
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        try (Session session = super.factory.openSession()) {
+            return session.createQuery("from User c LEFT JOIN FETCH c.comments ",
+                    User.class).list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can not get the users", e);
+        }
     }
 
     @Override
     public void remove(User entity) {
-
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = super.factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can not remove the user", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
