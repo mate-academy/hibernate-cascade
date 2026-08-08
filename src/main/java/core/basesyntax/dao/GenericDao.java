@@ -11,3 +11,5 @@ public interface GenericDao<T> {
 
     void remove(T entity);
 }
+
+

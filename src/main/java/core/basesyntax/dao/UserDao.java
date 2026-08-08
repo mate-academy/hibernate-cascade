@@ -5,3 +5,5 @@ import core.basesyntax.model.User;
 public interface UserDao extends GenericDao<User> {
 
 }
+
+

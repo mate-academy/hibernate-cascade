@@ -10,3 +10,5 @@ public interface SmileDao {
 
     List<Smile> getAll();
 }
+
+

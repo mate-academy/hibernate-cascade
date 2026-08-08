@@ -1,16 +1,16 @@
 package core.basesyntax;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import javax.sql.DataSource;
-
 import org.hibernate.Interceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hsqldb.jdbc.JDBCDataSource;
 import org.junit.Before;
+
+import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 public abstract class AbstractTest {
     protected interface DataSourceProvider {
@@ -145,3 +145,5 @@ public abstract class AbstractTest {
         }
     }
 }
+
+
