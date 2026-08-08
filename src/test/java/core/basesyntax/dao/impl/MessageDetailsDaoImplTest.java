@@ -6,6 +6,9 @@ import core.basesyntax.model.MessageDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

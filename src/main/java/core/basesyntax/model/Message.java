@@ -1,9 +1,31 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private MessageDetails messageDetails;
+
+    public Message(String content, MessageDetails messageDetails) {
+        this.content = content;
+        this.messageDetails = messageDetails;
+    }
+
+    public Message() {
+
+    }
 
     public Long getId() {
         return id;
@@ -27,5 +49,14 @@ public class Message {
 
     public void setMessageDetails(MessageDetails messageDetails) {
         this.messageDetails = messageDetails;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", messageDetails=" + messageDetails
+                + '}';
     }
 }
