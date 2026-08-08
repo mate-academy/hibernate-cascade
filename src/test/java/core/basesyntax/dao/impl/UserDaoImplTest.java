@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UserDaoImplTest extends AbstractTest {
+public class  UserDaoImplTest extends AbstractTest {
     private UserDao userDao;
 
     @Before
