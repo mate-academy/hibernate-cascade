@@ -11,11 +11,11 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        return null;
+        return createObj(entity);
     }
 
     @Override
     public MessageDetails get(Long id) {
-        return null;
+        return getObj(MessageDetails.class, id);
     }
 }
