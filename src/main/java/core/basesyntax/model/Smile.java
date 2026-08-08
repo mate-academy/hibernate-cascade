@@ -12,9 +12,6 @@ public class Smile {
     private Long id;
     private String value;
 
-    public Smile() {
-    }
-
     public Smile(String value) {
         this.value = value;
     }
