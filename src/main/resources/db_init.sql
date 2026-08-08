@@ -1,0 +1,1 @@
+CREATE SCHEMA `hibernate-cascade` DEFAULT CHARACTER SET utf8;
