@@ -4,6 +4,7 @@ import java.util.List;
 
 import core.basesyntax.AbstractTest;
 import core.basesyntax.dao.SmileDao;
+import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,7 +21,8 @@ public class SmileDaoImplTest extends AbstractTest {
     @Override
     protected Class<?>[] entities() {
         return new Class<?>[]{
-                Smile.class
+                Smile.class,
+                Comment.class
         };
     }
 
