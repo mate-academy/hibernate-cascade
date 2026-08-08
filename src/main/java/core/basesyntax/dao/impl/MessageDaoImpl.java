@@ -2,31 +2,30 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
-public class MessageDaoImpl extends AbstractDao implements MessageDao {
+public class MessageDaoImpl extends AbstractDao<Message> implements MessageDao {
+
     public MessageDaoImpl(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
 
     @Override
-    public Message create(Message entity) {
-        return null;
-    }
+    public void remove(Message message) {
+        Transaction transaction = null;
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
 
-    @Override
-    public Message get(Long id) {
-        return null;
-    }
+            session.remove(session.merge(message));
 
-    @Override
-    public List<Message> getAll() {
-        return null;
-    }
-
-    @Override
-    public void remove(Message entity) {
-
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Can't remove Message " + message, e);
+        }
     }
 }
