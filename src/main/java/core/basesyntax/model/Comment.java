@@ -1,16 +1,29 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import java.util.List;
 
+@Entity
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @ManyToMany
     private List<Smile> smiles;
+
+    @Override
+    public String toString() {
+        return "Comment{"
+                + "id=" + id
+                + ", content='" + content + '\''
+                + ", smiles=" + smiles
+                + '}';
+    }
 
     public Long getId() {
         return id;
