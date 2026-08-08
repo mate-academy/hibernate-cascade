@@ -12,16 +12,16 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile entity) {
-        return null;
+        return (Smile) super.createEntity(entity);
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        return (Smile) super.getEntity(id, Smile.class);
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        return (List<Smile>) super.getAllEntities(Smile.class);
     }
 }
