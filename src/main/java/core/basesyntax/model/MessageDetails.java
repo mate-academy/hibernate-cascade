@@ -2,7 +2,11 @@ package core.basesyntax.model;
 
 import java.time.LocalDateTime;
 
+@jakarta.persistence.Entity
+@jakarta.persistence.Table(name = "message_details")
 public class MessageDetails {
+    @jakarta.persistence.Id
+    @jakarta.persistence.GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
     private String sender;
     private LocalDateTime sentTime;
