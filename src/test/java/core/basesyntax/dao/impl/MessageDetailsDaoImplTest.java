@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MessageDetailsDaoImplTest extends AbstractTest {
+public class    MessageDetailsDaoImplTest extends AbstractTest {
     private static final LocalDateTime DEFAULT_TIME
             = LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 25));
     private MessageDetailsDao messageDetailsDao;
