@@ -12,16 +12,19 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
 
     @Override
     public Smile create(Smile entity) {
-        return null;
+        factory.inTransaction(session -> session.persist(entity));
+        return entity;
     }
 
     @Override
     public Smile get(Long id) {
-        return null;
+        return factory.fromSession(session -> session.get(Smile.class, id));
     }
 
     @Override
     public List<Smile> getAll() {
-        return null;
+        return factory.fromSession(
+                session -> session.createQuery("from Smile ", Smile.class)
+                        .getResultList());
     }
 }

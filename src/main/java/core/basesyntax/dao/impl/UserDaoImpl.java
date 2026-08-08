@@ -12,21 +12,30 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        return null;
+        factory.inTransaction(session -> session.persist(entity));
+        return entity;
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        return factory.fromSession(
+                session -> session.createQuery("from User u"
+                                + " left join fetch u.comments"
+                                + " where u.id = :id", User.class)
+                        .setParameter("id", id)
+                        .getSingleResult());
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return factory.fromSession(
+                session -> session.createQuery("from User u"
+                                + " left join fetch u.comments", User.class)
+                        .getResultList());
     }
 
     @Override
     public void remove(User entity) {
-
+        factory.inTransaction(session -> session.remove(entity));
     }
 }
