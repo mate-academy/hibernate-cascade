@@ -1,12 +1,22 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 
+@Entity
 public class MessageDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String sender;
+
     private LocalDateTime sentTime;
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }

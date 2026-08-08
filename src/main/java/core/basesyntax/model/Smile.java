@@ -1,16 +1,24 @@
 package core.basesyntax.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Smile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String value;
+
+    @ManyToMany(mappedBy = "smiles", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     public Smile() {
     }
@@ -35,11 +43,11 @@ public class Smile {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "Smile{"
-                + "id=" + id
-                + ", value='" + value + '\''
-                + '}';
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
