@@ -5,7 +5,6 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
         <property name="connection.url">jdbc:mysql://localhost/cinema?serverTimezone=UTC</property>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.username">ma_admin</property>
@@ -13,6 +12,11 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
 
+        <mapping class = "core.basesyntax.model.User"/>
+        <mapping class = "core.basesyntax.model.Comment"/>
+        <mapping class = "core.basesyntax.model.Message"/>
+        <mapping class = "core.basesyntax.model.MessageDetails"/>
+        <mapping class = "core.basesyntax.model.Smile"/>
 
     </session-factory>
 </hibernate-configuration>
