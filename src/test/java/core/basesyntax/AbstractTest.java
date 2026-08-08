@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import javax.sql.DataSource;
-
 import org.hibernate.Interceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
