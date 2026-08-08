@@ -3,9 +3,9 @@ package core.basesyntax.dao.impl;
 import org.hibernate.SessionFactory;
 
 public abstract class AbstractDao {
-    protected final SessionFactory factory;
+    protected final SessionFactory sessionFactory;
 
-    protected AbstractDao(SessionFactory sessionFactory) {
-        this.factory = sessionFactory;
+    public AbstractDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }
