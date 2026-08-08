@@ -12,21 +12,29 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
 
     @Override
     public Comment create(Comment entity) {
-        return null;
+        return sessionContainer(session -> {
+            session.persist(entity);
+            return entity;
+        });
     }
 
     @Override
     public Comment get(Long id) {
-        return null;
+        return sessionContainer(session -> session.get(Comment.class, id));
     }
 
     @Override
     public List<Comment> getAll() {
-        return null;
+        return sessionContainer(session ->
+                session.createQuery("FROM Comment", Comment.class)
+                        .getResultList());
     }
 
     @Override
     public void remove(Comment entity) {
-
+        sessionContainer(session -> {
+            session.remove(entity);
+            return entity;
+        });
     }
 }
