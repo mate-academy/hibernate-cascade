@@ -11,11 +11,22 @@ public class MessageDetailsDaoImpl extends AbstractDao implements MessageDetails
 
     @Override
     public MessageDetails create(MessageDetails entity) {
-        return null;
+        try (var session = factory.openSession()) {
+            session.beginTransaction();
+            session.persist(entity);
+            session.getTransaction().commit();
+            return entity;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create MessageDetails entity: " + entity, e);
+        }
     }
 
     @Override
     public MessageDetails get(Long id) {
-        return null;
+        try (var session = factory.openSession()) {
+            return session.get(MessageDetails.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve MessageDetails entity by id: " + id, e);
+        }
     }
 }
