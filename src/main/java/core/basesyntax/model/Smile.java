@@ -4,9 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-public class Smile {
+@Table(name = "smiles")
+public final class Smile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +41,8 @@ public class Smile {
     public String toString() {
         return "Smile{"
                 + "id=" + id
-                + ", value='" + value + '\''
+                + ", value='" + value
+                + '\''
                 + '}';
     }
 }
