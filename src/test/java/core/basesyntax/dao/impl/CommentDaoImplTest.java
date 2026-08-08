@@ -4,7 +4,10 @@ import core.basesyntax.AbstractTest;
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Comment;
+import core.basesyntax.model.Message;
+import core.basesyntax.model.MessageDetails;
 import core.basesyntax.model.Smile;
+import core.basesyntax.model.User;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
@@ -259,6 +262,10 @@ public class CommentDaoImplTest extends AbstractTest {
 
     @Override
     protected Class<?>[] entities() {
-        return new Class[]{Comment.class, Smile.class};
+        return new Class[]{User.class,
+                Comment.class,
+                Smile.class,
+                Message.class,
+                MessageDetails.class};
     }
 }
