@@ -5,14 +5,19 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
-        <property name="connection.url">jdbc:mysql://localhost/cinema?serverTimezone=UTC</property>
-        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.username">ma_admin</property>
-        <property name="connection.password">1234</property>
-        <property name="show_sql">true</property>
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/cinema?serverTimezone=UTC</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">12345678</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
+        <mapping class="core.basesyntax.model.User"/>
+        <mapping class="core.basesyntax.model.Comment"/>
+        <mapping class="core.basesyntax.model.Smile"/>
+        <mapping class="core.basesyntax.model.Message"/>
+        <mapping class="core.basesyntax.model.MessageDetails"/>
 
     </session-factory>
 </hibernate-configuration>
