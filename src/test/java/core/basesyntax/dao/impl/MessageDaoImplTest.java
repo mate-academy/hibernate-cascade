@@ -6,6 +6,8 @@ import core.basesyntax.dao.MessageDetailsDao;
 import core.basesyntax.model.Message;
 import core.basesyntax.model.MessageDetails;
 import java.util.List;
+
+import core.basesyntax.model.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

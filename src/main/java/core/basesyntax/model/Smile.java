@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Smile {
@@ -11,12 +12,22 @@ public class Smile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String value;
+    @ManyToOne
+    private Comment comment;
 
     public Smile() {
     }
 
     public Smile(String value) {
         this.value = value;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     public Long getId() {
