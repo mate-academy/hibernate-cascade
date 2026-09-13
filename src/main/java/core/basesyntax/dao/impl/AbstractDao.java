@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 public abstract class AbstractDao {
     protected final SessionFactory factory;
 
-    protected AbstractDao(SessionFactory sessionFactory) {
-        this.factory = sessionFactory;
+    public AbstractDao(SessionFactory factory) {
+        this.factory = factory;
     }
 }
