@@ -257,6 +257,39 @@ public class CommentDaoImplTest extends AbstractTest {
         Assert.assertTrue(actualAfterRemoving.isEmpty());
     }
 
+    @Test
+    public void removeCommentWithSharedSmile() {
+        SmileDao smileDao = new SmileDaoImpl(getSessionFactory());
+        Smile smile = smileDao.create(new Smile("shared"));
+        Comment first = new Comment();
+        first.setSmiles(List.of(smile));
+        commentDao.create(first);
+        Comment second = new Comment();
+        second.setSmiles(List.of(smile));
+        commentDao.create(second);
+
+        commentDao.remove(commentDao.get(first.getId()));
+
+        Assert.assertNull(commentDao.get(first.getId()));
+        Assert.assertNotNull(smileDao.get(smile.getId()));
+        Comment remaining = commentDao.get(second.getId());
+        Assert.assertEquals(1, remaining.getSmiles().size());
+        Assert.assertEquals(smile.getId(), remaining.getSmiles().get(0).getId());
+    }
+
+    @Test
+    public void failedCreateRollsBackComment() {
+        Comment comment = new Comment();
+        comment.setSmiles(List.of(new Smile("not saved")));
+
+        Assert.assertThrows(RuntimeException.class, () -> commentDao.create(comment));
+
+        Assert.assertTrue(commentDao.getAll().isEmpty());
+        SmileDao smileDao = new SmileDaoImpl(getSessionFactory());
+        Assert.assertTrue(smileDao.getAll().isEmpty());
+        Assert.assertNotNull(commentDao.create(new Comment()).getId());
+    }
+
     @Override
     protected Class<?>[] entities() {
         return new Class[]{Comment.class, Smile.class};
