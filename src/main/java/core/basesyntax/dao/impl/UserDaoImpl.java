@@ -3,6 +3,7 @@ package core.basesyntax.dao.impl;
 import core.basesyntax.dao.UserDao;
 import core.basesyntax.model.User;
 import java.util.List;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
