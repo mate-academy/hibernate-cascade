@@ -1,9 +1,12 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
+import core.basesyntax.exception.DataProcessingException;
 import core.basesyntax.model.User;
 import java.util.List;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class UserDaoImpl extends AbstractDao implements UserDao {
     public UserDaoImpl(SessionFactory sessionFactory) {
@@ -12,21 +15,66 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
     public User create(User entity) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
+            return entity;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't insert User entity " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
     public User get(Long id) {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.createQuery(
+                            "FROM User u LEFT JOIN FETCH u.comments WHERE u.id = :id", User.class)
+                    .setParameter("id", id)
+                    .uniqueResult();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get User by id " + id, e);
+        }
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        try (Session session = factory.openSession()) {
+            return session.createQuery("FROM User", User.class).getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get all Users entities", e);
+        }
     }
 
     @Override
     public void remove(User entity) {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = factory.openSession();
+            transaction = session.beginTransaction();
+            session.remove(session.contains(entity) ? entity : session.merge(entity));
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't remove User entity " + entity, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
 
     }
 }
