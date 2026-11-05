@@ -1,16 +1,25 @@
 package core.basesyntax.model;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.List;
 
+@Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    @OneToMany(mappedBy = "comment")
     private List<Smile> smiles;
+    @ManyToOne
+    private User user;
 
     public Long getId() {
         return id;
@@ -34,5 +43,13 @@ public class Comment {
 
     public void setSmiles(List<Smile> smiles) {
         this.smiles = smiles;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
