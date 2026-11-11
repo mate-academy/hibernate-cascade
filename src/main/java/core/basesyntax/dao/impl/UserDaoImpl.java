@@ -41,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                             "select u from User u left join fetch u.comments where u.id = :id",
                             User.class)
                     .setParameter("id", id)
-                    .uniqueResult();
+                    .getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Can't get user by id: " + id, e);
         }
