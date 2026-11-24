@@ -2,10 +2,9 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.CommentDao;
 import core.basesyntax.model.Comment;
-import java.util.List;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,7 +29,7 @@ public class CommentDaoImpl extends AbstractDao implements CommentDao {
                 transaction.rollback();
             }
 
-            throw new RuntimeException("Can't create comment: " + entity , e);
+            throw new RuntimeException("Can't create comment: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Smile;
 import java.util.List;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
@@ -31,7 +29,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
                 transaction.rollback();
             }
 
-            throw new RuntimeException("Can't create comment: " + entity , e);
+            throw new RuntimeException("Can't create smile: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

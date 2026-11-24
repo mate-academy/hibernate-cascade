@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.Message;
 import java.util.List;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
@@ -31,7 +29,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
                 transaction.rollback();
             }
 
-            throw new RuntimeException("Can't create comment: " + entity , e);
+            throw new RuntimeException("Can't create message: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();

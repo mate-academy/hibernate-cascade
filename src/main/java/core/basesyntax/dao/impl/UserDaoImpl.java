@@ -1,10 +1,8 @@
 package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.UserDao;
-import core.basesyntax.model.Comment;
 import core.basesyntax.model.User;
 import java.util.List;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
@@ -31,7 +29,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
                 transaction.rollback();
             }
 
-            throw new RuntimeException("Can't create comment: " + entity , e);
+            throw new RuntimeException("Can't create user: " + entity, e);
         } finally {
             if (session != null) {
                 session.close();
