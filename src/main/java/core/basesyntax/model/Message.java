@@ -18,7 +18,7 @@ public class Message {
     private String content;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name ="message_messageDetails")
+    @JoinColumn(name = "message_messageDetails")
     private MessageDetails messageDetails;
 
     public Long getId() {
