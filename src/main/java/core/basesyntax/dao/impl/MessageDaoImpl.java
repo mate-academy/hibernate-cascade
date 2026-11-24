@@ -2,9 +2,9 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.MessageDao;
 import core.basesyntax.model.Message;
-import java.util.List;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,7 +42,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
         try (Session session = factory.openSession()) {
             return session.find(Message.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get comment", e);
+            throw new RuntimeException("Can't get message", e);
         }
     }
 
@@ -50,11 +50,11 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
     public List<Message> getAll() {
         try (Session session = factory.openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<Message> cQ = criteriaBuilder.createQuery(Message.class);
-            cQ.select(cQ.from(Message.class));
-            return session.createQuery(cQ).getResultList();
+            CriteriaQuery<Message> criteriaQuery = criteriaBuilder.createQuery(Message.class);
+            criteriaQuery.select(criteriaQuery.from(Message.class));
+            return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all comments", e);
+            throw new RuntimeException("Can't get all messages", e);
         }
     }
 
@@ -72,7 +72,7 @@ public class MessageDaoImpl extends AbstractDao implements MessageDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't remove comment", e);
+            throw new RuntimeException("Can't remove message", e);
         } finally {
             if (session != null) {
                 session.close();

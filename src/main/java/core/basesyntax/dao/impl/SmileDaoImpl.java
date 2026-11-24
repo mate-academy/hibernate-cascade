@@ -2,9 +2,9 @@ package core.basesyntax.dao.impl;
 
 import core.basesyntax.dao.SmileDao;
 import core.basesyntax.model.Smile;
-import java.util.List;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -42,7 +42,7 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
         try (Session session = factory.openSession()) {
             return session.find(Smile.class, id);
         } catch (Exception e) {
-            throw new RuntimeException("Can't get comment", e);
+            throw new RuntimeException("Can't get smile", e);
         }
     }
 
@@ -50,11 +50,11 @@ public class SmileDaoImpl extends AbstractDao implements SmileDao {
     public List<Smile> getAll() {
         try (Session session = factory.openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<Smile> cQ = criteriaBuilder.createQuery(Smile.class);
-            cQ.select(cQ.from(Smile.class));
-            return session.createQuery(cQ).getResultList();
+            CriteriaQuery<Smile> criteriaQuery = criteriaBuilder.createQuery(Smile.class);
+            criteriaQuery.select(criteriaQuery.from(Smile.class));
+            return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all comments", e);
+            throw new RuntimeException("Can't get all smiles", e);
         }
     }
 }
